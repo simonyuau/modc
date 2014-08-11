@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://merc.monash.edu/ws/schema/mds" xmlns:tns="http://merc.monash.edu/ws/schema/mds"
+        elementFormDefault="qualified" attributeFormDefault="qualified">
+    <element name="MDPublishRequest">
+        <complexType>
+            <sequence>
+                <element name="appId" type="string"/>
+                <element name="collection" type="tns:WSCollection"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="MDPublishResponse">
+        <complexType>
+            <sequence>
+                <element name="refNumber" type="string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="WSCollection">
+        <sequence>
+            <element name="name" type="string"/>
+            <element name="identifier" type="tns:IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+            <element name="description" type="string"/>
+            <element name="party" type="tns:WSParty" maxOccurs="unbounded" minOccurs="1"/>
+            <element name="createdDate" type="dateTime"/>
+        </sequence>
+        <attribute name="type" type="tns:WSCollectionType" use="required"/>
+    </complexType>
+    <complexType name="WSParty">
+        <sequence>
+            <element name="firstName" type="string"/>
+            <element name="midleName" type="string"/>
+            <element name="lastName" type="string"/>
+            <element name="email" type="tns:Email"/>
+        </sequence>
+    </complexType>
+
+    <simpleType name="WSCollectionType">
+        <restriction base="string">
+            <enumeration value="catalogueOrIndex"/>
+            <enumeration value="collection"/>
+            <enumeration value="registry"/>
+            <enumeration value="repository"/>
+            <enumeration value="dataset"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="WSPartyType">
+        <restriction base="string">
+            <enumeration value="group"/>
+            <enumeration value="person"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="IdentifierType">
+        <simpleContent>
+            <extension base="string">
+                <attribute name="type" use="optional">
+                    <simpleType>
+                        <restriction base="string">
+                            <enumeration value="abn"/>
+                            <enumeration value="arc"/>
+                            <enumeration value="ark"/>
+                            <enumeration value="doi"/>
+                            <enumeration value="handle"/>
+                            <enumeration value="infouri"/>
+                            <enumeration value="isil"/>
+                            <enumeration value="local"/>
+                            <enumeration value="purl"/>
+                            <enumeration value="uri"/>
+                        </restriction>
+                    </simpleType>
+                </attribute>
+            </extension>
+        </simpleContent>
+    </complexType>
+    <simpleType name="Email">
+        <restriction base="string">
+            <pattern value="[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+([A-Za-z0-9]{2,4})"/>
+            <minLength value="6"/>
+        </restriction>
+    </simpleType>
+</schema>

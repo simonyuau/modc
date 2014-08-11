@@ -245,13 +245,6 @@
                 <version>${commons-validator.version}</version>
             </dependency>
 
-            <!-- hibernate validator -->
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>${hibernate-validator.version}</version>
-            </dependency>
-
             <!-- Common lang -->
             <dependency>
                 <groupId>commons-lang</groupId>

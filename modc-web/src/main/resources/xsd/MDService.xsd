@@ -4,7 +4,7 @@
     <element name="WPublishRequest">
         <complexType>
             <sequence>
-                <element name="appId" type="string" minOccurs="1" maxOccurs="1"/>
+                <element name="appId" type="string" minOccurs="1" maxOccurs="1" />
                 <element name="collection" type="tns:WCollection"/>
             </sequence>
         </complexType>
@@ -20,18 +20,19 @@
 
     <complexType name="WCollection">
         <sequence>
-            <element name="name" type="string" minOccurs="1" maxOccurs="1"/>
             <element name="identifier" type="tns:WIdentifier" minOccurs="0" maxOccurs="unbounded"/>
-            <element name="postalAddress" type="string" minOccurs="1" maxOccurs="1"/>
-            <element name="electronicAddress" type="tns:WElectronicAddress" minOccurs="0" maxOccurs="1"/>
+            <element name="name" type="string" minOccurs="1" maxOccurs="1"/>
+            <element name="description" type="tns:WDescType" minOccurs="0" maxOccurs="1"/>
             <element name="createdDate" type="dateTime" minOccurs="0" maxOccurs="1"/>
             <element name="endDate" type="dateTime" minOccurs="0" maxOccurs="1"/>
+            <element name="postalAddress" type="string" minOccurs="0" maxOccurs="1"/>
+            <element name="electronicAddress" type="tns:WElectronicAddress" minOccurs="0" maxOccurs="1"/>
             <element name="spatialCoverage" type="tns:WSpatialCoverage" minOccurs="0" maxOccurs="1"/>
-            <element name="description" type="tns:WDescType" minOccurs="0" maxOccurs="1"/>
-            <element name="note" type="tns:WDescType" minOccurs="0" maxOccurs="1"/>
             <element name="licence" type="tns:WDescType" minOccurs="0" maxOccurs="1"/>
             <element name="accessRights" type="tns:WDescType" minOccurs="0" maxOccurs="1"/>
             <element name="subject" type="tns:WSubject" minOccurs="0" maxOccurs="unbounded"/>
+            <element name="publication" type="tns:WPublication" minOccurs="0" maxOccurs="unbounded"/>
+            <element name="citation" type="tns:WCitation" minOccurs="0" maxOccurs="unbounded"/>
             <!-- one or more associated parties -->
             <element name="party" type="tns:WParty" minOccurs="1" maxOccurs="unbounded"/>
         </sequence>
@@ -49,57 +50,6 @@
         </restriction>
     </simpleType>
 
-    <!-- party -->
-    <complexType name="WParty">
-        <sequence>
-            <element name="identifier" type="tns:WIdentifier" minOccurs="1" maxOccurs="1"/>
-            <choice>
-                <element name="person" type="tns:WPerson"/>
-                <element name="group" type="tns:WGroup"/>
-            </choice>
-            <element name="url" type="string" minOccurs="0" maxOccurs="1"/>
-            <element name="postalAddress" type="string" minOccurs="0" maxOccurs="1"/>
-            <element name="description" type="tns:WDescType" minOccurs="0" maxOccurs="1"/>
-        </sequence>
-        <attribute name="relation" type="tns:WPartyRelationType" use="required"/>
-    </complexType>
-
-    <!-- party refer to person -->
-    <complexType name="WPerson">
-        <sequence>
-            <element name="title" type="string" minOccurs="1" maxOccurs="1"/>
-            <element name="firstName" type="string" minOccurs="1" maxOccurs="1"/>
-            <element name="lastName" type="string" minOccurs="1" maxOccurs="1"/>
-            <element name="email" type="tns:emailType" minOccurs="1" maxOccurs="1"/>
-        </sequence>
-    </complexType>
-
-    <!-- party refer to group -->
-    <complexType name="WGroup">
-        <sequence>
-            <element name="name" type="string" minOccurs="1" maxOccurs="1"/>
-        </sequence>
-    </complexType>
-
-    <!-- party relation to collection -->
-    <simpleType name="WPartyRelationType">
-        <restriction base="string">
-            <enumeration value="hasAssociationWith"/>
-            <enumeration value="hasMember"/>
-            <enumeration value="hasPart"/>
-            <enumeration value="isCollectorOf"/>
-            <enumeration value="isFundedBy"/>
-            <enumeration value="isFunderOf"/>
-            <enumeration value="isManagedBy"/>
-            <enumeration value="isManagerOf"/>
-            <enumeration value="isMemberOf"/>
-            <enumeration value="isOwnedBy"/>
-            <enumeration value="isOwnerOf"/>
-            <enumeration value="isPartOf"/>
-            <enumeration value="isParticipantIn"/>
-            <enumeration value="enriches"/>
-        </restriction>
-    </simpleType>
 
     <!-- identifier -->
     <complexType name="WIdentifier">
@@ -192,6 +142,47 @@
         </restriction>
     </simpleType>
 
+    <!-- publication -->
+    <complexType name="WPublication">
+        <sequence>
+            <element name="url" type="string" minOccurs="0" maxOccurs="1"/>
+            <element name="title" type="tns:WTitleType" minOccurs="1" maxOccurs="1"/>
+        </sequence>
+    </complexType>
+
+    <!-- publication title type -->
+    <simpleType name="WTitleType">
+        <restriction base="string">
+            <maxLength value="4000"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="WCitation">
+        <simpleContent>
+            <extension base="string">
+                <attribute name="style" type="tns:WCitationType" use="required"/>
+            </extension>
+        </simpleContent>
+    </complexType>
+
+    <!-- collection type -->
+    <simpleType name="WCitationType">
+        <restriction base="string">
+            <enumeration value="Harvard"/>
+            <enumeration value="APA"/>
+            <enumeration value="MLA"/>
+            <enumeration value="Vancouver"/>
+            <enumeration value="IEEE"/>
+            <enumeration value="CSE"/>
+            <enumeration value="Chicago"/>
+            <enumeration value="AMA"/>
+            <enumeration value="AGPS-AGIMO"/>
+            <enumeration value="AGLC"/>
+            <enumeration value="ACS"/>
+            <enumeration value="Datacite"/>
+        </restriction>
+    </simpleType>
+
     <!-- email type -->
     <simpleType name="emailType">
         <restriction base="string">
@@ -200,4 +191,55 @@
         </restriction>
     </simpleType>
 
+    <!-- party -->
+    <complexType name="WParty">
+        <sequence>
+            <element name="identifier" type="tns:WIdentifier" minOccurs="1" maxOccurs="1"/>
+            <choice>
+                <element name="person" type="tns:WPerson"/>
+                <element name="group" type="tns:WGroup"/>
+            </choice>
+            <element name="url" type="string" minOccurs="0" maxOccurs="1"/>
+            <element name="postalAddress" type="string" minOccurs="0" maxOccurs="1"/>
+            <element name="description" type="tns:WDescType" minOccurs="0" maxOccurs="1"/>
+        </sequence>
+        <attribute name="relation" type="tns:WPartyRelationType" use="required"/>
+    </complexType>
+
+    <!-- party refer to person -->
+    <complexType name="WPerson">
+        <sequence>
+            <element name="title" type="string" minOccurs="1" maxOccurs="1"/>
+            <element name="firstName" type="string" minOccurs="1" maxOccurs="1"/>
+            <element name="lastName" type="string" minOccurs="1" maxOccurs="1"/>
+            <element name="email" type="tns:emailType" minOccurs="1" maxOccurs="1"/>
+        </sequence>
+    </complexType>
+
+    <!-- party refer to group -->
+    <complexType name="WGroup">
+        <sequence>
+            <element name="name" type="string" minOccurs="1" maxOccurs="1"/>
+        </sequence>
+    </complexType>
+
+    <!-- party relation to collection -->
+    <simpleType name="WPartyRelationType">
+        <restriction base="string">
+            <enumeration value="hasAssociationWith"/>
+            <enumeration value="hasMember"/>
+            <enumeration value="hasPart"/>
+            <enumeration value="isCollectorOf"/>
+            <enumeration value="isFundedBy"/>
+            <enumeration value="isFunderOf"/>
+            <enumeration value="isManagedBy"/>
+            <enumeration value="isManagerOf"/>
+            <enumeration value="isMemberOf"/>
+            <enumeration value="isOwnedBy"/>
+            <enumeration value="isOwnerOf"/>
+            <enumeration value="isPartOf"/>
+            <enumeration value="isParticipantIn"/>
+            <enumeration value="enriches"/>
+        </restriction>
+    </simpleType>
 </schema>

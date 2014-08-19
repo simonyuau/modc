@@ -25,24 +25,26 @@ public class MDServiceEndpoint {
     public WPublishResponse publishMd(@RequestPayload WPublishRequest publishRequest) {
 
         WPublishResponse response = JAXB_OBJECT_FACTORY.createWPublishResponse();
-        WCollection collection = publishRequest.getCollection();
-        logger.info("=== created date : " + collection.getCreatedDate());
-        logger.info("=== end date : " + collection.getEndDate());
-        logger.info("=== Received MDService request");
+//        WCollection collection = publishRequest.getCollection();
+//        logger.info("=== created date : " + collection.getCreatedDate());
+//        logger.info("=== end date : " + collection.getEndDate());
+//        logger.info("=== Received MDService request");
+
+//        List<WParty> parties = collection.getParty();
+//
+//        for (WParty p : parties) {
+//            WGroup group = p.getGroup();
+//            WPerson person = p.getPerson();
+//            if (group != null) {
+//                logger.info("Party -- group : " + group.getName());
+//            }
+//            if (person != null) {
+//                logger.info("Party -- person : " + person.getFirstName() + " " + person.getLastName());
+//            }
+//
+//        }
+
         response.setRefNumber("12346");
-        List<WParty> parties = collection.getParty();
-
-        for (WParty p : parties) {
-            WGroup group = p.getGroup();
-            WPerson person = p.getPerson();
-            if (group != null) {
-                logger.info("Party -- group : " + group.getName());
-            }
-            if (person != null) {
-                logger.info("Party -- person : " + person.getFirstName() + " " + person.getLastName());
-            }
-
-        }
         return response;
     }
 }

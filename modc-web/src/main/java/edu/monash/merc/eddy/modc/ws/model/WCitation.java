@@ -16,15 +16,15 @@ import javax.xml.bind.annotation.XmlValue;
 
 
 /**
- * <p>Java class for WSubject complex type.
+ * <p>Java class for WCitation complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="WSubject">
+ * &lt;complexType name="WCitation">
  *   &lt;simpleContent>
  *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>string">
- *       &lt;attribute name="type" use="required" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       &lt;attribute name="style" use="required" type="{http://merc.monash.edu/ws/schema/mds}WCitationType" />
  *     &lt;/extension>
  *   &lt;/simpleContent>
  * &lt;/complexType>
@@ -33,15 +33,15 @@ import javax.xml.bind.annotation.XmlValue;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "WSubject", propOrder = {
+@XmlType(name = "WCitation", propOrder = {
     "value"
 })
-public class WSubject {
+public class WCitation {
 
     @XmlValue
     protected String value;
-    @XmlAttribute(name = "type", namespace = "http://merc.monash.edu/ws/schema/mds", required = true)
-    protected String type;
+    @XmlAttribute(name = "style", namespace = "http://merc.monash.edu/ws/schema/mds", required = true)
+    protected WCitationType style;
 
     /**
      * Gets the value of the value property.
@@ -68,27 +68,27 @@ public class WSubject {
     }
 
     /**
-     * Gets the value of the type property.
+     * Gets the value of the style property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link WCitationType }
      *     
      */
-    public String getType() {
-        return type;
+    public WCitationType getStyle() {
+        return style;
     }
 
     /**
-     * Sets the value of the type property.
+     * Sets the value of the style property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link WCitationType }
      *     
      */
-    public void setType(String value) {
-        this.type = value;
+    public void setStyle(WCitationType value) {
+        this.style = value;
     }
 
 }

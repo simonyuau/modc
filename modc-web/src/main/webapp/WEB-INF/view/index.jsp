@@ -6,6 +6,5 @@
     <title>Redirect to home page</title>
 </head>
 <body>
-
 </body>
 </html>

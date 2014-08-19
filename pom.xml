@@ -90,6 +90,7 @@
         <module>modc-service</module>
         <module>modc-persist</module>
         <module>modc-model</module>
+        <module>modc-common</module>
     </modules>
 
     <!-- Dependency Management -->

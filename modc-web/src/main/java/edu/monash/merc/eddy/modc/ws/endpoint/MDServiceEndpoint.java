@@ -1,13 +1,13 @@
 package edu.monash.merc.eddy.modc.ws.endpoint;
 
-import edu.monash.merc.eddy.modc.ws.model.MDPublishRequest;
-import edu.monash.merc.eddy.modc.ws.model.MDPublishResponse;
-import edu.monash.merc.eddy.modc.ws.model.ObjectFactory;
+import edu.monash.merc.eddy.modc.ws.model.*;
 import org.apache.log4j.Logger;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+
+import java.util.List;
 
 /**
  * Created by simonyu on 1/08/2014.
@@ -20,13 +20,29 @@ public class MDServiceEndpoint {
 
     private final ObjectFactory JAXB_OBJECT_FACTORY = new ObjectFactory();
 
-    @PayloadRoot(localPart = "MDPublishRequest", namespace = SERVICE_NS)
+    @PayloadRoot(localPart = "WPublishRequest", namespace = SERVICE_NS)
     @ResponsePayload
-    public MDPublishResponse publishMd(@RequestPayload MDPublishRequest mdPublishRequest) {
+    public WPublishResponse publishMd(@RequestPayload WPublishRequest publishRequest) {
 
-        MDPublishResponse response = JAXB_OBJECT_FACTORY.createMDPublishResponse();
+        WPublishResponse response = JAXB_OBJECT_FACTORY.createWPublishResponse();
+        WCollection collection = publishRequest.getCollection();
+        logger.info("=== created date : " + collection.getCreatedDate());
+        logger.info("=== end date : " + collection.getEndDate());
         logger.info("=== Received MDService request");
         response.setRefNumber("12346");
+        List<WParty> parties = collection.getParty();
+
+        for (WParty p : parties) {
+            WGroup group = p.getGroup();
+            WPerson person = p.getPerson();
+            if (group != null) {
+                logger.info("Party -- group : " + group.getName());
+            }
+            if (person != null) {
+                logger.info("Party -- person : " + person.getFirstName() + " " + person.getLastName());
+            }
+
+        }
         return response;
     }
 }

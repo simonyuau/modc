@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by simonyu on 4/08/2014.
  */
 @Controller
-public class MDController {
+public class MDController extends MDBaseController{
 
-    @RequestMapping("/home")
+    @RequestMapping(value = "/home")
     public String home() {
         return "home";
     }

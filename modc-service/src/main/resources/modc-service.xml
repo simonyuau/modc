@@ -15,6 +15,18 @@
     <context:annotation-config/>
     <context:component-scan base-package="edu.monash.merc.eddy.modc.service"/>
 
+    <!-- System properties configurator -->
+    <bean id="systemPropertiesConfigurerr" class="edu.monash.merc.eddy.modc.common.config.SystemPropertiesConfigurer">
+        <!-- merc.properties file -->
+        <property name="locations">
+            <list>
+                <value>classpath:merc.properties</value>
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="false"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    </bean>
+
     <!-- Transaction manager -->
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager" p:sessionFactory-ref="sessionFactory"/>
 

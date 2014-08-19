@@ -20,6 +20,11 @@
             <version>1.0</version>
         </dependency>
         <dependency>
+            <groupId>edu.monash.merc.eddy.modc</groupId>
+            <artifactId>modc-common</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
         </dependency>

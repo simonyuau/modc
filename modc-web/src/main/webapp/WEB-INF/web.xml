@@ -45,10 +45,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID"
         <param-value>/WEB-INF/conf/log4j.properties</param-value>
     </context-param>
 
+    <!-- configure the log4j config listener first -->
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>
 
+    <!-- then configure the context loader listener -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
@@ -95,11 +97,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID"
         <url-pattern>*.action</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>modc</servlet-name>
-        <url-pattern>*.html</url-pattern>
-    </servlet-mapping>
-
     <!-- Web Service MessageDispatcherServlet-->
     <servlet>
         <servlet-name>ws</servlet-name>
@@ -124,8 +121,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID"
         <url-pattern>/ws/*</url-pattern>
     </servlet-mapping>
 
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/view/error/404.html</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/view/error/403.html</location>
+    </error-page>
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>/WEB-INF/view/index.jsp</welcome-file>
     </welcome-file-list>
 </web-app>

@@ -4,8 +4,8 @@
     <element name="WPublishRequest">
         <complexType>
             <sequence>
-                <element name="appId" type="string" minOccurs="1" maxOccurs="1" />
-                <element name="collection" type="tns:WCollection"/>
+                <element name="appId" type="string" minOccurs="1" maxOccurs="1"/>
+                <element name="collection" type="tns:WCollection" minOccurs="1" maxOccurs="1"/>
             </sequence>
         </complexType>
     </element>
@@ -13,13 +13,16 @@
     <element name="WPublishResponse">
         <complexType>
             <sequence>
-                <element name="refNumber" type="string"/>
+                <element name="code" type="tns:WPublishResponseCode"/>
+                <element name="message" type="string"/>
+                <element name="result" type="tns:WPublishResponseResult"/>
             </sequence>
         </complexType>
     </element>
 
     <complexType name="WCollection">
         <sequence>
+            <element name="key" type="string" minOccurs="1" maxOccurs="1"/>
             <element name="identifier" type="tns:WIdentifier" minOccurs="0" maxOccurs="unbounded"/>
             <element name="name" type="string" minOccurs="1" maxOccurs="1"/>
             <element name="description" type="tns:WDescType" minOccurs="0" maxOccurs="1"/>
@@ -51,7 +54,8 @@
     </simpleType>
 
 
-    <!-- identifier -->
+
+     <!-- identifier -->
     <complexType name="WIdentifier">
         <simpleContent>
             <extension base="string">
@@ -191,10 +195,42 @@
         </restriction>
     </simpleType>
 
+    <!-- Metadata publish response code -->
+    <simpleType name="WPublishResponseCode">
+        <restriction base="string">
+            <enumeration value="success"/>
+            <enumeration value="failure"/>
+        </restriction>
+    </simpleType>
+
+    <!-- Metadata publish response result -->
+    <complexType name="WPublishResponseResult">
+        <sequence>
+            <element name="collection" type="tns:WCollecionResponse" minOccurs="0" maxOccurs="1"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="WCollecionResponse">
+        <sequence>
+            <element name="key" type="string" minOccurs="1" maxOccurs="1"/>
+            <element name="identifier" type="tns:WIdentifier" minOccurs="1" maxOccurs="unbounded"/>
+            <element name="party" type="tns:WPublishPartyResponse" minOccurs="1" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="WPublishPartyResponse">
+        <sequence>
+            <element name="key" type="string" minOccurs="1" maxOccurs="1"/>
+            <element name="identifier" type="tns:WIdentifier" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+        <attribute name="relation" type="tns:WPartyRelationType" use="required"/>
+    </complexType>
+
     <!-- party -->
     <complexType name="WParty">
         <sequence>
-            <element name="identifier" type="tns:WIdentifier" minOccurs="1" maxOccurs="1"/>
+            <element name="key" type="string" minOccurs="1" maxOccurs="1"/>
+            <element name="identifier" type="tns:WIdentifier" minOccurs="0" maxOccurs="1"/>
             <choice>
                 <element name="person" type="tns:WPerson"/>
                 <element name="group" type="tns:WGroup"/>

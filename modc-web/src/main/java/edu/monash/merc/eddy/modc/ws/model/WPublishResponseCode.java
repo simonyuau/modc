@@ -14,40 +14,31 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for WCollectionType.
+ * <p>Java class for WPublishResponseCode.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="WCollectionType">
+ * &lt;simpleType name="WPublishResponseCode">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="catalogueOrIndex"/>
- *     &lt;enumeration value="collection"/>
- *     &lt;enumeration value="registry"/>
- *     &lt;enumeration value="repository"/>
- *     &lt;enumeration value="dataset"/>
+ *     &lt;enumeration value="success"/>
+ *     &lt;enumeration value="failure"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
-@XmlType(name = "WCollectionType")
+@XmlType(name = "WPublishResponseCode")
 @XmlEnum
-public enum WCollectionType {
+public enum WPublishResponseCode {
 
-    @XmlEnumValue("catalogueOrIndex")
-    CATALOGUE_OR_INDEX("catalogueOrIndex"),
-    @XmlEnumValue("collection")
-    COLLECTION("collection"),
-    @XmlEnumValue("registry")
-    REGISTRY("registry"),
-    @XmlEnumValue("repository")
-    REPOSITORY("repository"),
-    @XmlEnumValue("dataset")
-    DATASET("dataset");
+    @XmlEnumValue("success")
+    SUCCESS("success"),
+    @XmlEnumValue("failure")
+    FAILURE("failure");
     private final String value;
 
-    WCollectionType(String v) {
+    WPublishResponseCode(String v) {
         value = v;
     }
 
@@ -55,8 +46,8 @@ public enum WCollectionType {
         return value;
     }
 
-    public static WCollectionType fromValue(String v) {
-        for (WCollectionType c: WCollectionType.values()) {
+    public static WPublishResponseCode fromValue(String v) {
+        for (WPublishResponseCode c: WPublishResponseCode.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

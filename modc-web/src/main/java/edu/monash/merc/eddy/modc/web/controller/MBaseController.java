@@ -8,10 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 
 /**
- * Created by simonyu on 4/08/2014.
+ * Created by simonyu on 21/08/2014.
  */
-public class MDBaseController {
-
+public class MBaseController {
     protected Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Autowired

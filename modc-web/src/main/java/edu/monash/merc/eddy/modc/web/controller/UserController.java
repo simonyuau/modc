@@ -3,6 +3,7 @@ package edu.monash.merc.eddy.modc.web.controller;
 import edu.monash.merc.eddy.modc.domain.User;
 import edu.monash.merc.eddy.modc.service.UserService;
 import edu.monash.merc.eddy.modc.web.validation.UserValidator;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,13 +18,15 @@ import javax.validation.Valid;
  */
 @Controller
 @RequestMapping("/user")
-public class UserController extends MDBaseController {
+public class UserController extends MBaseController{
 
     @Autowired
     private UserValidator userValidator;
 
     @Autowired
     private UserService userService;
+
+    private Logger logger = Logger.getLogger(this.getClass().getName());
 
     public void setUserService(UserService userService) {
         this.userService = userService;

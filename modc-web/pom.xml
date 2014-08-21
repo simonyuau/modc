@@ -156,6 +156,7 @@
                         <include>**/*.xsd</include>
                     </schemaIncludes>
                     <generatePackage>edu.monash.merc.eddy.modc.ws.model</generatePackage>
+                    <noFileHeader>true</noFileHeader>
                     <forceRegenerate>false</forceRegenerate>
                     <strict>false</strict>
                     <verbose>true</verbose>

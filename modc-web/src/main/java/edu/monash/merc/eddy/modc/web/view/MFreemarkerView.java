@@ -1,6 +1,6 @@
 package edu.monash.merc.eddy.modc.web.view;
 
-import edu.monash.merc.eddy.modc.web.conts.MDConts;
+import edu.monash.merc.eddy.modc.web.conts.MConts;
 import freemarker.template.SimpleHash;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Created by simonyu on 5/08/2014.
  */
-public class MDFreemarkerView extends FreeMarkerView {
+public class MFreemarkerView extends FreeMarkerView {
 
     /**
      * deployed base path
@@ -42,7 +42,7 @@ public class MDFreemarkerView extends FreeMarkerView {
 		/*
 		 * by default. the view (html) is not generated unless you set the STATIC_HTML as true in the request.
 		 */
-        if (Boolean.TRUE.equals(model.get(MDConts.STATIC_HTML))) {
+        if (Boolean.TRUE.equals(model.get(MConts.STATIC_HTML))) {
             logger.info("====== generating a html view.");
             processStaticHTML(getTemplate(locale), fmModel, request, response);
         } else {

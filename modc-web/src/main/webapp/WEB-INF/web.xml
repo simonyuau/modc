@@ -5,13 +5,18 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID"
          version="2.5">
     <display-name>Simple Web Application</display-name>
 
-    <!-- Spring ContextLoaderListener configurations -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath:modc-persist.xml
+            /WEB-INF/conf/modc-system.xml
             classpath:modc-service.xml
+            classpath:modc-persist.xml
         </param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>/WEB-INF/conf/log4j.properties</param-value>
     </context-param>
 
     <!-- encoding filter -->
@@ -39,39 +44,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID"
         <url-pattern>*.action</url-pattern>
     </filter-mapping>
 
-    <!-- Log4j configurations -->
-    <context-param>
-        <param-name>log4jConfigLocation</param-name>
-        <param-value>/WEB-INF/conf/log4j.properties</param-value>
-    </context-param>
-
-    <!-- configure the log4j config listener first -->
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>
 
-    <!-- then configure the context loader listener -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
-    <!--
-      This filter makes Hibernate Sessions available via the current thread, which
-      will be autodetected by transaction managers. It is suitable for service layer
-      transactions via org.springframework.orm.hibernate4.HibernateTransactionManager
-      as well as for non-transactional execution
-    -->
-    <!--
-    <filter>
-        <filter-name>openSessionInViewerFilter</filter-name>
-        <filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>openSessionInViewerFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-    -->
-    <!-- Servlet that dispatches request to registered handlers (Controller implementations). -->
     <servlet>
         <servlet-name>modc</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

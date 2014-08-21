@@ -13,7 +13,7 @@ import java.util.List;
  * Created by simonyu on 1/08/2014.
  */
 @Endpoint
-public class MDServiceEndpoint {
+public class MServiceEndpoint {
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
     private final String SERVICE_NS = "http://merc.monash.edu/ws/schema/mds";

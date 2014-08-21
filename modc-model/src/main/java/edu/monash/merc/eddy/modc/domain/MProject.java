@@ -7,8 +7,8 @@ import java.util.Date;
  * Created by simonyu on 4/08/2014.
  */
 @Entity
-@Table(name = "project")
-public class Project extends Domain {
+@Table(name = "m_project")
+public class MProject extends Domain {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

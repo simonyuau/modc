@@ -5,7 +5,6 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 					http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
-
 					http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
 					http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
        default-lazy-init="false">
@@ -13,17 +12,6 @@
     <!-- Root Context: defines shared resources visible to all other web components -->
     <context:annotation-config/>
     <context:component-scan base-package="edu.monash.merc.eddy.modc"/>
-    <!-- System properties configurator -->
-    <bean id="systemPropertiesConfigurer" class="edu.monash.merc.eddy.modc.common.config.SystemPropertiesConfigurer">
-        <!-- merc.properties file -->
-        <property name="locations">
-            <list>
-                <value>classpath:merc.properties</value>
-            </list>
-        </property>
-        <property name="ignoreResourceNotFound" value="false"/>
-        <property name="ignoreUnresolvablePlaceholders" value="true"/>
-    </bean>
 
     <!-- Transaction manager -->
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager" p:sessionFactory-ref="sessionFactory"/>

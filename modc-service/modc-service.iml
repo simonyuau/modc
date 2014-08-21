@@ -4,8 +4,6 @@
     <facet type="Spring" name="Spring">
       <configuration>
         <fileset id="fileset" name="Spring Application Context" removed="false">
-          <dependency>fileset==modc-persist</dependency>
-          <file>file://$MODULE_DIR$/../modc-persist/src/main/resources/modc-persist.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/modc-service.xml</file>
         </fileset>
       </configuration>

@@ -115,15 +115,15 @@
         <property name="targetNamespace" value="http://merc.monash.edu/ws/schema/mds"/>
     </bean>
 
-   <!--
-    <bean id="exceptionResolver"
-          class="org.springframework.ws.soap.server.endpoint.SoapFaultMappingExceptionResolver">
-        <property name="defaultFault" value="SERVER"/>
-        <property name="exceptionMappings">
-            <value>
-                org.springframework.oxm.ValidationFailureException=CLIENT,Invalid request
-            </value>
-        </property>
-    </bean>
-     -->
+    <!--
+     <bean id="exceptionResolver"
+           class="org.springframework.ws.soap.server.endpoint.SoapFaultMappingExceptionResolver">
+         <property name="defaultFault" value="SERVER"/>
+         <property name="exceptionMappings">
+             <value>
+                 org.springframework.oxm.ValidationFailureException=CLIENT,Invalid request
+             </value>
+         </property>
+     </bean>
+      -->
 </beans>

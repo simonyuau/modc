@@ -17,7 +17,7 @@ import java.util.Map;
 public class SystemPropertySettings {
 
     @Autowired
-    @Qualifier("systemPropertiesConfigurerr")
+    @Qualifier("systemPropertiesConfigurer")
     private SystemPropertiesConfigurer systemPropertiesConfigurer;
 
     public void setSystemPropertiesConfigurer(SystemPropertiesConfigurer systemPropertiesConfigurer) {

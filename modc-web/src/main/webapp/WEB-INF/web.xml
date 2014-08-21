@@ -9,8 +9,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID"
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath:modc-service.xml
             classpath:modc-persist.xml
+            classpath:modc-service.xml
         </param-value>
     </context-param>
 
@@ -61,6 +61,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID"
       transactions via org.springframework.orm.hibernate4.HibernateTransactionManager
       as well as for non-transactional execution
     -->
+    <!--
     <filter>
         <filter-name>openSessionInViewerFilter</filter-name>
         <filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
@@ -69,7 +70,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID"
         <filter-name>openSessionInViewerFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
+    -->
     <!-- Servlet that dispatches request to registered handlers (Controller implementations). -->
     <servlet>
         <servlet-name>modc</servlet-name>

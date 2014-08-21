@@ -23,18 +23,21 @@ public class HibernateGenericDAO<T> implements IRepository<T> {
     protected Class<T> persistClass;
 
     @Autowired
+    @Qualifier("sessionFactory")
     private SessionFactory sessionFactory;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
+
+
     @SuppressWarnings("unchecked")
     public HibernateGenericDAO() {
         //get first actual type arguments -- T an entity object class.
         this.persistClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
-
+    @SuppressWarnings("unchecked")
     public HibernateGenericDAO(SessionFactory sessionFactory) {
         //call default constructor.
         //this();

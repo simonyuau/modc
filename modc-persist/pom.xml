@@ -13,17 +13,18 @@
     <name>modc-persist</name>
 
     <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>modc-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
-            <groupId>edu.monash.merc.eddy.modc</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>modc-model</artifactId>
-            <version>1.0</version>
+            <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>edu.monash.merc.eddy.modc</groupId>
-            <artifactId>modc-common</artifactId>
-            <version>1.0</version>
-        </dependency>
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -44,6 +45,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
@@ -67,18 +69,13 @@
         </dependency>
 
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.mchange</groupId>
             <artifactId>c3p0</artifactId>
         </dependency>
 
-        <!-- junit test -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
         </dependency>
     </dependencies>
 </project>

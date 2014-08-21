@@ -4,6 +4,7 @@ import edu.monash.merc.eddy.modc.dao.UserDAO;
 import edu.monash.merc.eddy.modc.domain.User;
 import edu.monash.merc.eddy.modc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Created by simonyu on 8/08/2014.
  */
-@Scope("prototype")
 @Service
+@Qualifier("userService")
 @Transactional
 public class UserServiceImpl implements UserService {
 

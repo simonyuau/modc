@@ -8,12 +8,12 @@
         <artifactId>modc</artifactId>
         <version>1.0</version>
     </parent>
+
     <artifactId>modc-common</artifactId>
     <packaging>jar</packaging>
     <name>modc-common</name>
 
     <dependencies>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
@@ -22,7 +22,5 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
-
     </dependencies>
-
 </project>

@@ -9,9 +9,11 @@
 
     <artifactId>modc-model</artifactId>
     <packaging>jar</packaging>
+
     <name>modc-model</name>
 
     <dependencies>
+
         <!-- hibernate core -->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -23,6 +25,7 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
         </dependency>
+
         <!-- hibernate annotations -->
         <dependency>
             <groupId>org.hibernate.common</groupId>
@@ -34,6 +37,7 @@
             <artifactId>hibernate-jpa-2.1-api</artifactId>
         </dependency>
 
+        <!-- junit test -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

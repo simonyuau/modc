@@ -1,15 +1,18 @@
 package edu.monash.merc.eddy.modc.domain;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by simonyu on 4/08/2014.
  */
 @Entity
-@Table(name = "m_project")
+@Table(name = "project")
 public class MProject extends Domain {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -18,7 +21,7 @@ public class MProject extends Domain {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description", length = 4000)
+    @Column(name = "description", length = 2000)
     private String description;
 
     @Column(name = "unique_id", length = 200)
@@ -36,10 +39,13 @@ public class MProject extends Domain {
     @Column(name = "auto_publish")
     private boolean autoPublish;
 
-    @ManyToOne (targetEntity = User.class)
-    @JoinColumn(name = "project_admin", referencedColumnName = "id", nullable = false)
-    private User user;
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
+    private User owner;
 
+    @OneToMany(mappedBy = "project", targetEntity = MCollection.class, fetch = FetchType.LAZY)
+    @Cascade({CascadeType.DELETE})
+    private List<MCollection> collections;
 
     public long getId() {
         return id;
@@ -97,11 +103,19 @@ public class MProject extends Domain {
         this.autoPublish = autoPublish;
     }
 
-    public User getUser() {
-        return user;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public List<MCollection> getCollections() {
+        return collections;
+    }
+
+    public void setCollections(List<MCollection> collections) {
+        this.collections = collections;
     }
 }

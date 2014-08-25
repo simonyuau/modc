@@ -31,7 +31,7 @@
             <element name="postalAddress" type="string" minOccurs="0" maxOccurs="1"/>
             <element name="electronicAddress" type="tns:WElectronicAddress" minOccurs="0" maxOccurs="1"/>
             <element name="spatialCoverage" type="tns:WSpatialCoverage" minOccurs="0" maxOccurs="1"/>
-            <element name="licence" type="tns:WDescType" minOccurs="0" maxOccurs="1"/>
+            <element name="licence" type="tns:WLicence" minOccurs="0" maxOccurs="unbounded"/>
             <element name="accessRights" type="tns:WDescType" minOccurs="0" maxOccurs="1"/>
             <element name="subject" type="tns:WSubject" minOccurs="0" maxOccurs="unbounded"/>
             <element name="publication" type="tns:WPublication" minOccurs="0" maxOccurs="unbounded"/>
@@ -120,6 +120,13 @@
             <enumeration value="kmlPolyCoords"/>
             <enumeration value="dcmiPoint"/>
             <enumeration value="text"/>
+        </restriction>
+    </simpleType>
+
+    <!-- licence -->
+    <simpleType name="WLicence">
+        <restriction base="string">
+            <maxLength value="4000"/>
         </restriction>
     </simpleType>
 

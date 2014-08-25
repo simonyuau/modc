@@ -33,7 +33,7 @@ import edu.monash.merc.eddy.modc.ws.jaxbadapter.SimpleJaxbDateAdapter;
  *         &lt;element name="postalAddress" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="electronicAddress" type="{http://merc.monash.edu/ws/schema/mds}WElectronicAddress" minOccurs="0"/>
  *         &lt;element name="spatialCoverage" type="{http://merc.monash.edu/ws/schema/mds}WSpatialCoverage" minOccurs="0"/>
- *         &lt;element name="licence" type="{http://merc.monash.edu/ws/schema/mds}WDescType" minOccurs="0"/>
+ *         &lt;element name="licence" type="{http://merc.monash.edu/ws/schema/mds}WLicence" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="accessRights" type="{http://merc.monash.edu/ws/schema/mds}WDescType" minOccurs="0"/>
  *         &lt;element name="subject" type="{http://merc.monash.edu/ws/schema/mds}WSubject" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="publication" type="{http://merc.monash.edu/ws/schema/mds}WPublication" maxOccurs="unbounded" minOccurs="0"/>
@@ -85,7 +85,7 @@ public class WCollection {
     protected String postalAddress;
     protected WElectronicAddress electronicAddress;
     protected WSpatialCoverage spatialCoverage;
-    protected String licence;
+    protected List<String> licence;
     protected String accessRights;
     protected List<WSubject> subject;
     protected List<WPublication> publication;
@@ -319,25 +319,30 @@ public class WCollection {
     /**
      * Gets the value of the licence property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getLicence() {
-        return licence;
-    }
-
-    /**
-     * Sets the value of the licence property.
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the licence property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getLicence().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
      */
-    public void setLicence(String value) {
-        this.licence = value;
+    public List<String> getLicence() {
+        if (licence == null) {
+            licence = new ArrayList<String>();
+        }
+        return this.licence;
     }
 
     /**

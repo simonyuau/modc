@@ -5,8 +5,22 @@
 <hibernate-configuration>
     <session-factory>
         <mapping class="edu.monash.merc.eddy.modc.domain.Avatar"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.MAddress"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.MCitation"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.MCollection"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.MCollectionIdentifier"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.MCollectionKeyword"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.MCollectionParty"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.MCoverage"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.MGroup"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.MIdentifier"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.MKeyword"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.MLicence"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.MParty"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.MPerson"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.MProject"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.MPublication"/>
         <mapping class="edu.monash.merc.eddy.modc.domain.Profile"/>
         <mapping class="edu.monash.merc.eddy.modc.domain.User"/>
-        <mapping class="edu.monash.merc.eddy.modc.domain.MProject" />
     </session-factory>
 </hibernate-configuration>

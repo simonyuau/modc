@@ -2,6 +2,7 @@ package edu.monash.merc.eddy.modc.domain;
 
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -12,7 +13,7 @@ import java.util.Date;
  * Created by simonyu on 4/08/2014.
  */
 @Entity
-@Table (name = "muser")
+@Table(name = "muser")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "freqRegion")
 public class User extends Domain {
 
@@ -68,6 +69,14 @@ public class User extends Domain {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "activated_date")
     private Date activatedDate;
+
+    @OneToOne(mappedBy = "user", targetEntity = Avatar.class, fetch = FetchType.LAZY)
+    @Cascade(CascadeType.ALL)
+    private Avatar avatar;
+
+    @OneToOne(mappedBy = "user", targetEntity = Profile.class, fetch = FetchType.LAZY)
+    @Cascade(CascadeType.ALL)
+    private Profile profile;
 
     public long getId() {
         return id;
@@ -171,5 +180,21 @@ public class User extends Domain {
 
     public void setActivatedDate(Date activatedDate) {
         this.activatedDate = activatedDate;
+    }
+
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 }

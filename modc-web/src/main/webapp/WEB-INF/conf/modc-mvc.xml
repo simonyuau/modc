@@ -63,8 +63,8 @@
         <property name="prefix" value="/WEB-INF/view/"/>
         <property name="contentType" value="text/html;charset=UTF-8"/>
         <property name="viewClass" value="edu.monash.merc.eddy.modc.web.view.MFreemarkerView"/>
-        <property name="exposeRequestAttributes" value="false"/>
-        <property name="exposeSessionAttributes" value="false"/>
+        <property name="exposeRequestAttributes" value="true"/>
+        <property name="exposeSessionAttributes" value="true"/>
         <property name="exposeSpringMacroHelpers" value="true"/>
     </bean>
 

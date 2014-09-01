@@ -27,7 +27,10 @@
  */
 package edu.monash.merc.eddy.modc.repository;
 
+import edu.monash.merc.eddy.modc.sql.page.Pager;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interface IRepository - Generic class for persisting a Domain entity object.
@@ -54,4 +57,40 @@ public interface IRepository<T> {
     void merge(T entity);
 
     int saveAll(List<T> entities);
+
+    /**
+     * Find pageable entities based on a HQL condition, the HQL string must be in named parameters style.
+     *
+     * @param hql         Hibernate HQL string without order by part.
+     * @param namedParams Any Named parameters
+     * @return A paged Entities
+     */
+    Pager<T> find(String hql, Map<String, Object> namedParams, int startPageNo, int sizePerPage);
+
+    /**
+     * Find all entities based on HQL condition, the HQL string must be in named parameters style.
+     *
+     * @param hql         A named parameters style HQL
+     * @param namedParams a list of named parameters
+     * @return a list of entities
+     */
+    List<T> list(String hql, Map<String, Object> namedParams);
+
+    /**
+     * Find an entity based on HQL sql string, the HQL string must be in a named parameters sytle.
+     *
+     * @param hql         A named parameters style HQL
+     * @param namedParams
+     * @return
+     */
+    T find(String hql, Map<String, Object> namedParams);
+
+    /**
+     * Check an entity existed or not.
+     *
+     * @param hql         A named parameters style count HQL
+     * @param namedParams a list of named parameters
+     * @return true if exists.
+     */
+    boolean checkEntityExisted(String hql, Map<String, Object> namedParams);
 }

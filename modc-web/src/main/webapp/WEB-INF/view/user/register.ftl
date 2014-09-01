@@ -17,29 +17,43 @@
             <div class="left_display_inner">
                 <h3><@s.message "user.registration.title" /></h3>
 
-            <@sf.form commandName="user" action="register.do" method="post">
+            <!-- @sf.form action="register.do" method="post" -->
+                <form action="register.do" method="post">
                 <table>
-                    <tr>
-                        <td>First Name :</td>
-                        <td><@sf.input path="firstName" /></td>
-                        <td><@sf.errors path="firstName" cssStyle="color : red;"  /></td>
-                    </tr>
-                    <tr>
-                        <td>Last Name :</td>
-                        <td><@sf.input path="lastName" /></td>
-                        <td><@sf.errors path="lastName" cssStyle="color : red;" /></td>
-                    </tr>
+                <@s.bind "user"/>
+                        <tr>
+                            <td>First Name :</td>
+                            <td><@sf.input path="user.firstName" /></td>
+                            <td><@sf.errors path="user.firstName" cssStyle="color : red;"  /></td>
+                        </tr>
 
+                        <tr>
+                            <td>Last Name :</td>
+                            <td><@sf.input path="user.lastName" /></td>
+                            <td><@sf.errors path="user.lastName" cssStyle="color : red;" /></td>
+                        </tr>
                     <tr>
                         <td>Email :</td>
-                        <td><@sf.input path="email" /></td>
-                        <td><@sf.errors path="email"  cssStyle="color : red;"/></td>
+                        <td><@sf.input path="user.email" /></td>
+                        <td><@sf.errors path="user.email"  cssStyle="color : red;"/></td>
+                    </tr>
+                    <tr>
+                        <td>Password :</td>
+                        <td><@sf.password path="user.password" /></td>
+                        <td><@sf.errors path="user.password"  cssStyle="color : red;"/></td>
+                    </tr>
+                <@s.bind "profile"/>
+                    <tr>
+                        <td>Organization :</td>
+                        <td><@sf.input path="profile.organization" /></td>
+                        <td><@sf.errors path="profile.organization"  cssStyle="color : red;"/></td>
                     </tr>
                     <tr>
                         <td colspan="3"><input type="submit" value="Register" class="input_button_norm"/></td>
                     </tr>
                 </table>
-            </@sf.form>
+            <!-- /@sf.form -->
+                </form>
             </div>
         </div>
         <!-- right panel -->

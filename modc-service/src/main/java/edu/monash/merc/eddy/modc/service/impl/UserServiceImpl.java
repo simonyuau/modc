@@ -5,7 +5,6 @@ import edu.monash.merc.eddy.modc.domain.User;
 import edu.monash.merc.eddy.modc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,13 +60,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean checkUserExistedName(String displayName) {
-        return this.userDao.checkUserExistedName(displayName);
+    public boolean checkExistedName(String displayName) {
+        return this.userDao.checkExistedName(displayName);
     }
 
     @Override
-    public boolean checkUserExistedUniqueId(String uniqueId) {
-        return this.userDao.checkUserExistedUniqueId(uniqueId);
+    public boolean checkExistedUniqueId(String uniqueId) {
+        return this.userDao.checkExistedUniqueId(uniqueId);
     }
 
     @Override

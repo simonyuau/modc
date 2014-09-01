@@ -28,7 +28,7 @@
 package edu.monash.merc.eddy.modc.dao;
 
 import edu.monash.merc.eddy.modc.domain.Avatar;
-import edu.monash.merc.eddy.modc.repository.IAvatarRepository;
+import edu.monash.merc.eddy.modc.repository.AvatarRepository;
 import org.hibernate.Criteria;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -39,7 +39,7 @@ import org.springframework.stereotype.Repository;
 @Scope("prototype")
 @Repository
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "freqRegion")
-public class AvatarDAO extends HibernateGenericDAO<Avatar> implements IAvatarRepository {
+public class AvatarDAO extends HibernateGenericDAO<Avatar> implements AvatarRepository {
 
 	@Override
 	public Avatar getAvatarByUserId(long userId) {

@@ -1,9 +1,12 @@
 package edu.monash.merc.eddy.modc.domain;
 
-import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +15,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "project")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "fixedRegion")
 public class MProject extends Domain {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

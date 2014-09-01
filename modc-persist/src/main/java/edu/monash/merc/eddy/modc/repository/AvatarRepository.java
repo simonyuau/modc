@@ -5,7 +5,7 @@ import edu.monash.merc.eddy.modc.domain.Avatar;
 /**
  * Created by simonyu on 8/08/2014.
  */
-public interface IAvatarRepository {
+public interface AvatarRepository {
 
     Avatar getAvatarByUserId(long userId);
 }

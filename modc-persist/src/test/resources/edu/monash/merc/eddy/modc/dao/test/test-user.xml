@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <muser id="1" first_name="Phillip" last_name="Webb" display_name="Phillip Webb" password="12345" email="phillip.webb@gmail.com" unique_id="phillip.webb@gmail.com" is_activated="true" is_rejected ="false" registered_date="2014-08-29 12:30:15"/>
+    <profile id="1" gender ="Male" user_id="1" city="Melbourne" country="Australia"/>
+</dataset>

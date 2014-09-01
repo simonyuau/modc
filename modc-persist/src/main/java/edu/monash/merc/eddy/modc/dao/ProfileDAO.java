@@ -28,7 +28,7 @@
 package edu.monash.merc.eddy.modc.dao;
 
 import edu.monash.merc.eddy.modc.domain.Profile;
-import edu.monash.merc.eddy.modc.repository.IProfileRepository;
+import edu.monash.merc.eddy.modc.repository.ProfileRepository;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.context.annotation.Scope;
@@ -36,7 +36,7 @@ import org.springframework.stereotype.Repository;
 
 @Scope("prototype")
 @Repository
-public class ProfileDAO extends HibernateGenericDAO<Profile> implements IProfileRepository {
+public class ProfileDAO extends HibernateGenericDAO<Profile> implements ProfileRepository {
 
     @Override
     public Profile getProfileByUserId(long userId) {

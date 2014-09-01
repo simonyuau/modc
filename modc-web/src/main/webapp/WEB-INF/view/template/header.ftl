@@ -10,3 +10,4 @@
 <script type="text/javascript" src="${base}/js/merc.js"></script>
 
 <#assign sf=JspTaglibs["http://www.springframework.org/tags/form"] />
+<#assign sp=JspTaglibs["http://www.springframework.org/tags"] />

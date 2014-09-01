@@ -1,14 +1,15 @@
 package edu.monash.merc.eddy.modc.dao;
 
 import edu.monash.merc.eddy.modc.domain.User;
-import edu.monash.merc.eddy.modc.repository.IUserRepository;
-import org.hibernate.Criteria;
+import edu.monash.merc.eddy.modc.repository.UserRepository;
+import edu.monash.merc.eddy.modc.support.QueryHelper;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
+
+import java.util.Map;
 
 /**
  * Created by simonyu on 8/08/2014.
@@ -16,56 +17,48 @@ import org.springframework.stereotype.Repository;
 @Scope("prototype")
 @Repository
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "freqRegion")
-public class UserDAO extends HibernateGenericDAO<User> implements IUserRepository {
+public class UserDAO extends HibernateGenericDAO<User> implements UserRepository {
 
     @Override
     public User getUserByEmail(String email) {
-        Criteria userCriteria = this.session().createCriteria(this.persistClass).setCacheable(true);
-        return (User) userCriteria.add(Restrictions.eq("email", email).ignoreCase()).uniqueResult();
+        String hql = "FROM " + this.persistClass.getSimpleName() + " AS u WHERE lower(u.email) = :email";
+        Map<String, Object> namedParam = QueryHelper.createNamedParam("email", StringUtils.lowerCase(email));
+        return this.find(hql, namedParam);
     }
 
     @Override
     public User getUserByUniqueId(String uniqueId) {
-        Criteria userCriteria = this.session().createCriteria(this.persistClass).setCacheable(true);
-        return (User) userCriteria.add(Restrictions.eq("uniqueId", uniqueId)).uniqueResult();
+        String hql = "FROM " + this.persistClass.getSimpleName() + " AS u WHERE  u.uniqueId = :uniqueId";
+        Map<String, Object> namedParam = QueryHelper.createNamedParam("uniqueId", uniqueId);
+        return this.find(hql, namedParam);
     }
 
     @Override
-    public boolean checkUserExistedName(String displayName) {
-        long num = (Long) this.session().createCriteria(this.persistClass).setCacheable(true).setProjection(Projections.rowCount())
-                .add(Restrictions.eq("displayName", displayName).ignoreCase()).uniqueResult();
-        if (num == 1) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean checkExistedName(String displayName) {
+        String countHQL = "SELECT COUNT(*) FROM " + this.persistClass.getSimpleName() + " AS u WHERE lower(u.displayName) = :displayName";
+        Map<String, Object> namedParam = QueryHelper.createNamedParam("displayName", StringUtils.lowerCase(displayName));
+        return this.checkEntityExisted(countHQL, namedParam);
     }
 
     @Override
-    public boolean checkUserExistedUniqueId(String uniqueId) {
-        long num = (Long) this.session().createCriteria(this.persistClass).setCacheable(true).setProjection(Projections.rowCount())
-                .add(Restrictions.eq("uniqueId", uniqueId).ignoreCase()).uniqueResult();
-        if (num == 1) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean checkExistedUniqueId(String uniqueId) {
+        String countHQL = "SELECT COUNT(*) FROM " + this.persistClass.getSimpleName() + " AS u WHERE u.uniqueId = :uniqueId";
+        Map<String, Object> namedParam = QueryHelper.createNamedParam("uniqueId", uniqueId);
+        return this.checkEntityExisted(countHQL, namedParam);
     }
 
     @Override
     public boolean checkExistedEmail(String email) {
-        long num = (Long) this.session().createCriteria(this.persistClass).setCacheable(true).setProjection(Projections.rowCount())
-                .add(Restrictions.eq("email", email).ignoreCase()).uniqueResult();
-        if (num == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        String countHQL = "SELECT COUNT(*) FROM " + this.persistClass.getSimpleName() + " AS u WHERE lower(u.email) = :email";
+        Map<String, Object> namedParam = QueryHelper.createNamedParam("email", StringUtils.lowerCase(email));
+        return this.checkEntityExisted(countHQL, namedParam);
     }
 
     @Override
     public User checkUserLogin(String uniqueId, String password) {
-        return (User) this.session().createCriteria(this.persistClass).setCacheable(true).add(Restrictions.eq("uniqueId", uniqueId))
-                .add(Restrictions.eq("password", password)).uniqueResult();
+        String hql = "FROM " + this.persistClass.getSimpleName() + " AS u WHERE  u.uniqueId = :uniqueId AND u.password = :password";
+        Map<String, Object> namedParam = QueryHelper.createNamedParam("uniqueId", uniqueId);
+        namedParam = QueryHelper.addNamedParam(namedParam, "password", password);
+        return this.find(hql, namedParam);
     }
 }

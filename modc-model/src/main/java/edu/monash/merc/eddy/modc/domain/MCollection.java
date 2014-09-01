@@ -51,11 +51,11 @@ public class MCollection extends Domain {
     private MCoverage coverage;
 
     @OneToMany(mappedBy = "collection", targetEntity = MPublication.class, fetch = FetchType.LAZY)
-    @Cascade(CascadeType.DELETE)
+    @Cascade({CascadeType.SAVE_UPDATE,CascadeType.DELETE})
     private List<MPublication> publications;
 
     @OneToMany(mappedBy = "collection", targetEntity = MCitation.class, fetch = FetchType.LAZY)
-    @Cascade(CascadeType.DELETE)
+    @Cascade({CascadeType.SAVE_UPDATE,CascadeType.DELETE})
     private List<MCitation> citations;
 
     @OneToMany(mappedBy = "collection", targetEntity = MCollectionIdentifier.class, fetch = FetchType.LAZY)
@@ -71,7 +71,7 @@ public class MCollection extends Domain {
     private List<MCollectionKeyword> collectionKeywords;
 
     @OneToMany(mappedBy = "collection", targetEntity = MLicence.class, fetch = FetchType.LAZY)
-    @Cascade(CascadeType.DELETE)
+    @Cascade({CascadeType.SAVE_UPDATE,CascadeType.DELETE})
     private List<MLicence> licences;
 
     @ManyToOne(targetEntity = MProject.class)

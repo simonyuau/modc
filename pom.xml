@@ -14,7 +14,7 @@
         <java.version>1.7</java.version>
 
         <!-- hibernate -->
-        <hibernate.version>4.3.5.Final</hibernate.version>
+        <hibernate.version>4.3.6.Final</hibernate.version>
 
         <!-- hibernate annotation -->
         <hibernate-commons-annotations.version>4.0.4.Final</hibernate-commons-annotations.version>
@@ -23,7 +23,7 @@
         <hibernate-jpa-api.version>1.0.0.Final</hibernate-jpa-api.version>
 
         <!-- springframework -->
-        <springframework.version>4.0.5.RELEASE</springframework.version>
+        <springframework.version>4.0.6.RELEASE</springframework.version>
 
         <!-- spring web service -->
         <spring-ws.version>2.2.0.RELEASE</spring-ws.version>
@@ -75,6 +75,11 @@
         <!-- JUnit -->
         <junit.version>4.11</junit.version>
 
+        <!-- spring test dbunit -->
+        <spring-test-dbunit.version>1.1.0</spring-test-dbunit.version>
+
+        <!-- dbunit -->
+        <dbunit.version>2.5.0</dbunit.version>
 
     </properties>
 
@@ -187,6 +192,12 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-tx</artifactId>
+                <version>${springframework.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-oxm</artifactId>
                 <version>${springframework.version}</version>
             </dependency>
 
@@ -322,6 +333,29 @@
                 <scope>test</scope>
             </dependency>
 
+            <!-- spring dbunit test -->
+            <dependency>
+                <groupId>com.github.springtestdbunit</groupId>
+                <artifactId>spring-test-dbunit</artifactId>
+                <version>${spring-test-dbunit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- spring test -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${springframework.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- dbunit -->
+            <dependency>
+                <groupId>org.dbunit</groupId>
+                <artifactId>dbunit</artifactId>
+                <version>${dbunit.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -347,7 +381,7 @@
             </snapshots>
             <id>central</id>
             <name>Central Repository</name>
-            <url>http://repo.maven.apache.org/maven2</url>
+            <url>http://repo1.maven.apache.org/maven2</url>
         </repository>
         <repository>
             <snapshots>

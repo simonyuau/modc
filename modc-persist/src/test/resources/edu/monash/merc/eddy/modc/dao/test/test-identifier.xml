@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <identifier id="1" identifier="100.200.0/test1"  type="HANDLE" />
+    <identifier id="2" identifier="MON2212113-TEWTS1-TEST1"  type="LOCAL" />
+</dataset>

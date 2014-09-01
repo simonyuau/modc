@@ -21,9 +21,9 @@ public interface UserService {
 
     User getUserByUniqueId(String uniqueId);
 
-    boolean checkUserExistedName(String displayName);
+    boolean checkExistedName(String displayName);
 
-    boolean checkUserExistedUniqueId(String uniqueId);
+    boolean checkExistedUniqueId(String uniqueId);
 
     boolean checkExistedEmail(String email);
 

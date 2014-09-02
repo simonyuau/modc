@@ -32,6 +32,8 @@ import edu.monash.merc.eddy.modc.domain.MCollection;
 import edu.monash.merc.eddy.modc.repository.MCollectionRepository;
 import edu.monash.merc.eddy.modc.sql.page.Pager;
 import edu.monash.merc.eddy.modc.support.QueryHelper;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.criterion.Order;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
@@ -44,6 +46,7 @@ import java.util.Map;
  */
 @Scope("prototype")
 @Repository
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "freqRegion")
 public class MCollectionDAO extends HibernateGenericDAO<MCollection> implements MCollectionRepository {
 
     @Override
@@ -103,4 +106,14 @@ public class MCollectionDAO extends HibernateGenericDAO<MCollection> implements 
         QueryHelper.setOrderByParams(hql, "c", orderParams);
         return this.find(hql, namedParam, startPageNo, sizePerPage);
     }
+
+    @Override
+    public List<MCollection> listCollectionByParty(long partyId) {
+        //query the collection_party table
+        String hql = "SELECT c FROM " + this.persistClass.getSimpleName() + " AS c INNER JOIN c.parties AS p WHERE p.id = :partyId";
+        Map<String, Object> namedParam = QueryHelper.createNamedParam("partyId", partyId);
+        return this.list(hql, namedParam);
+    }
+
+
 }

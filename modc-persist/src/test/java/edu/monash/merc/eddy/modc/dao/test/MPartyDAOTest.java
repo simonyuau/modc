@@ -72,7 +72,7 @@ public class MPartyDAOTest {
     @Test
     @DatabaseSetup(value = "test-party-person.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-party-person.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testFindPartyByEmail() {
+    public void testGetPartyByEmail() {
         MParty party = this.partyDAO.getPartyByEmail("test2.dev2@gmail.com");
         String type = party.getType();
         assertNotNull(party);
@@ -87,7 +87,7 @@ public class MPartyDAOTest {
     @Test
     @DatabaseSetup(value = "test-party-person.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-party-person.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testFindPartyByRefKey() {
+    public void testGetPartyByRefKey() {
         MParty party = this.partyDAO.getPartyByRefKey("10");
         assertEquals("10", party.getRefKey());
     }
@@ -95,7 +95,7 @@ public class MPartyDAOTest {
     @Test
     @DatabaseSetup(value = "test-party-person.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-party-person.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testFindPartyByIdentifier() {
+    public void testGetPartyByIdentifier() {
         MParty party = this.partyDAO.getPartyByIdentifier("MON23000010");
         assertEquals("MON23000010", party.getIdentifier());
     }
@@ -103,15 +103,15 @@ public class MPartyDAOTest {
     @Test
     @DatabaseSetup(value = "test-party-person.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-party-person.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testFindPartiesByUserName() {
-        List<MParty> parties = this.partyDAO.getPartyByUserName("test1", "dev1");
+    public void testListPartiesByUserName() {
+        List<MParty> parties = this.partyDAO.listPartiesByUserName("test1", "dev1");
         assertEquals(2, parties.size());
     }
 
     @Test
     @DatabaseSetup(value = "test-party-group.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-party-group.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testFindPartyByName() {
+    public void testGetPartyByName() {
         MParty party = this.partyDAO.getPartyByName("groupParty1");
         assertNotNull(party);
         String type = party.getType();
@@ -120,5 +120,14 @@ public class MPartyDAOTest {
             String name = ((MGroup) party).getName();
             assertEquals("groupParty1", name);
         }
+    }
+
+    @Test
+    @DatabaseSetup(value = "test-collection-party.xml", type = DatabaseOperation.CLEAN_INSERT)
+    @DatabaseTearDown(value = "test-collection-party.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testListPartiesByCollection() {
+        List<MParty> parties = this.partyDAO.listPartiesByCollection(1);
+        assertNotNull(parties);
+        assertEquals(2, parties.size());
     }
 }

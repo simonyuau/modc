@@ -45,5 +45,7 @@ public interface MPartyRepository {
 
     MParty getPartyByName(String name);
 
-    List<MParty> getPartyByUserName(String firstName, String lastName);
+    List<MParty> listPartiesByUserName(String firstName, String lastName);
+
+    List<MParty> listPartiesByCollection(long collectionId);
 }

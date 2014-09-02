@@ -1,6 +1,7 @@
 package edu.monash.merc.eddy.modc.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by simonyu on 1/08/2014.
@@ -32,6 +33,9 @@ public class MParty extends Domain {
 
     @Column(name = "description", length = 2000)
     private String description;
+
+    @ManyToMany(mappedBy = "parties")
+    private List<MCollection> collections;
 
     public long getId() {
         return id;
@@ -87,5 +91,13 @@ public class MParty extends Domain {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<MCollection> getCollections() {
+        return collections;
+    }
+
+    public void setCollections(List<MCollection> collections) {
+        this.collections = collections;
     }
 }

@@ -20,7 +20,6 @@ import java.util.Map;
 /**
  * Created by simonyu on 4/08/2014.
  */
-
 @Scope("prototype")
 @Repository
 public class HibernateGenericDAO<T> implements IRepository<T> {
@@ -38,7 +37,6 @@ public class HibernateGenericDAO<T> implements IRepository<T> {
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-
 
     @SuppressWarnings("unchecked")
     public HibernateGenericDAO() {
@@ -115,6 +113,7 @@ public class HibernateGenericDAO<T> implements IRepository<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Pager<T> find(String hql, Map<String, Object> namedParams, int startPageNo, int sizePerPage) {
 
         //create a find query
@@ -144,6 +143,7 @@ public class HibernateGenericDAO<T> implements IRepository<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<T> list(String hql, Map<String, Object> namedParams) {
         Query query = createQuery(hql, true);
         QueryHelper.setNamedParams(query, namedParams);
@@ -151,6 +151,7 @@ public class HibernateGenericDAO<T> implements IRepository<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T find(String hql, Map<String, Object> namedParams) {
         Query query = createQuery(hql, true);
         QueryHelper.setNamedParams(query, namedParams);
@@ -163,11 +164,7 @@ public class HibernateGenericDAO<T> implements IRepository<T> {
             Query query = createQuery(countHql, true);
             QueryHelper.setNamedParams(query, namedParams);
             long num = (Long) query.uniqueResult();
-            if (num == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            return num == 1;
         } else {
             throw new MInvalidSQLException("invalid counting hql");
         }
@@ -180,7 +177,7 @@ public class HibernateGenericDAO<T> implements IRepository<T> {
      * @param hql a HQL query string
      * @return a Query object
      */
-    private Query createQuery(String hql, boolean cacheable) {
+    protected Query createQuery(String hql, boolean cacheable) {
         Query query = createQuery(hql);
         if (cacheable) {
             query.setCacheable(cacheable);
@@ -188,7 +185,7 @@ public class HibernateGenericDAO<T> implements IRepository<T> {
         return query;
     }
 
-    private Query createQuery(String hql) {
+    protected Query createQuery(String hql) {
         return this.session().createQuery(hql);
     }
 

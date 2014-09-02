@@ -47,7 +47,10 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by simonyu on 1/09/2014.
@@ -66,12 +69,20 @@ public class MIdentifierDAOTest {
     private MIdentifierDAO mIdentifierDao;
 
     @Test
-    @DatabaseSetup(value = "test-identifier.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-identifier.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testFindIdentifierByIdentifier() {
-        MIdentifier identifier = this.mIdentifierDao.getIdentifierByIdentifier("100.200.0/test1");
-        assertEquals("100.200.0/test1", identifier.getIdentifier());
+    @DatabaseSetup(value = "test-collection-identifier.xml", type = DatabaseOperation.CLEAN_INSERT)
+    @DatabaseTearDown(value = "test-collection-identifier.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testGetIdentifierByIdentifier() {
+        MIdentifier identifier = this.mIdentifierDao.getIdentifierByIdentifier("100.200.1/test1");
+        assertEquals("100.200.1/test1", identifier.getIdentifier());
         assertEquals(MIdentifierType.HANDLE, identifier.getType());
+    }
 
+    @Test
+    @DatabaseSetup(value = "test-collection-identifier.xml", type = DatabaseOperation.CLEAN_INSERT)
+    @DatabaseTearDown(value = "test-collection-identifier.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testListIdentifiersByCollection() {
+        List<MIdentifier> identifiers = this.mIdentifierDao.listIdentifiersByCollection(1);
+        assertNotNull(identifiers);
+        assertEquals(2, identifiers.size());
     }
 }

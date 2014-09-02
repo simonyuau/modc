@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
     <!-- user -->
-    <muser id="1" first_name="Phillip" last_name="Webb" display_name="Phillip Webb" password="12345" email="phillip.webb@gmail.com" is_activated="true" is_rejected ="false"/>
-    <muser id="2" first_name="Simon" last_name="Yu" display_name="Simon Yu" password="12345" email="simon.yu@gmail.com" is_activated="true" is_rejected ="false"/>
+    <muser id="1" first_name="Dev" last_name="MeRC" display_name="Dev MeRC" password="12345" email="dev.merc@gmail.com" unique_id="dev.merc@gmail.com" is_activated="true" is_rejected ="false"/>
+    <muser id="2" first_name="Test" last_name="Modc" display_name="Test Modc" password="12345" email="test.modc@gmail.com" unique_id="test.modc@gmail.com" is_activated="true" is_rejected ="false"/>
     <profile id="1" gender ="Male" user_id="1" city="Melbourne" country="Australia"/>
     <profile id="2" gender ="Male" user_id="2" city="Melbourne" country="Australia"/>
 
     <!-- project -->
-    <project id="1" name="atest1" unique_id = "atest1-01"  description ="this is a description" owner_id = "1" auto_publish="true" />
-    <project id="2" name="ctest2" unique_id = "ctest2-01"  description ="this is a description" owner_id = "1" auto_publish="true" />
-    <project id="3" name="dtest3" unique_id = "ftest3-01"  description ="this is a description" owner_id = "1" auto_publish="true" />
-    <project id="4" name="gtest4" unique_id = "etest4-01"  description ="this is a description" owner_id = "1" auto_publish="true" />
-    <project id="5" name="htest5" unique_id = "otest5-01"  description ="this is a description" owner_id = "1" auto_publish="true" />
-    <project id="6" name="ptest6" unique_id = "ftest6-01"  description ="this is a description" owner_id = "1" auto_publish="true" />
-    <project id="7" name="ktest7" unique_id = "atest7-01"  description ="this is a description" owner_id = "1"  auto_publish="true"/>
-    <project id="8" name="stest8" unique_id = "ptest8-01"  description ="this is a description" owner_id = "1" auto_publish="true"/>
-    <project id="9" name="wtest9" unique_id = "mtest9-01"  description ="this is a description" owner_id = "1" auto_publish="true"/>
-    <project id="10" name="gtest10" unique_id = "ntest10-01"  description ="this is a description" owner_id = "1" auto_publish="true" />
-    <project id="11" name="atest11" unique_id = "dtest11-01"  description ="this is a description" owner_id = "1" auto_publish="true"/>
-    <project id="12" name="stest12" unique_id = "dtest12-01"  description ="this is a description" owner_id = "1" auto_publish="true"/>
-    <project id="13" name="otest13" unique_id = "stest13-01"  description ="this is a description" owner_id = "1" auto_publish="true"/>
-    <project id="14" name="mtest14" unique_id = "test14-01"  description ="this is a description" owner_id = "1" auto_publish="true"/>
-    <project id="15" name="ntest15" unique_id = "test15-01"  description ="this is a description" owner_id = "1" auto_publish="true"/>
-    <project id="16" name="simontest1" unique_id = "simontest1-01"  description ="this is a simon project" owner_id = "2" />
+    <project id="1" name="mercTest1" unique_id = "atest1-01"  description ="this is a description" owner_id = "1" auto_publish="true" />
+    <project id="2" name="mercTest2" unique_id = "ctest2-01"  description ="this is a description" owner_id = "1" auto_publish="true" />
+    <project id="3" name="mercTest3" unique_id = "ftest3-01"  description ="this is a description" owner_id = "1" auto_publish="true" />
+    <project id="4" name="mercTest4" unique_id = "etest4-01"  description ="this is a description" owner_id = "1" auto_publish="true" />
+    <project id="5" name="mercTest5" unique_id = "otest5-01"  description ="this is a description" owner_id = "1" auto_publish="true" />
+    <project id="6" name="mercTest6" unique_id = "ftest6-01"  description ="this is a description" owner_id = "1" auto_publish="true" />
+    <project id="7" name="mercTest7" unique_id = "atest7-01"  description ="this is a description" owner_id = "1"  auto_publish="true"/>
+    <project id="8" name="mercTest8" unique_id = "ptest8-01"  description ="this is a description" owner_id = "1" auto_publish="true"/>
+    <project id="9" name="mercTest9" unique_id = "mtest9-01"  description ="this is a description" owner_id = "1" auto_publish="true"/>
+    <project id="10" name="mercTest10" unique_id = "ntest10-01"  description ="this is a description" owner_id = "1" auto_publish="true" />
+    <project id="11" name="mercTest11" unique_id = "dtest11-01"  description ="this is a description" owner_id = "1" auto_publish="true"/>
+    <project id="12" name="mercTest12" unique_id = "dtest12-01"  description ="this is a description" owner_id = "1" auto_publish="true"/>
+    <project id="13" name="mercTest13" unique_id = "stest13-01"  description ="this is a description" owner_id = "1" auto_publish="true"/>
+    <project id="14" name="mercTest14" unique_id = "test14-01"  description ="this is a description" owner_id = "1" auto_publish="true"/>
+    <project id="15" name="mercTest15" unique_id = "test15-01"  description ="this is a description" owner_id = "1" auto_publish="true"/>
+    <project id="16" name="modcTest1" unique_id = "modctest1-01"  description ="this is a modc test1 project" owner_id = "2" auto_publish="true"/>
 </dataset>

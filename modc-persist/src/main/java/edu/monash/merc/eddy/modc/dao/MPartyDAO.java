@@ -32,6 +32,8 @@ import edu.monash.merc.eddy.modc.domain.MParty;
 import edu.monash.merc.eddy.modc.repository.MPartyRepository;
 import edu.monash.merc.eddy.modc.support.QueryHelper;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
@@ -43,6 +45,7 @@ import java.util.Map;
  */
 @Scope("prototype")
 @Repository
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "freqRegion")
 public class MPartyDAO extends HibernateGenericDAO<MParty> implements MPartyRepository {
 
     @Override
@@ -74,10 +77,17 @@ public class MPartyDAO extends HibernateGenericDAO<MParty> implements MPartyRepo
     }
 
     @Override
-    public List<MParty> getPartyByUserName(String firstName, String lastName) {
+    public List<MParty> listPartiesByUserName(String firstName, String lastName) {
         String hql = "FROM " + this.persistClass.getSimpleName() + " AS p WHERE lower(p.firstName) = :firstName AND lower(p.lastName) = :lastName";
         Map<String, Object> namedParams = QueryHelper.createNamedParam("firstName", StringUtils.lowerCase(firstName));
         namedParams = QueryHelper.addNamedParam(namedParams, "lastName", StringUtils.lowerCase(lastName));
         return this.list(hql, namedParams);
+    }
+
+    @Override
+    public List<MParty> listPartiesByCollection(long collectionId) {
+        String hql = "SELECT p FROM " + this.persistClass.getSimpleName() + " AS p INNER JOIN p.collections AS c WHERE c.id = :collectionId";
+        Map<String, Object> namedParam = QueryHelper.createNamedParam("collectionId", collectionId);
+        return this.list(hql, namedParam);
     }
 }

@@ -30,12 +30,15 @@ package edu.monash.merc.eddy.modc.dao;
 import edu.monash.merc.eddy.modc.domain.Profile;
 import edu.monash.merc.eddy.modc.repository.ProfileRepository;
 import org.hibernate.Criteria;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 @Scope("prototype")
 @Repository
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "freqRegion")
 public class ProfileDAO extends HibernateGenericDAO<Profile> implements ProfileRepository {
 
     @Override

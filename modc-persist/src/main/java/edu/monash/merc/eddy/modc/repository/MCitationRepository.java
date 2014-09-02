@@ -28,22 +28,14 @@
 
 package edu.monash.merc.eddy.modc.repository;
 
-import edu.monash.merc.eddy.modc.domain.MCollection;
-import edu.monash.merc.eddy.modc.domain.MCollectionParty;
-import edu.monash.merc.eddy.modc.domain.MParty;
+import edu.monash.merc.eddy.modc.domain.MCitation;
 
 import java.util.List;
 
 /**
- * Created by simonyu on 1/09/2014.
+ * Created by simonyu on 2/09/2014.
  */
-public interface MCollectionPartyRepository {
+public interface MCitationRepository {
 
-    List<MCollection> getCollectionsByParty(long partyId);
-
-    List<MParty> getPartiesByCollection(long collectionId);
-
-    MCollectionParty getCollectionParty(long collectionId, long partyId);
-
-
+    List<MCitation> listCitationsByCollection(long collectionId);
 }

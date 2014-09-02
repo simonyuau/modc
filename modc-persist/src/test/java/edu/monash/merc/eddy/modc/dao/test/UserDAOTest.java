@@ -45,31 +45,32 @@ public class UserDAOTest {
     @DatabaseTearDown(value = "test-user.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetUserById() {
         User user = this.userDao.get(1);
-        assertEquals("Phillip", user.getFirstName());
+        assertNotNull(user);
+        assertEquals("Dev", user.getFirstName());
     }
 
     @Test
     @DatabaseSetup(value = "test-user.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-user.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetUserByUniqueId() {
-        User user = this.userDao.getUserByUniqueId("phillip.webb@gmail.com");
+        User user = this.userDao.getUserByUniqueId("test.modc@gmail.com");
         assertNotNull(user);
-        assertEquals("Phillip", user.getFirstName());
+        assertEquals("Test", user.getFirstName());
     }
 
     @Test
     @DatabaseSetup(value = "test-user.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-user.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetUserByEmail() {
-        User user = this.userDao.getUserByEmail("phillip.webb@gmail.com");
+        User user = this.userDao.getUserByEmail("dev.merc@gmail.com");
         assertNotNull(user);
-        assertEquals("Phillip", user.getFirstName());
+        assertEquals("Dev", user.getFirstName());
     }
 
     @Test
     @DatabaseSetup(value = "test-user.xml", type = DatabaseOperation.CLEAN_INSERT)
     //don't need database teardown to clean database, it's deleted by test case
-    public void testDeleteUser() {
+    public void testDeleteUserById() {
         this.userDao.delete(1);
         User user = this.userDao.get(1);
         assertNull(user);
@@ -78,21 +79,19 @@ public class UserDAOTest {
     @Test
     @DatabaseSetup(value = "test-user.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-user.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testUserLogin() {
-        User user = this.userDao.checkUserLogin("phillip.webb@gmail.com", "12345");
+    public void testCheckUserLogin() {
+        User user = this.userDao.checkUserLogin("dev.merc@gmail.com", "12345");
         assertNotNull(user);
-        assertEquals("phillip.webb@gmail.com", user.getUniqueId());
+        assertEquals("dev.merc@gmail.com", user.getUniqueId());
     }
 
     @Test
     @DatabaseSetup(value = "test-user.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-user.xml", type = DatabaseOperation.DELETE_ALL)
-    public void checkUserName() {
-        boolean nameExisted= this.userDao.checkExistedName("phillip webb");
-       assertTrue(nameExisted);
+    public void testCheckExistedName() {
+        boolean nameExisted = this.userDao.checkExistedName("Dev MeRC");
+        assertTrue(nameExisted);
     }
-
-
 
 
 }

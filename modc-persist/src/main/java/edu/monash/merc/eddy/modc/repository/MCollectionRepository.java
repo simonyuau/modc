@@ -55,4 +55,6 @@ public interface MCollectionRepository {
 
     Pager<MCollection> getCollectionsByProject(long projectId, int startPageNo, int sizePerPage, Order[] orderParams);
 
+    List<MCollection> listCollectionByParty(long partyId);
+
 }

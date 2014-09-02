@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <muser id="1" first_name="Phillip" last_name="Webb" display_name="Phillip Webb" password="12345" email="phillip.webb@gmail.com" unique_id="phillip.webb@gmail.com" is_activated="true" is_rejected ="false" registered_date="2014-08-29 12:30:15"/>
+    <!-- user -->
+    <muser id="1" first_name="Dev" last_name="MeRC" display_name="Dev MeRC" password="12345" email="dev.merc@gmail.com" unique_id="dev.merc@gmail.com" is_activated="true" is_rejected ="false"/>
+    <muser id="2" first_name="Test" last_name="Modc" display_name="Test Modc" password="12345" email="test.modc@gmail.com" unique_id="test.modc@gmail.com" is_activated="true" is_rejected ="false"/>
     <profile id="1" gender ="Male" user_id="1" city="Melbourne" country="Australia"/>
+    <profile id="2" gender ="Male" user_id="2" city="Melbourne" country="Australia"/>
 </dataset>

@@ -48,10 +48,10 @@ import java.util.Map;
  */
 @Scope("prototype")
 @Repository
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "fixedRegion")
 public class MProjectDAO extends HibernateGenericDAO<MProject> implements MProjectRepository {
 
     @Override
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "fixedRegion")
     public MProject getByUniqueId(String uniqueId) {
         String hql = "FROM " + this.persistClass.getSimpleName() + " AS p WHERE p.uniqueId =:uniqueId";
         Map<String, Object> namedParams = QueryHelper.createNamedParam("uniqueId", uniqueId);
@@ -59,7 +59,6 @@ public class MProjectDAO extends HibernateGenericDAO<MProject> implements MProje
     }
 
     @Override
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "fixedRegion")
     public MProject getByProjectName(String projectName) {
         String hql = "FROM " + this.persistClass.getSimpleName() + " AS p WHERE lower(p.name) =:name";
         Map<String, Object> namedParams = QueryHelper.createNamedParam("name", StringUtils.lowerCase(projectName));
@@ -67,7 +66,6 @@ public class MProjectDAO extends HibernateGenericDAO<MProject> implements MProje
     }
 
     @Override
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "fixedRegion")
     public List<MProject> getProjectsByUser(long userId, Order[] orderParams) {
         String hql = "FROM " + this.persistClass.getSimpleName() + " AS p WHERE p.owner.id =:id";
 
@@ -79,7 +77,6 @@ public class MProjectDAO extends HibernateGenericDAO<MProject> implements MProje
     }
 
     @Override
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "fixedRegion")
     public Pager<MProject> getPagedProjectsByUser(long userId, int startPageNo, int sizePerPage, Order[] orderParams) {
         String hql = "FROM " + this.persistClass.getSimpleName() + " AS p WHERE p.owner.id= :id";
         //create named params
@@ -87,6 +84,5 @@ public class MProjectDAO extends HibernateGenericDAO<MProject> implements MProje
         //set order by if any
         hql = QueryHelper.setOrderByParams(hql, "p", orderParams);
         return this.find(hql, namedParams, startPageNo, sizePerPage);
-
     }
 }

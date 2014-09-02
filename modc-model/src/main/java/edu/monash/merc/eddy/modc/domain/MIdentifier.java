@@ -20,6 +20,10 @@ public class MIdentifier extends Domain {
     @Column(name = "type")
     private MIdentifierType type;
 
+    @ManyToOne(targetEntity = MCollection.class)
+    @JoinColumn(name = "collection_id", referencedColumnName = "id", nullable = false)
+    private MCollection collection;
+
     public long getId() {
         return id;
     }
@@ -42,5 +46,13 @@ public class MIdentifier extends Domain {
 
     public void setType(MIdentifierType type) {
         this.type = type;
+    }
+
+    public MCollection getCollection() {
+        return collection;
+    }
+
+    public void setCollection(MCollection collection) {
+        this.collection = collection;
     }
 }

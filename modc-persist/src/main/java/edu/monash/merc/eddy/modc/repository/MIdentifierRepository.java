@@ -30,6 +30,8 @@ package edu.monash.merc.eddy.modc.repository;
 
 import edu.monash.merc.eddy.modc.domain.MIdentifier;
 
+import java.util.List;
+
 /**
  * Created by simonyu on 1/09/2014.
  */
@@ -37,4 +39,5 @@ public interface MIdentifierRepository {
 
     MIdentifier getIdentifierByIdentifier(String identifier);
 
+    List<MIdentifier> listIdentifiersByCollection(long collectionId);
 }

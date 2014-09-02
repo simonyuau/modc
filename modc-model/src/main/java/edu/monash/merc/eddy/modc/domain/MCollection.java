@@ -2,8 +2,11 @@ package edu.monash.merc.eddy.modc.domain;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,27 +54,31 @@ public class MCollection extends Domain {
     private MCoverage coverage;
 
     @OneToMany(mappedBy = "collection", targetEntity = MPublication.class, fetch = FetchType.LAZY)
-    @Cascade({CascadeType.SAVE_UPDATE,CascadeType.DELETE})
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
     private List<MPublication> publications;
 
     @OneToMany(mappedBy = "collection", targetEntity = MCitation.class, fetch = FetchType.LAZY)
-    @Cascade({CascadeType.SAVE_UPDATE,CascadeType.DELETE})
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
     private List<MCitation> citations;
 
-    @OneToMany(mappedBy = "collection", targetEntity = MCollectionIdentifier.class, fetch = FetchType.LAZY)
-    @Cascade(CascadeType.DELETE)
-    private List<MCollectionIdentifier> collectionIdentifiers;
+    @OneToMany(mappedBy = "collection", targetEntity = MIdentifier.class, fetch = FetchType.LAZY)
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
+    private List<MIdentifier> identifiers;
 
-    @OneToMany(mappedBy = "collection", targetEntity = MCollectionParty.class, fetch = FetchType.LAZY)
-    @Cascade(CascadeType.DELETE)
-    private List<MCollectionParty> collectionParties;
+    @ManyToMany(targetEntity = MParty.class, fetch = FetchType.LAZY)
+    @JoinTable(name = "collection_party", joinColumns = {@JoinColumn(name = "collection_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "party_id", referencedColumnName = "id")}, uniqueConstraints = {@UniqueConstraint(columnNames = {
+            "collection_id", "party_id"})})
+    @LazyCollection(LazyCollectionOption.TRUE)
+    private List<MParty> parties = new ArrayList<>();
 
-    @OneToMany(mappedBy = "collection", targetEntity = MCollectionKeyword.class, fetch = FetchType.LAZY)
-    @Cascade(CascadeType.DELETE)
-    private List<MCollectionKeyword> collectionKeywords;
+    @ManyToMany(targetEntity = MKeyword.class, fetch = FetchType.LAZY)
+    @JoinTable(name = "collection_keyword", joinColumns = {@JoinColumn(name = "collection_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "keyword_id", referencedColumnName = "id")}, uniqueConstraints = {@UniqueConstraint(columnNames = {
+            "collection_id", "keyword_id"})})
+    @LazyCollection(LazyCollectionOption.TRUE)
+    private List<MKeyword> keywords = new ArrayList<>();
 
     @OneToMany(mappedBy = "collection", targetEntity = MLicence.class, fetch = FetchType.LAZY)
-    @Cascade({CascadeType.SAVE_UPDATE,CascadeType.DELETE})
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
     private List<MLicence> licences;
 
     @ManyToOne(targetEntity = MProject.class)
@@ -174,28 +181,28 @@ public class MCollection extends Domain {
         this.citations = citations;
     }
 
-    public List<MCollectionIdentifier> getCollectionIdentifiers() {
-        return collectionIdentifiers;
+    public List<MIdentifier> getIdentifiers() {
+        return identifiers;
     }
 
-    public void setCollectionIdentifiers(List<MCollectionIdentifier> collectionIdentifiers) {
-        this.collectionIdentifiers = collectionIdentifiers;
+    public void setIdentifiers(List<MIdentifier> identifiers) {
+        this.identifiers = identifiers;
     }
 
-    public List<MCollectionParty> getCollectionParties() {
-        return collectionParties;
+    public List<MParty> getParties() {
+        return parties;
     }
 
-    public void setCollectionParties(List<MCollectionParty> collectionParties) {
-        this.collectionParties = collectionParties;
+    public void setParties(List<MParty> parties) {
+        this.parties = parties;
     }
 
-    public List<MCollectionKeyword> getCollectionKeywords() {
-        return collectionKeywords;
+    public List<MKeyword> getKeywords() {
+        return keywords;
     }
 
-    public void setCollectionKeywords(List<MCollectionKeyword> collectionKeywords) {
-        this.collectionKeywords = collectionKeywords;
+    public void setKeywords(List<MKeyword> keywords) {
+        this.keywords = keywords;
     }
 
     public List<MLicence> getLicences() {

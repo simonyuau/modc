@@ -32,10 +32,8 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
-import edu.monash.merc.eddy.modc.dao.MProjectDAO;
-import edu.monash.merc.eddy.modc.domain.MProject;
-import edu.monash.merc.eddy.modc.sql.condition.SqlOrderBy;
-import edu.monash.merc.eddy.modc.sql.page.Pager;
+import edu.monash.merc.eddy.modc.dao.MCitationDAO;
+import edu.monash.merc.eddy.modc.domain.MCitation;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,9 +49,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
- * Created by simonyu on 26/08/2014.
+ * Created by simonyu on 2/09/2014.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:/test-dao.xml"})
@@ -63,54 +62,17 @@ import static org.junit.Assert.assertEquals;
         DbUnitTestExecutionListener.class})
 @TransactionConfiguration(defaultRollback = false, transactionManager = "transactionManager")
 @Transactional
-public class MProjectDAOTest {
+public class MCitationDAOTest {
 
     @Autowired
-    public MProjectDAO mProjectDAO;
-
-    public void setmProjectDAO(MProjectDAO mProjectDAO) {
-        this.mProjectDAO = mProjectDAO;
-    }
+    private MCitationDAO citationDao;
 
     @Test
-    @DatabaseSetup(value = "test-project.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-project.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testGetPagedProjectsByUser() {
-        SqlOrderBy myOrders = SqlOrderBy.asc("name").desc("uniqueId");
-
-        Pager<MProject> pagedProjects = this.mProjectDAO.getPagedProjectsByUser(1, 0, 12, myOrders.orders());
-
-        System.out.println("current page : " + pagedProjects.getPageNo() + " ===== total pages: " + pagedProjects.getNextPage() + " == total records: " + pagedProjects.getTotalSize());
-        List<MProject> projects = pagedProjects.getPageResults();
-
-        for (MProject project : projects) {
-            System.out.println("======== project: name: " + project.getName() + " uniqueId: " + project.getUniqueId());
-        }
-        assertEquals(12, pagedProjects.getSizePerPage());
-    }
-
-
-    @Test
-    @DatabaseSetup(value = "test-project.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-project.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testGetProjectsByUser() {
-        List<MProject> allProjects = this.mProjectDAO.getProjectsByUser(1, null);
-        assertEquals(15, allProjects.size());
-    }
-
-    @Test
-    @DatabaseSetup(value = "test-project.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-project.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testGetByProjectName() {
-        MProject project = this.mProjectDAO.getByProjectName("MercTest5");
-        assertEquals("mercTest5", project.getName());
-    }
-
-    @Test
-    @DatabaseSetup(value = "test-project.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-project.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testGetProjectByUniqueId() {
-        MProject project = this.mProjectDAO.getByUniqueId("modctest1-01");
-        assertEquals("modctest1-01", project.getUniqueId());
+    @DatabaseSetup(value = "test-collection-citation.xml", type = DatabaseOperation.CLEAN_INSERT)
+    @DatabaseTearDown(value = "test-collection-citation.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testListIdentifiersByCollection() {
+        List<MCitation> citations = this.citationDao.listCitationsByCollection(1);
+        assertNotNull(citations);
+        assertEquals(2, citations.size());
     }
 }

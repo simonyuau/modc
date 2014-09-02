@@ -28,8 +28,8 @@
 
 package edu.monash.merc.eddy.modc.dao;
 
-import edu.monash.merc.eddy.modc.domain.MIdentifier;
-import edu.monash.merc.eddy.modc.repository.MIdentifierRepository;
+import edu.monash.merc.eddy.modc.domain.MCitation;
+import edu.monash.merc.eddy.modc.repository.MCitationRepository;
 import edu.monash.merc.eddy.modc.support.QueryHelper;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -40,22 +40,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by simonyu on 1/09/2014.
+ * Created by simonyu on 2/09/2014.
  */
 @Scope("prototype")
 @Repository
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "freqRegion")
-public class MIdentifierDAO extends HibernateGenericDAO<MIdentifier> implements MIdentifierRepository {
-    @Override
-    public MIdentifier getIdentifierByIdentifier(String identifier) {
-        String hql = "FROM " + this.persistClass.getSimpleName() + " AS i WHERE i.identifier = :identifier";
-        Map<String, Object> namedParam = QueryHelper.createNamedParam("identifier", identifier);
-        return this.find(hql, namedParam);
-    }
+public class MCitationDAO extends HibernateGenericDAO<MCitation> implements MCitationRepository {
 
     @Override
-    public List<MIdentifier> listIdentifiersByCollection(long collectionId) {
-        String hql = "FROM " + this.persistClass.getSimpleName() + " AS i WHERE i.collection.id = :collectionId";
+    public List<MCitation> listCitationsByCollection(long collectionId) {
+        String hql = "FROM " + this.persistClass.getSimpleName() + " AS ci WHERE ci.collection.id = :collectionId";
         Map<String, Object> namedParam = QueryHelper.createNamedParam("collectionId", collectionId);
         return this.list(hql, namedParam);
     }

@@ -28,9 +28,10 @@
 
 package edu.monash.merc.eddy.modc.dao;
 
-import edu.monash.merc.eddy.modc.domain.MIdentifier;
-import edu.monash.merc.eddy.modc.repository.MIdentifierRepository;
+import edu.monash.merc.eddy.modc.domain.MKeyword;
+import edu.monash.merc.eddy.modc.repository.MKeywordRepository;
 import edu.monash.merc.eddy.modc.support.QueryHelper;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.context.annotation.Scope;
@@ -40,22 +41,24 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by simonyu on 1/09/2014.
+ * Created by simonyu on 2/09/2014.
  */
 @Scope("prototype")
 @Repository
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "freqRegion")
-public class MIdentifierDAO extends HibernateGenericDAO<MIdentifier> implements MIdentifierRepository {
+public class MKeywordDAO extends HibernateGenericDAO<MKeyword> implements MKeywordRepository {
+
     @Override
-    public MIdentifier getIdentifierByIdentifier(String identifier) {
-        String hql = "FROM " + this.persistClass.getSimpleName() + " AS i WHERE i.identifier = :identifier";
-        Map<String, Object> namedParam = QueryHelper.createNamedParam("identifier", identifier);
+    public MKeyword getKeyword(String keyword) {
+        String hql = "FROM " + this.persistClass.getSimpleName() + " AS k WHERE lower(k.keyword) = :keyword";
+        Map<String, Object> namedParam = QueryHelper.createNamedParam("keyword", StringUtils.lowerCase(keyword));
         return this.find(hql, namedParam);
     }
 
     @Override
-    public List<MIdentifier> listIdentifiersByCollection(long collectionId) {
-        String hql = "FROM " + this.persistClass.getSimpleName() + " AS i WHERE i.collection.id = :collectionId";
+    public List<MKeyword> listKeywordsByCollection(long collectionId) {
+        //query the collection_keyword table
+        String hql = "SELECT k FROM " + this.persistClass.getSimpleName() + " AS k INNER JOIN k.collections AS c WHERE c.id = :collectionId";
         Map<String, Object> namedParam = QueryHelper.createNamedParam("collectionId", collectionId);
         return this.list(hql, namedParam);
     }

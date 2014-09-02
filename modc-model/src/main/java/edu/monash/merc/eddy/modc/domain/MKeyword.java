@@ -1,6 +1,7 @@
 package edu.monash.merc.eddy.modc.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by simonyu on 22/08/2014.
@@ -18,6 +19,9 @@ public class MKeyword extends Domain {
 
     @Column(name = "keyword")
     private String keyword;
+
+    @ManyToMany(mappedBy = "keywords")
+    private List<MCollection> collections;
 
     public long getId() {
         return id;
@@ -41,5 +45,13 @@ public class MKeyword extends Domain {
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    public List<MCollection> getCollections() {
+        return collections;
+    }
+
+    public void setCollections(List<MCollection> collections) {
+        this.collections = collections;
     }
 }

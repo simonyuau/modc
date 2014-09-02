@@ -48,10 +48,10 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by simonyu on 1/09/2014.
@@ -73,7 +73,7 @@ public class MCollectionDAOTest {
     @Test
     @DatabaseSetup(value = "test-collection.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-collection.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testFindCollectionByRefKeyAndProject() {
+    public void testGetCollectionByRefKeyAndProject() {
         MCollection collection = this.mCollectionDAO.getCollectionByRefKeyAndProject("101", 1);
         assertNotNull(collection);
         assertEquals("101", collection.getRefKey());
@@ -83,7 +83,7 @@ public class MCollectionDAOTest {
     @Test
     @DatabaseSetup(value = "test-collection.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-collection.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testFindCollectionByNameAndProject() {
+    public void testGetCollectionByNameAndProject() {
         MCollection collection = this.mCollectionDAO.getCollectionByNameAndProject("test-collection3", 16);
         assertNotNull(collection);
         assertEquals("test-collection3", collection.getName());
@@ -103,7 +103,7 @@ public class MCollectionDAOTest {
     @Test
     @DatabaseSetup(value = "test-collection.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-collection.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testFindCollectionsByUser() {
+    public void testGetCollectionsByUser() {
         SqlOrderBy myOrders = SqlOrderBy.desc("name");
         Pager<MCollection> pagedCollections = this.mCollectionDAO.getCollectionsByUser(1, 0, 5, myOrders.orders());
         assertEquals(5, pagedCollections.getPageResults().size());
@@ -113,7 +113,7 @@ public class MCollectionDAOTest {
     @Test
     @DatabaseSetup(value = "test-collection.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-collection.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testlistCollectionsByProject() {
+    public void testListCollectionsByProject() {
         SqlOrderBy myOrders = SqlOrderBy.desc("name");
         List<MCollection> collections = this.mCollectionDAO.listCollectionsByProject(16, myOrders.orders());
         assertEquals(2, collections.size());
@@ -123,10 +123,22 @@ public class MCollectionDAOTest {
     @Test
     @DatabaseSetup(value = "test-collection.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-collection.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testFindCollectionsByProject() {
+    public void testGetCollectionsByProject() {
         SqlOrderBy myOrders = SqlOrderBy.desc("name");
         Pager<MCollection> pagedCollections = this.mCollectionDAO.getCollectionsByProject(1, 0, 9, myOrders.orders());
         assertEquals(8, pagedCollections.getPageResults().size());
         assertEquals("test-collection1", pagedCollections.getPageResults().get(0).getName());
+    }
+
+    @Test
+    @DatabaseSetup(value = "test-collection-party.xml", type = DatabaseOperation.CLEAN_INSERT)
+    @DatabaseTearDown(value = "test-collection-party.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testListCollectionsByParty() {
+        List<MCollection> collections = this.mCollectionDAO.listCollectionByParty(1);
+        System.out.println("==========> found collection size : " + collections.size());
+        for(MCollection collection: collections) {
+            System.out.println("==== collection name : " + collection.getName());
+        }
+        assertEquals(4, collections.size());
     }
 }

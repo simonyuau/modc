@@ -28,29 +28,28 @@
 
 package edu.monash.merc.eddy.modc.dao;
 
-import edu.monash.merc.eddy.modc.domain.MCollection;
-import edu.monash.merc.eddy.modc.domain.MCollectionParty;
-import edu.monash.merc.eddy.modc.domain.MParty;
-import edu.monash.merc.eddy.modc.repository.MCollectionPartyRepository;
+import edu.monash.merc.eddy.modc.domain.MPublication;
+import edu.monash.merc.eddy.modc.repository.MPublicationRepository;
+import edu.monash.merc.eddy.modc.support.QueryHelper;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * Created by simonyu on 1/09/2014.
+ * Created by simonyu on 2/09/2014.
  */
-public class MCollectionPartyDAO extends HibernateGenericDAO<MCollectionParty> implements MCollectionPartyRepository {
+@Scope("prototype")
+@Repository
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "freqRegion")
+public class MPublicationDAO extends HibernateGenericDAO<MPublication> implements MPublicationRepository {
     @Override
-    public List<MCollection> getCollectionsByParty(long partyId) {
-        return null;
-    }
-
-    @Override
-    public List<MParty> getPartiesByCollection(long collectionId) {
-        return null;
-    }
-
-    @Override
-    public MCollectionParty getCollectionParty(long collectionId, long partyId) {
-        return null;
+    public List<MPublication> listPublicationsByCollection(long collectionId) {
+        String hql = "FROM " + this.persistClass.getSimpleName() + " AS pub WHERE pub.collection.id = :collectionId";
+        Map<String, Object> namedParam = QueryHelper.createNamedParam("collectionId", collectionId);
+        return this.list(hql, namedParam);
     }
 }

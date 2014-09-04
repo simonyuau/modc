@@ -28,18 +28,17 @@
 
 package edu.monash.merc.eddy.modc.repository;
 
-import edu.monash.merc.eddy.modc.domain.MKeyword;
+import edu.monash.merc.eddy.modc.domain.MLicence;
 
 import java.util.List;
 
 /**
- * Created by simonyu on 2/09/2014.
+ * Monash University eResearch Center
+ * <p/>
+ * Created by simonyu - xiaoming.yu@monash.edu
+ * Date: 4/09/2014
  */
-public interface MKeywordRepository {
+public interface MLicenceRepository {
 
-    MKeyword getKeyword(String keyword);
-
-    List<MKeyword> listKeywordsByCollection(long collectionId);
-
-    List<MKeyword> listKeywordsLikeSearchName(String searchKey);
+    List<MLicence> listLicencesByCollection(long collectionId);
 }

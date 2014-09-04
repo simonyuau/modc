@@ -32,8 +32,8 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
-import edu.monash.merc.eddy.modc.dao.MKeywordDAO;
-import edu.monash.merc.eddy.modc.domain.MKeyword;
+import edu.monash.merc.eddy.modc.dao.MLicenceDAO;
+import edu.monash.merc.eddy.modc.domain.MLicence;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * Created by simonyu on 2/09/2014.
+ * Monash University eResearch Center
+ * <p/>
+ * Created by simonyu - xiaoming.yu@monash.edu
+ * Date: 4/09/2014
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:/test-dao.xml"})
@@ -62,41 +65,17 @@ import static org.junit.Assert.assertNotNull;
         DbUnitTestExecutionListener.class})
 @TransactionConfiguration(defaultRollback = false, transactionManager = "transactionManager")
 @Transactional
-public class MKeywordDAOTest {
+public class MLicenceDAOTest {
 
     @Autowired
-    private MKeywordDAO mKeywordDao;
+    private MLicenceDAO licenceDao;
 
     @Test
-    @DatabaseSetup(value = "test-collection-keyword.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-collection-keyword.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testGetkeyword() {
-        MKeyword keyword = this.mKeywordDao.getKeyword("EIF3B");
-        assertNotNull(keyword);
-        assertEquals("EIF3B", keyword.getKeyword());
+    @DatabaseSetup(value = "test-collection-licence.xml", type = DatabaseOperation.CLEAN_INSERT)
+    @DatabaseTearDown(value = "test-collection-licence.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testListLicencesByCollection() {
+        List<MLicence> licences = this.licenceDao.listLicencesByCollection(1);
+        assertNotNull(licences);
+        assertEquals(2, licences.size());
     }
-
-
-    @Test
-    @DatabaseSetup(value = "test-collection-keyword.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-collection-keyword.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testListKeywordsByCollection() {
-        List<MKeyword> keywords = this.mKeywordDao.listKeywordsByCollection(1);
-        assertNotNull(keywords);
-        assertEquals(5, keywords.size());
-    }
-
-    @Test
-    @DatabaseSetup(value = "test-keyword.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-keyword.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testListKeywordsLikeSearchName() {
-        List<MKeyword> keywords = this.mKeywordDao.listKeywordsLikeSearchName("OzFlux");
-        assertNotNull(keywords);
-        assertEquals(2, keywords.size());
-        for(MKeyword keyword: keywords){
-            System.out.println("=========> found keyword : " + keyword.getKeyword());
-        }
-    }
-
-
 }

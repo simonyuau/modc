@@ -32,8 +32,8 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
-import edu.monash.merc.eddy.modc.dao.MKeywordDAO;
-import edu.monash.merc.eddy.modc.domain.MKeyword;
+import edu.monash.merc.eddy.modc.dao.MCoverageDAO;
+import edu.monash.merc.eddy.modc.domain.MCoverage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +45,6 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -62,41 +60,17 @@ import static org.junit.Assert.assertNotNull;
         DbUnitTestExecutionListener.class})
 @TransactionConfiguration(defaultRollback = false, transactionManager = "transactionManager")
 @Transactional
-public class MKeywordDAOTest {
+public class MCoverageDAOTest {
 
     @Autowired
-    private MKeywordDAO mKeywordDao;
+    private MCoverageDAO coverageDao;
 
     @Test
-    @DatabaseSetup(value = "test-collection-keyword.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-collection-keyword.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testGetkeyword() {
-        MKeyword keyword = this.mKeywordDao.getKeyword("EIF3B");
-        assertNotNull(keyword);
-        assertEquals("EIF3B", keyword.getKeyword());
+    @DatabaseSetup(value = "test-collection-coverage.xml", type = DatabaseOperation.CLEAN_INSERT)
+    @DatabaseTearDown(value = "test-collection-coverage.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testListIdentifiersByCollection() {
+        MCoverage coverage = this.coverageDao.getCoverageByCollection(1);
+        assertNotNull(coverage);
+        assertEquals(1, coverage.getCollection().getId());
     }
-
-
-    @Test
-    @DatabaseSetup(value = "test-collection-keyword.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-collection-keyword.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testListKeywordsByCollection() {
-        List<MKeyword> keywords = this.mKeywordDao.listKeywordsByCollection(1);
-        assertNotNull(keywords);
-        assertEquals(5, keywords.size());
-    }
-
-    @Test
-    @DatabaseSetup(value = "test-keyword.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-keyword.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testListKeywordsLikeSearchName() {
-        List<MKeyword> keywords = this.mKeywordDao.listKeywordsLikeSearchName("OzFlux");
-        assertNotNull(keywords);
-        assertEquals(2, keywords.size());
-        for(MKeyword keyword: keywords){
-            System.out.println("=========> found keyword : " + keyword.getKeyword());
-        }
-    }
-
-
 }

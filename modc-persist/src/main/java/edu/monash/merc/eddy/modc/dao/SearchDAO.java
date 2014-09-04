@@ -28,12 +28,13 @@
 
 package edu.monash.merc.eddy.modc.dao;
 
+import edu.monash.merc.eddy.modc.domain.MCollection;
 import edu.monash.merc.eddy.modc.domain.MKeyword;
-import edu.monash.merc.eddy.modc.repository.MKeywordRepository;
 import edu.monash.merc.eddy.modc.support.QueryHelper;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
@@ -41,31 +42,36 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by simonyu on 2/09/2014.
+ * Monash University eResearch Center
+ * <p/>
+ * Created by simonyu - xiaoming.yu@monash.edu
+ * Date: 2/09/2014
  */
+
 @Scope("prototype")
 @Repository
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "freqRegion")
-public class MKeywordDAO extends HibernateGenericDAO<MKeyword> implements MKeywordRepository {
+public class SearchDAO extends HibernateGenericDAO<MCollection> {
 
-    @Override
-    public MKeyword getKeyword(String keyword) {
-        String hql = "FROM " + this.persistClass.getSimpleName() + " AS k WHERE lower(k.keyword) = :keyword";
-        Map<String, Object> namedParam = QueryHelper.createNamedParam("keyword", StringUtils.lowerCase(keyword));
-        return this.find(hql, namedParam);
+    @Autowired
+    private MKeywordDAO keywordDao;
+
+    public void setKeywordDao(MKeywordDAO keywordDao) {
+        this.keywordDao = keywordDao;
     }
 
-    @Override
-    public List<MKeyword> listKeywordsByCollection(long collectionId) {
-        //query the collection_keyword table
-        String hql = "SELECT k FROM " + this.persistClass.getSimpleName() + " AS k INNER JOIN k.collections AS c WHERE c.id = :collectionId";
-        Map<String, Object> namedParam = QueryHelper.createNamedParam("collectionId", collectionId);
-        return this.list(hql, namedParam);
-    }
-
-    @Override
-    public List<MKeyword> listKeywordsLikeSearchName(String searchKey) {
-        String hql = "FROM " + this.persistClass.getSimpleName() + " AS k WHERE lower(k.keyword) like '%" + StringUtils.lowerCase(searchKey) + "%'";
-        return this.list(hql, null);
+    public List<MCollection> listCollectionsByKeyword(String keyword) {
+        List<MKeyword> foundKeywords = this.keywordDao.listKeywordsLikeSearchName(keyword);
+        String hql = "SELECT DISTINCT c FROM " + this.persistClass.getSimpleName() + " AS c INNER JOIN c.keywords AS k";
+        //found key words, then we search any collections with keyword and also search any collections' names contain keyword
+        if (foundKeywords != null && foundKeywords.size() > 0) {
+            hql += " WHERE k in (:keywords) or lower(c.name) like '%" + StringUtils.lowerCase(keyword) + "%'";
+            Map<String, Object> namedParam = QueryHelper.createNamedParam("keywords", foundKeywords);
+            return this.list(hql, namedParam);
+        } else {
+            //here we only search collections which contain the keyword.
+            hql += " WHERE lower(c.name) like '%" + StringUtils.lowerCase(keyword) + "%'";
+            return this.list(hql, null);
+        }
     }
 }

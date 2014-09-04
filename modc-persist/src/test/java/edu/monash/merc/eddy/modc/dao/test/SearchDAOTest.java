@@ -32,8 +32,8 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
-import edu.monash.merc.eddy.modc.dao.MKeywordDAO;
-import edu.monash.merc.eddy.modc.domain.MKeyword;
+import edu.monash.merc.eddy.modc.dao.SearchDAO;
+import edu.monash.merc.eddy.modc.domain.MCollection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * Created by simonyu on 2/09/2014.
+ * Monash University eResearch Center
+ * <p/>
+ * Created by simonyu - xiaoming.yu@monash.edu
+ * Date: 2/09/2014
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:/test-dao.xml"})
@@ -62,41 +65,25 @@ import static org.junit.Assert.assertNotNull;
         DbUnitTestExecutionListener.class})
 @TransactionConfiguration(defaultRollback = false, transactionManager = "transactionManager")
 @Transactional
-public class MKeywordDAOTest {
+public class SearchDAOTest {
 
     @Autowired
-    private MKeywordDAO mKeywordDao;
-
-    @Test
-    @DatabaseSetup(value = "test-collection-keyword.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-collection-keyword.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testGetkeyword() {
-        MKeyword keyword = this.mKeywordDao.getKeyword("EIF3B");
-        assertNotNull(keyword);
-        assertEquals("EIF3B", keyword.getKeyword());
-    }
+    private SearchDAO searchDao;
 
 
     @Test
     @DatabaseSetup(value = "test-collection-keyword.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-collection-keyword.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testListKeywordsByCollection() {
-        List<MKeyword> keywords = this.mKeywordDao.listKeywordsByCollection(1);
-        assertNotNull(keywords);
-        assertEquals(5, keywords.size());
-    }
-
-    @Test
-    @DatabaseSetup(value = "test-keyword.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-keyword.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testListKeywordsLikeSearchName() {
-        List<MKeyword> keywords = this.mKeywordDao.listKeywordsLikeSearchName("OzFlux");
-        assertNotNull(keywords);
-        assertEquals(2, keywords.size());
-        for(MKeyword keyword: keywords){
-            System.out.println("=========> found keyword : " + keyword.getKeyword());
+    public void testListCollectionsByKeyword(){
+        List<MCollection> collections = this.searchDao.listCollectionsByKeyword("de-collection12");
+        assertNotNull(collections);
+        for(MCollection collection: collections){
+            System.out.println("=========> found collection with the search keyword : " +  collection.getName());
         }
+        assertEquals(1, collections.size());
+
+//        for(MCollection collection: collections){
+//            System.out.println("=========> found collection with the search keyword : " +  collection.getName());
+//        }
     }
-
-
 }

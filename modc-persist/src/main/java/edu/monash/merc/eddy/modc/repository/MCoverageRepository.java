@@ -28,18 +28,15 @@
 
 package edu.monash.merc.eddy.modc.repository;
 
-import edu.monash.merc.eddy.modc.domain.MKeyword;
-
-import java.util.List;
+import edu.monash.merc.eddy.modc.domain.MCoverage;
 
 /**
- * Created by simonyu on 2/09/2014.
+ * Monash University eResearch Center
+ * <p/>
+ * Created by simonyu - xiaoming.yu@monash.edu
+ * Date: 4/09/2014
  */
-public interface MKeywordRepository {
+public interface MCoverageRepository {
 
-    MKeyword getKeyword(String keyword);
-
-    List<MKeyword> listKeywordsByCollection(long collectionId);
-
-    List<MKeyword> listKeywordsLikeSearchName(String searchKey);
+    MCoverage getCoverageByCollection(long collectionId);
 }

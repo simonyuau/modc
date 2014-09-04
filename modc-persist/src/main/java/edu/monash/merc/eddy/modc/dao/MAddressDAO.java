@@ -26,20 +26,32 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.repository;
+package edu.monash.merc.eddy.modc.dao;
 
-import edu.monash.merc.eddy.modc.domain.MKeyword;
+import edu.monash.merc.eddy.modc.domain.MAddress;
+import edu.monash.merc.eddy.modc.repository.MAddressRepository;
+import edu.monash.merc.eddy.modc.support.QueryHelper;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Map;
 
 /**
- * Created by simonyu on 2/09/2014.
+ * Monash University eResearch Center
+ * <p/>
+ * Created by simonyu - xiaoming.yu@monash.edu
+ * Date: 4/09/2014
  */
-public interface MKeywordRepository {
-
-    MKeyword getKeyword(String keyword);
-
-    List<MKeyword> listKeywordsByCollection(long collectionId);
-
-    List<MKeyword> listKeywordsLikeSearchName(String searchKey);
+@Scope("prototype")
+@Repository
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "freqRegion")
+public class MAddressDAO extends HibernateGenericDAO<MAddress> implements MAddressRepository {
+    @Override
+    public MAddress getAddressByCollection(long collectionId) {
+        String hql = "FROM " + this.persistClass.getSimpleName() + " AS ad WHERE ad.collection.id = :collectionId";
+        Map<String, Object> namedParam = QueryHelper.createNamedParam("collectionId", collectionId);
+        return this.find(hql, namedParam);
+    }
 }

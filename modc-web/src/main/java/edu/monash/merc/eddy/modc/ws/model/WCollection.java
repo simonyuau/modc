@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import edu.monash.merc.eddy.modc.ws.jaxbadapter.SimpleJaxbDateAdapter;
+import edu.monash.merc.eddy.modc.ws.jaxbadapter.JaxbDateTimeAdapter;
 
 
 /**
@@ -75,11 +75,11 @@ public class WCollection {
     protected String name;
     protected String description;
     @XmlElement(type = String.class)
-    @XmlJavaTypeAdapter(SimpleJaxbDateAdapter.class)
+    @XmlJavaTypeAdapter(JaxbDateTimeAdapter.class)
     @XmlSchemaType(name = "dateTime")
     protected Date createdDate;
     @XmlElement(type = String.class)
-    @XmlJavaTypeAdapter(SimpleJaxbDateAdapter.class)
+    @XmlJavaTypeAdapter(JaxbDateTimeAdapter.class)
     @XmlSchemaType(name = "dateTime")
     protected Date endDate;
     protected String postalAddress;

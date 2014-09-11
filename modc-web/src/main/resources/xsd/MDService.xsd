@@ -53,8 +53,6 @@
         </restriction>
     </simpleType>
 
-
-
      <!-- identifier -->
     <complexType name="WIdentifier">
         <simpleContent>

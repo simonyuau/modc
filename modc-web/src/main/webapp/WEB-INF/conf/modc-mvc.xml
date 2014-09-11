@@ -28,7 +28,17 @@
         <property name="webBindingInitializer">
             <bean class="edu.monash.merc.eddy.modc.web.bind.BindingInitializer"/>
         </property>
+
+        <!-- Configure to plugin JSON as request and response in method handler -->
+        <property name="messageConverters">
+            <list>
+                <ref bean="jsonMessageConverter"/>
+            </list>
+        </property>
     </bean>
+
+    <!-- Configure bean to convert JSON to POJO and vice versa -->
+    <bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
 
     <!-- FreeMarker Configuration -->
     <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
@@ -52,6 +62,7 @@
                 <prop key="number_format">0.######</prop>
                 <prop key="whitespace_stripping">true</prop>
                 <prop key="auto_import">/WEB-INF/ftl/spring.ftl as s</prop>
+                <prop key="strict_syntax">true</prop>
             </props>
         </property>
     </bean>
@@ -73,4 +84,12 @@
         <property name="prefix" value="/WEB-INF/view/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <!-- file upload with progress monitor -->
+    <bean id="multipartResolver" class="edu.monash.merc.eddy.modc.web.multipart.MonitoredCommonsMultipartResolver">
+        <!--<property name="defaultEncoding" value="UTF-8"/>-->
+        <property name="maxUploadSize" value="1000000000"/>
+        <property name="uploadTempDir" value="upload/temp"/>
+    </bean>
+
 </beans>

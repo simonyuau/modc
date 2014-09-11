@@ -30,6 +30,86 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link UpdateDoiRequest }
+     * 
+     */
+    public UpdateDoiRequest createUpdateDoiRequest() {
+        return new UpdateDoiRequest();
+    }
+
+    /**
+     * Create an instance of {@link DResource }
+     * 
+     */
+    public DResource createDResource() {
+        return new DResource();
+    }
+
+    /**
+     * Create an instance of {@link MintDoiResponse }
+     * 
+     */
+    public MintDoiResponse createMintDoiResponse() {
+        return new MintDoiResponse();
+    }
+
+    /**
+     * Create an instance of {@link MintDoiRequest }
+     * 
+     */
+    public MintDoiRequest createMintDoiRequest() {
+        return new MintDoiRequest();
+    }
+
+    /**
+     * Create an instance of {@link UpdateDoiResponse }
+     * 
+     */
+    public UpdateDoiResponse createUpdateDoiResponse() {
+        return new UpdateDoiResponse();
+    }
+
+    /**
+     * Create an instance of {@link DNameIdentifier }
+     * 
+     */
+    public DNameIdentifier createDNameIdentifier() {
+        return new DNameIdentifier();
+    }
+
+    /**
+     * Create an instance of {@link DCreator }
+     * 
+     */
+    public DCreator createDCreator() {
+        return new DCreator();
+    }
+
+    /**
+     * Create an instance of {@link DContributor }
+     * 
+     */
+    public DContributor createDContributor() {
+        return new DContributor();
+    }
+
+    /**
+     * Create an instance of {@link DSubject }
+     * 
+     */
+    public DSubject createDSubject() {
+        return new DSubject();
+    }
+
+    /**
+     * Create an instance of {@link DTitle }
+     * 
+     */
+    public DTitle createDTitle() {
+        return new DTitle();
+    }
+
+    /**
      * Create an instance of {@link WPublishResponse }
      * 
      */

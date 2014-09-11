@@ -102,6 +102,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID"
         <url-pattern>/ws/*</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>ws</servlet-name>
+        <url-pattern>*.wsdl</url-pattern>
+    </servlet-mapping>
+
     <error-page>
         <error-code>404</error-code>
         <location>/WEB-INF/view/error/404.html</location>

@@ -136,9 +136,22 @@ public class MCollectionDAOTest {
     public void testListCollectionsByParty() {
         List<MCollection> collections = this.mCollectionDAO.listCollectionByParty(1);
         System.out.println("==========> found collection size : " + collections.size());
-        for(MCollection collection: collections) {
+        for (MCollection collection : collections) {
             System.out.println("==== collection name : " + collection.getName());
         }
         assertEquals(4, collections.size());
+    }
+
+    @Test
+    @DatabaseSetup(value = "test-collection-party.xml", type = DatabaseOperation.CLEAN_INSERT)
+    @DatabaseTearDown(value = "test-collection-party.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testGetCollectionsByParty() {
+        SqlOrderBy myOrders = SqlOrderBy.desc("name");
+        Pager<MCollection> pagedCollections = this.mCollectionDAO.getCollectionsByParty(1, 0, 3, myOrders.orders());
+        assertEquals(3, pagedCollections.getPageResults().size());
+
+        for (MCollection collection : pagedCollections.getPageResults()) {
+            System.out.println("==== paged collection name : " + collection.getName());
+        }
     }
 }

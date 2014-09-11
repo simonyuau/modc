@@ -11,7 +11,7 @@ import java.util.GregorianCalendar;
 /**
  * Created by simonyu on 1/08/2014.
  */
-public class SimpleJaxbDateAdapter extends XmlAdapter<String, Date> {
+public class JaxbDateTimeAdapter extends XmlAdapter<String, Date> {
 
     //private static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
@@ -19,13 +19,13 @@ public class SimpleJaxbDateAdapter extends XmlAdapter<String, Date> {
 
     @Override
     public Date unmarshal(String strDate) throws Exception {
-       return DatatypeConverter.parseDate(strDate).getTime();
+       return DatatypeConverter.parseDateTime(strDate).getTime();
     }
 
     @Override
     public String marshal(Date date) throws Exception {
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(date);
-        return DatatypeConverter.printDate(calendar);
+        return DatatypeConverter.printDateTime(calendar);
     }
 }

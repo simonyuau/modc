@@ -9,9 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-/**
- * Created by simonyu on 12/08/2014.
- */
 public class SystemPropertiesConfigurer extends PropertyPlaceholderConfigurer {
 
     private Map<String, String> resolvedProps;

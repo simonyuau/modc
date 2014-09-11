@@ -116,4 +116,12 @@ public class MCollectionDAO extends HibernateGenericDAO<MCollection> implements 
     }
 
 
+    @Override
+    public Pager<MCollection> getCollectionsByParty(long partyId, int startPageNo, int sizePerPage, Order[] orderParams) {
+        //query the collection_party table
+        String hql = "SELECT c FROM " + this.persistClass.getSimpleName() + " AS c INNER JOIN c.parties AS p WHERE p.id = :partyId";
+        Map<String, Object> namedParam = QueryHelper.createNamedParam("partyId", partyId);
+        QueryHelper.setOrderByParams(hql, "c", orderParams);
+        return this.find(hql, namedParam, startPageNo, sizePerPage);
+    }
 }

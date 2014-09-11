@@ -307,6 +307,17 @@ input {
     display: inline-block;
 }
 
+.content_none_border_div {
+    margin: 5px;
+}
+
+.file_uploading_div {
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
 
 
 /** === Footer === **/

@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  * 
  */
-@XmlType(name = "WPublishResponseCode")
+@XmlType(name = "WPublishResponseCode", namespace = "http://merc.monash.edu/ws/schema/mds")
 @XmlEnum
 public enum WPublishResponseCode {
 

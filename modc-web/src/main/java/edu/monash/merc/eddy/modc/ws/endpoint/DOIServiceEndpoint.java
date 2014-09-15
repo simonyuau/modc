@@ -35,7 +35,6 @@ import edu.monash.merc.eddy.modc.ws.model.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -69,8 +68,8 @@ public class DOIServiceEndpoint {
         //TODO Call ANDS DOI Service
 
 
-        String title = request.getResource().getTitle().get(0).getValue();
-        String creatorName = request.getResource().getCreator().get(0).getCreatorName();
+        String title = request.getResource().getTitles().getTitle().get(0).getValue();
+        String creatorName = request.getResource().getCreators().getCreator().get(0).getCreatorName();
         String publisher = request.getResource().getPublisher();
         Date publicationYear = request.getResource().getPublicationYear();
         String url = request.getUrl();
@@ -85,8 +84,8 @@ public class DOIServiceEndpoint {
         //TODO Call ANDS DOI Service
 
         String doi = request.getDoi();
-        String title = request.getResource().getTitle().get(0).getValue();
-        String creatorName = request.getResource().getCreator().get(0).getCreatorName();
+        String title = request.getResource().getTitles().getTitle().get(0).getValue();
+        String creatorName = request.getResource().getCreators().getCreator().get(0).getCreatorName();
         String publisher = request.getResource().getPublisher();
         Date publicationYear = request.getResource().getPublicationYear();
         String url = request.getUrl();
@@ -97,7 +96,7 @@ public class DOIServiceEndpoint {
     private MintDoiResponse generateMintResponse(DoiResponse response, String serviceId) {
         MintDoiResponse mintDoiResponse = JAXB_OBJECT_FACTORY.createMintDoiResponse();
         mintDoiResponse.setResponsecode(DResponseCode.fromValue(response.getResponseCode()));
-        mintDoiResponse.setType(DResponseType.fromValue(response.getType()));
+        mintDoiResponse.setType(DResponseTypeAtt.fromValue(response.getType()));
         mintDoiResponse.setServiceId(serviceId);
         mintDoiResponse.setDoi(response.getDoi());
         mintDoiResponse.setMessage(response.getMessage());
@@ -108,7 +107,7 @@ public class DOIServiceEndpoint {
     private UpdateDoiResponse generateUpdateResponse(DoiResponse response, String serviceId) {
         UpdateDoiResponse updateDoiResponse = JAXB_OBJECT_FACTORY.createUpdateDoiResponse();
         updateDoiResponse.setResponsecode(DResponseCode.fromValue(response.getResponseCode()));
-        updateDoiResponse.setType(DResponseType.fromValue(response.getType()));
+        updateDoiResponse.setType(DResponseTypeAtt.fromValue(response.getType()));
         updateDoiResponse.setServiceId(serviceId);
         updateDoiResponse.setDoi(response.getDoi());
         updateDoiResponse.setMessage(response.getMessage());

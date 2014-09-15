@@ -35,14 +35,14 @@ import javax.xml.bind.annotation.XmlType;
     "message",
     "result"
 })
-@XmlRootElement(name = "WPublishResponse")
+@XmlRootElement(name = "WPublishResponse", namespace = "http://merc.monash.edu/ws/schema/mds")
 public class WPublishResponse {
 
-    @XmlElement(required = true)
+    @XmlElement(namespace = "http://merc.monash.edu/ws/schema/mds", required = true)
     protected WPublishResponseCode code;
-    @XmlElement(required = true)
+    @XmlElement(namespace = "http://merc.monash.edu/ws/schema/mds", required = true)
     protected String message;
-    @XmlElement(required = true)
+    @XmlElement(namespace = "http://merc.monash.edu/ws/schema/mds", required = true)
     protected WPublishResponseResult result;
 
     /**

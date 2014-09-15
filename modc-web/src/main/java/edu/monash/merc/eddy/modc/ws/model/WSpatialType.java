@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  * 
  */
-@XmlType(name = "WSpatialType")
+@XmlType(name = "WSpatialType", namespace = "http://merc.monash.edu/ws/schema/mds")
 @XmlEnum
 public enum WSpatialType {
 

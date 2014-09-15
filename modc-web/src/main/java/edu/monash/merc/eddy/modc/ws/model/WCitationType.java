@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  * 
  */
-@XmlType(name = "WCitationType")
+@XmlType(name = "WCitationType", namespace = "http://merc.monash.edu/ws/schema/mds")
 @XmlEnum
 public enum WCitationType {
 

@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlValue;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "WIdentifier", propOrder = {
+@XmlType(name = "WIdentifier", namespace = "http://merc.monash.edu/ws/schema/mds", propOrder = {
     "value"
 })
 public class WIdentifier {

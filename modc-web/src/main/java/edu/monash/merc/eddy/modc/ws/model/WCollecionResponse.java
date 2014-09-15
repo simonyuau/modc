@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "WCollecionResponse", propOrder = {
+@XmlType(name = "WCollecionResponse", namespace = "http://merc.monash.edu/ws/schema/mds", propOrder = {
     "key",
     "identifier",
     "party"

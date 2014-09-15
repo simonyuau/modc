@@ -70,11 +70,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DRelevantDate }
+     * Create an instance of {@link DResourceType }
      * 
      */
-    public DRelevantDate createDRelevantDate() {
-        return new DRelevantDate();
+    public DResourceType createDResourceType() {
+        return new DResourceType();
     }
 
     /**
@@ -86,11 +86,91 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DDescription }
+     * 
+     */
+    public DDescription createDDescription() {
+        return new DDescription();
+    }
+
+    /**
      * Create an instance of {@link DNameIdentifier }
      * 
      */
     public DNameIdentifier createDNameIdentifier() {
         return new DNameIdentifier();
+    }
+
+    /**
+     * Create an instance of {@link DRelatedIdentifiers }
+     * 
+     */
+    public DRelatedIdentifiers createDRelatedIdentifiers() {
+        return new DRelatedIdentifiers();
+    }
+
+    /**
+     * Create an instance of {@link DContributors }
+     * 
+     */
+    public DContributors createDContributors() {
+        return new DContributors();
+    }
+
+    /**
+     * Create an instance of {@link DAlternateIdentifiers }
+     * 
+     */
+    public DAlternateIdentifiers createDAlternateIdentifiers() {
+        return new DAlternateIdentifiers();
+    }
+
+    /**
+     * Create an instance of {@link DTitles }
+     * 
+     */
+    public DTitles createDTitles() {
+        return new DTitles();
+    }
+
+    /**
+     * Create an instance of {@link DSizes }
+     * 
+     */
+    public DSizes createDSizes() {
+        return new DSizes();
+    }
+
+    /**
+     * Create an instance of {@link DAlternateIdentifier }
+     * 
+     */
+    public DAlternateIdentifier createDAlternateIdentifier() {
+        return new DAlternateIdentifier();
+    }
+
+    /**
+     * Create an instance of {@link DTitle }
+     * 
+     */
+    public DTitle createDTitle() {
+        return new DTitle();
+    }
+
+    /**
+     * Create an instance of {@link DFormats }
+     * 
+     */
+    public DFormats createDFormats() {
+        return new DFormats();
+    }
+
+    /**
+     * Create an instance of {@link DCreators }
+     * 
+     */
+    public DCreators createDCreators() {
+        return new DCreators();
     }
 
     /**
@@ -102,11 +182,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DDescriptions }
+     * 
+     */
+    public DDescriptions createDDescriptions() {
+        return new DDescriptions();
+    }
+
+    /**
      * Create an instance of {@link DContributor }
      * 
      */
     public DContributor createDContributor() {
         return new DContributor();
+    }
+
+    /**
+     * Create an instance of {@link DRelatedIdentifier }
+     * 
+     */
+    public DRelatedIdentifier createDRelatedIdentifier() {
+        return new DRelatedIdentifier();
     }
 
     /**
@@ -118,11 +214,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DTitle }
+     * Create an instance of {@link DSubjects }
      * 
      */
-    public DTitle createDTitle() {
-        return new DTitle();
+    public DSubjects createDSubjects() {
+        return new DSubjects();
+    }
+
+    /**
+     * Create an instance of {@link DDates }
+     * 
+     */
+    public DDates createDDates() {
+        return new DDates();
     }
 
     /**

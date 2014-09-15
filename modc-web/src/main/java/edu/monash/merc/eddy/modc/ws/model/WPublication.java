@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "WPublication", propOrder = {
+@XmlType(name = "WPublication", namespace = "http://merc.monash.edu/ws/schema/mds", propOrder = {
     "url",
     "title"
 })

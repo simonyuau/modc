@@ -33,12 +33,12 @@ import javax.xml.bind.annotation.XmlType;
     "appId",
     "collection"
 })
-@XmlRootElement(name = "WPublishRequest")
+@XmlRootElement(name = "WPublishRequest", namespace = "http://merc.monash.edu/ws/schema/mds")
 public class WPublishRequest {
 
-    @XmlElement(required = true)
+    @XmlElement(namespace = "http://merc.monash.edu/ws/schema/mds", required = true)
     protected String appId;
-    @XmlElement(required = true)
+    @XmlElement(namespace = "http://merc.monash.edu/ws/schema/mds", required = true)
     protected WCollection collection;
 
     /**

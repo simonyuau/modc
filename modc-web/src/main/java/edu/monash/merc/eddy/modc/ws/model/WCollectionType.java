@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  * 
  */
-@XmlType(name = "WCollectionType")
+@XmlType(name = "WCollectionType", namespace = "http://merc.monash.edu/ws/schema/mds")
 @XmlEnum
 public enum WCollectionType {
 

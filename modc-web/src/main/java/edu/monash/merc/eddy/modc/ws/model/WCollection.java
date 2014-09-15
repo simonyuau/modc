@@ -49,7 +49,7 @@ import edu.monash.merc.eddy.modc.ws.jaxbadapter.JaxbDateTimeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "WCollection", propOrder = {
+@XmlType(name = "WCollection", namespace = "http://merc.monash.edu/ws/schema/mds", propOrder = {
     "key",
     "identifier",
     "name",

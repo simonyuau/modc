@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  * 
  */
-@XmlType(name = "WAddressType")
+@XmlType(name = "WAddressType", namespace = "http://merc.monash.edu/ws/schema/mds")
 @XmlEnum
 public enum WAddressType {
 

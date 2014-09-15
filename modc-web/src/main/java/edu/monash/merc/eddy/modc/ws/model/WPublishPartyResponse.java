@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "WPublishPartyResponse", propOrder = {
+@XmlType(name = "WPublishPartyResponse", namespace = "http://merc.monash.edu/ws/schema/mds", propOrder = {
     "key",
     "identifier"
 })

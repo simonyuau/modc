@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  * 
  */
-@XmlType(name = "WIdentifierType")
+@XmlType(name = "WIdentifierType", namespace = "http://merc.monash.edu/ws/schema/mds")
 @XmlEnum
 public enum WIdentifierType {
 

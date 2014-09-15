@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "WGroup", propOrder = {
+@XmlType(name = "WGroup", namespace = "http://merc.monash.edu/ws/schema/mds", propOrder = {
     "name"
 })
 public class WGroup {

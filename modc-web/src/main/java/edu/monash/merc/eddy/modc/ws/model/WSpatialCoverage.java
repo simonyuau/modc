@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlValue;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "WSpatialCoverage", propOrder = {
+@XmlType(name = "WSpatialCoverage", namespace = "http://merc.monash.edu/ws/schema/mds", propOrder = {
     "value"
 })
 public class WSpatialCoverage {

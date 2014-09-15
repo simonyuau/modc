@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
-    targetNamespace="http://merc.monash.edu/ws/schema/doi"
-    xmlns:doi="http://merc.monash.edu/ws/schema/doi" elementFormDefault="qualified"
-    attributeFormDefault="qualified">
+        targetNamespace="http://merc.monash.edu/ws/schema/doi"
+        xmlns:doi="http://merc.monash.edu/ws/schema/doi" elementFormDefault="qualified"
+        attributeFormDefault="qualified">
     <complexType name="DResource">
         <sequence>
             <element name="creator" type="doi:DCreator" minOccurs="1" maxOccurs="unbounded"/>
@@ -11,16 +11,21 @@
             <element name="publicationYear" type="date" minOccurs="1" maxOccurs="1"/>
             <element name="subject" type="doi:DSubject" minOccurs="0" maxOccurs="unbounded"/>
             <element name="contributor" type="doi:DContributor" minOccurs="0" maxOccurs="unbounded"/>
+            <element name="dates" type="doi:DRelevantDate" minOccurs="0" />
         </sequence>
     </complexType>
-    
+
     <complexType name="DCreator">
+        <annotation>
+            <documentation>The main researchers involved working on the data, or the authors of the publication in priority order. May be a corporate/institutional or personal name.</documentation>
+            <documentation>Format: Family, Given.</documentation>
+        </annotation>
         <sequence>
             <element name="creatorName" type="doi:NoneEmptyStringType" minOccurs="1" maxOccurs="1"/>
-            <element name="nameIdentifier" type="doi:DNameIdentifier" minOccurs="0"/>
+            <element name="nameIdentifier" type="doi:DNameIdentifier" minOccurs="0" maxOccurs="1"/>
         </sequence>
     </complexType>
-    
+
     <complexType name="DNameIdentifier">
         <simpleContent>
             <extension base="doi:NoneEmptyStringType">
@@ -28,39 +33,78 @@
             </extension>
         </simpleContent>
     </complexType>
-    
+
     <complexType name="DTitle">
+        <annotation>
+            <documentation>A name or title by which a resource is known.</documentation>
+        </annotation>
         <simpleContent>
             <extension base="doi:NoneEmptyStringType">
                 <attribute name="titleType" type="doi:DTitleType" use="optional"/>
             </extension>
         </simpleContent>
     </complexType>
-    
+
     <complexType name="DSubject">
+        <annotation>
+            <documentation>Subject, keywords, classification codes, or key phrases describing the resource.</documentation>
+        </annotation>
         <simpleContent>
             <extension base="doi:NoneEmptyStringType">
                 <attribute name="subjectScheme" type="string" use="optional"/>
             </extension>
         </simpleContent>
     </complexType>
-    
+
     <complexType name="DContributor">
+        <annotation>
+            <documentation>The institution or person responsible for collecting, creating, or otherwise contributing to the developement of the dataset.</documentation>
+            <documentation>The personal name format should be: Family, Given.</documentation>
+        </annotation>
         <sequence>
             <element name="contributorName" type="doi:NoneEmptyStringType" minOccurs="1"
-                maxOccurs="1"/>
-            <element name="nameIdentifier" type="doi:DNameIdentifier" minOccurs="0"/>
+                     maxOccurs="1"/>
+            <element name="nameIdentifier" type="doi:DNameIdentifier" minOccurs="0" maxOccurs="1"/>
         </sequence>
         <attribute name="contributorType" type="doi:DContributorType" use="required"/>
     </complexType>
-    
+
+    <complexType name="DRelevantDate">
+        <sequence>
+            <element name="date" type="doi:DDate" maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+
+    <complexType name="DDate">
+        <simpleContent>
+            <extension base="dateTime">
+                <attribute name="dateType" type="doi:DDateType" use="required"/>
+            </extension>
+        </simpleContent>
+    </complexType>
+
+    <simpleType name="DDateType">
+        <restriction base="string">
+            <enumeration value="Accepted"/><!--The date that the publisher accepted the resource into their system.-->
+            <enumeration value="Available"/><!--The date the resource is made publicly available. May be a range.-->
+            <enumeration value="Copyrighted"/><!--The specific, documented date at which the resource receives a copyrighted status, if applicable.-->
+            <enumeration value="Created"/><!--The date the resource itself was put together; this could be a date range or a single date for a final component, e.g., the finalised file with all of the data.-->
+            <enumeration value="EndDate"/><!--Use if any other date type covers a range-->
+            <enumeration value="Issued"/><!--The date that the resource is published or distributed e.g. to a data center.-->
+            <enumeration value="StartDate"/><!--Use if any other date type covers a range.-->
+            <enumeration value="Submitted"/><!--The date the creator submits the resource to the publisher. This could be different from Accepted if the publisher then applies a selection process.-->
+            <enumeration value="Updated"/><!--The date of the last update to the resource, when the resource is being added to. May be a range.-->
+            <enumeration value="Valid"/>
+        </restriction>
+    </simpleType>
+
     <simpleType name="NoneEmptyStringType">
         <restriction base="string">
             <minLength value="1"/>
             <maxLength value="4000"/>
         </restriction>
     </simpleType>
-    
+
     <simpleType name="DTitleType">
         <restriction base="string">
             <enumeration value="AlternativeTitle"/>
@@ -68,7 +112,7 @@
             <enumeration value="TranslatedTitle"/>
         </restriction>
     </simpleType>
-    
+
     <simpleType name="DContributorType">
         <annotation>
             <documentation>The type of contributor of the resource.</documentation>
@@ -120,14 +164,14 @@
             <enumeration value="MT091"/>
         </restriction>
     </simpleType>
-    
+
     <simpleType name="DResponseType">
         <restriction base="string">
             <enumeration value="success"/>
             <enumeration value="failure"/>
         </restriction>
     </simpleType>
-    
+
     <simpleType name="DoiUrlType">
         <restriction base="string">
             <pattern value="(https?://)?[-\w.]+(:\d{2,5})?(/([\w/_.]*)?)?" />

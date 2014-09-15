@@ -56,7 +56,6 @@ public class DOIServiceEndpoint {
     private final ObjectFactory JAXB_OBJECT_FACTORY = new ObjectFactory();
 
     @Autowired
-    @Qualifier("doiService")
     private HttpDOIService doiService;
 
     @PayloadRoot(localPart = "MintDoiRequest", namespace = SERVICE_NS)

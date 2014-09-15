@@ -28,6 +28,10 @@
 
 package edu.monash.merc.eddy.modc.common.util;
 
+import org.apache.commons.lang.StringUtils;
+
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -43,5 +47,17 @@ public class MDUtils {
     public static String yyyyDateFormat(Date date) {
         SimpleDateFormat yyyydf = new SimpleDateFormat(YYYY_DATE_FORMAT);
         return yyyydf.format(date);
+    }
+
+    public static String replaceURLAmpsands(String url) {
+        return StringUtils.replace(url, "&", "&amp;");
+    }
+    public static String pathEncode(String fileName) throws Exception {
+        String encodedStr = URLEncoder.encode(fileName, "UTF-8");
+        return encodedStr;
+    }
+
+    public static String pathDecode(String path) throws Exception {
+        return URLDecoder.decode(path, "UTF-8");
     }
 }

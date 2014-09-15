@@ -70,6 +70,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DRelevantDate }
+     * 
+     */
+    public DRelevantDate createDRelevantDate() {
+        return new DRelevantDate();
+    }
+
+    /**
+     * Create an instance of {@link DDate }
+     * 
+     */
+    public DDate createDDate() {
+        return new DDate();
+    }
+
+    /**
      * Create an instance of {@link DNameIdentifier }
      * 
      */

@@ -26,44 +26,37 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.common.util;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+package edu.monash.merc.eddy.modc.domain.doi;
 
 /**
  * Monash University eResearch Center
  * <p/>
  * Created by simonyu - xiaoming.yu@monash.edu
- * Date: 11/09/2014
+ * Date: 16/09/2014
  */
-public class MDUtils {
-    private static final String YYYY_DATE_FORMAT = "yyyy";
+public enum DoiDescriptionType {
 
-    private static final String YYYYMMDD_DATE_FORMAT = "yyyy-MM-dd";
+    ABSTRACT("Abstract"),
+    SERIES_INFORMATION("SeriesInformation"),
+    TABLE_OF_CONTENTS("TableOfContents"),
+    OTHER("Other");
+    private final String value;
 
-    public static String yyyyDateFormat(Date date) {
-        SimpleDateFormat yyyydf = new SimpleDateFormat(YYYY_DATE_FORMAT);
-        return yyyydf.format(date);
-    }
-
-    public static String yyyyMMDDDateFormat(Date date) {
-        SimpleDateFormat yyyymmdddf = new SimpleDateFormat(YYYYMMDD_DATE_FORMAT);
-        return yyyymmdddf.format(date);
-    }
-    public static String replaceURLAmpsands(String url) {
-        return StringUtils.replace(url, "&", "&amp;");
-    }
-    public static String pathEncode(String fileName) throws Exception {
-        String encodedStr = URLEncoder.encode(fileName, "UTF-8");
-        return encodedStr;
+    DoiDescriptionType(String v) {
+        value = v;
     }
 
-    public static String pathDecode(String path) throws Exception {
-        return URLDecoder.decode(path, "UTF-8");
+    public String value() {
+        return value;
     }
+
+    public static DoiDescriptionType fromValue(String v) {
+        for (DoiDescriptionType c : DoiDescriptionType.values()) {
+            if (c.value.equals(v)) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException(v);
+    }
+
 }

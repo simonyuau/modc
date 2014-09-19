@@ -26,44 +26,55 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.common.util;
+package edu.monash.merc.eddy.modc.domain.doi;
 
-import org.apache.commons.lang.StringUtils;
-
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import edu.monash.merc.eddy.modc.domain.Domain;
 
 /**
  * Monash University eResearch Center
  * <p/>
  * Created by simonyu - xiaoming.yu@monash.edu
- * Date: 11/09/2014
+ * Date: 16/09/2014
  */
-public class MDUtils {
-    private static final String YYYY_DATE_FORMAT = "yyyy";
+public class DoiContributor extends Domain {
 
-    private static final String YYYYMMDD_DATE_FORMAT = "yyyy-MM-dd";
+    private long id;
 
-    public static String yyyyDateFormat(Date date) {
-        SimpleDateFormat yyyydf = new SimpleDateFormat(YYYY_DATE_FORMAT);
-        return yyyydf.format(date);
+    private String contributorName;
+
+    private DoiNameIdentifier nameIdentifier;
+
+    private String contributorType;
+
+    public long getId() {
+        return id;
     }
 
-    public static String yyyyMMDDDateFormat(Date date) {
-        SimpleDateFormat yyyymmdddf = new SimpleDateFormat(YYYYMMDD_DATE_FORMAT);
-        return yyyymmdddf.format(date);
-    }
-    public static String replaceURLAmpsands(String url) {
-        return StringUtils.replace(url, "&", "&amp;");
-    }
-    public static String pathEncode(String fileName) throws Exception {
-        String encodedStr = URLEncoder.encode(fileName, "UTF-8");
-        return encodedStr;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public static String pathDecode(String path) throws Exception {
-        return URLDecoder.decode(path, "UTF-8");
+    public String getContributorName() {
+        return contributorName;
+    }
+
+    public void setContributorName(String contributorName) {
+        this.contributorName = contributorName;
+    }
+
+    public DoiNameIdentifier getNameIdentifier() {
+        return nameIdentifier;
+    }
+
+    public void setNameIdentifier(DoiNameIdentifier nameIdentifier) {
+        this.nameIdentifier = nameIdentifier;
+    }
+
+    public String getContributorType() {
+        return contributorType;
+    }
+
+    public void setContributorType(String contributorType) {
+        this.contributorType = contributorType;
     }
 }

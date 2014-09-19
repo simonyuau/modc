@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *         &lt;element name="serviceId" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="doi" type="{http://merc.monash.edu/ws/schema/doi}Doi"/>
  *         &lt;element name="resource" type="{http://merc.monash.edu/ws/schema/doi}DResource"/>
- *         &lt;element name="url" type="{http://merc.monash.edu/ws/schema/doi}DUrl"/>
+ *         &lt;element name="url" type="{http://merc.monash.edu/ws/schema/doi}DUrl" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -49,7 +49,6 @@ public class UpdateDoiRequest {
     protected String doi;
     @XmlElement(required = true)
     protected DResource resource;
-    @XmlElement(required = true)
     protected String url;
 
     /**

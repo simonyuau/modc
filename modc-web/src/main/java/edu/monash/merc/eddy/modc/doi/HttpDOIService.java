@@ -28,8 +28,9 @@
 
 package edu.monash.merc.eddy.modc.doi;
 
-import edu.monash.merc.eddy.modc.common.exception.MWSException;
-import edu.monash.merc.eddy.modc.common.util.MDUtils;
+import edu.monash.merc.eddy.modc.domain.doi.*;
+import edu.monash.merc.eddy.modc.ws.exception.DoiServiceException;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
@@ -42,6 +43,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -65,7 +67,13 @@ public class HttpDOIService {
         this.freeMarkerDoiTempLoader = freeMarkerDoiTempLoader;
     }
 
-    public DoiResponse mintDoi(String creatorName, String title, String publisher, Date publicationDate, String url) {
+    /**
+     * Mint DOI service
+     *
+     * @param doiResource A DoiResource object
+     * @return a DoiResponse object
+     */
+    public DoiResponse mintDoi(DoiResource doiResource) {
         CloseableHttpClient client = null;
         try {
             String doiServicePoint = this.doiServiceHelper.getDoiServicePoint();
@@ -73,21 +81,29 @@ public class HttpDOIService {
             String doiMintSuffix = this.doiServiceHelper.getDoiMintSuffix();
             String appId = this.doiServiceHelper.getAppId();
 
+            String url = doiResource.getUrl();
+
             String mint_service_url = doiServicePoint + "/" + doiVersion + "/" + doiMintSuffix + "/?app_id=" + appId + "&url=" + url;
 
-            System.out.println("==== request mint doi url " + mint_service_url);
+            if (logger.isDebugEnabled()) {
+                logger.debug("The url of minting doi is: " + mint_service_url);
+            }
             //create a client
             client = this.doiServiceHelper.createClient();
             HttpPost post = new HttpPost(mint_service_url);
-            byte[] doiXmls = loadDoiXML(null, creatorName, title, publisher, publicationDate);
+            byte[] doiXmls = loadDoiResource(doiResource);
 
             ByteArrayEntity byteArrayEntity = new ByteArrayEntity(doiXmls);
+            if (logger.isDebugEnabled()) {
+                logger.debug("The Doi XML file: " + new String(doiXmls));
+            }
             post.setEntity(byteArrayEntity);
 
             HttpResponse httpResponse = client.execute(post);
 
-            System.out.println("===> ANDS DOI minting response : " + httpResponse.getStatusLine().getStatusCode());
-
+            if (logger.isDebugEnabled()) {
+                logger.debug("The minting Doi response status code: " + httpResponse.getStatusLine().getStatusCode());
+            }
             BufferedReader rd = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
 
             StringBuffer result = new StringBuffer();
@@ -95,10 +111,15 @@ public class HttpDOIService {
             while ((line = rd.readLine()) != null) {
                 result.append(line);
             }
-            System.out.println("================> response : " + result.toString());
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("The minting Doi response : " + result.toString());
+            }
+
             return DoiResponseParser.parseDOIXML(result.toString());
         } catch (Exception ex) {
-            throw new MWSException(ex);
+            logger.error(ex.getMessage());
+            throw new DoiServiceException(ex);
         } finally {
             //close the client if client not null;
             if (client != null) {
@@ -107,28 +128,47 @@ public class HttpDOIService {
         }
     }
 
-    public DoiResponse updateDoi(String doi, String creatorName, String title, String publisher, Date publicationDate, String url) {
+    /**
+     * Update DOI Service
+     *
+     * @param doiResource A DoiResource object
+     * @return a DoiResponse object
+     */
+    public DoiResponse updateDoi(DoiResource doiResource) {
         CloseableHttpClient client = null;
         try {
             String doiServicePoint = this.doiServiceHelper.getDoiServicePoint();
             String doiVersion = this.doiServiceHelper.getDoiVersion();
             String doiUpdateSuffix = this.doiServiceHelper.getDoiUpdateSuffix();
             String appId = this.doiServiceHelper.getAppId();
+            String url = doiResource.getUrl();
+            String doi = doiResource.getDoi();
+            String update_service_url = doiServicePoint + "/" + doiVersion + "/" + doiUpdateSuffix + "/?app_id=" + appId;
 
-            String update_service_url = doiServicePoint + "/" + doiVersion + "/" + doiUpdateSuffix + "/?app_id=" + appId + "&url=" + url + "&doi=" + doi;
-
-            System.out.println("==== post updating doi url " + update_service_url);
+            if (StringUtils.isNotBlank(url)) {
+                update_service_url += "&url=" + url + "&doi=" + doi;
+            } else {
+                update_service_url += "&doi=" + doi;
+            }
+            if (logger.isDebugEnabled()) {
+                logger.debug("The url of updating doi is: " + update_service_url);
+            }
             //create a client
             client = this.doiServiceHelper.createClient();
             HttpPost post = new HttpPost(update_service_url);
-            byte[] doiBytes = loadDoiXML(doi, creatorName, title, publisher, publicationDate);
+            byte[] doiXmls = loadDoiResource(doiResource);
+            ByteArrayEntity byteArrayEntity = new ByteArrayEntity(doiXmls);
 
-            ByteArrayEntity byteArrayEntity = new ByteArrayEntity(doiBytes);
+            if (logger.isDebugEnabled()) {
+                logger.debug("The Doi XML file: " + new String(doiXmls));
+            }
             post.setEntity(byteArrayEntity);
 
             HttpResponse httpResponse = client.execute(post);
 
-            System.out.println(" ===> ANDS DOI updating response : " + httpResponse.getStatusLine().getStatusCode());
+            if (logger.isDebugEnabled()) {
+                logger.debug("The updating Doi response status code: " + httpResponse.getStatusLine().getStatusCode());
+            }
 
             BufferedReader rd = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
 
@@ -138,10 +178,14 @@ public class HttpDOIService {
                 result.append(line);
             }
 
-            System.out.println("================> response : " + result.toString());
+            if (logger.isDebugEnabled()) {
+                logger.debug("The updating Doi response : " + result.toString());
+            }
+
             return DoiResponseParser.parseDOIXML(result.toString());
         } catch (Exception ex) {
-            throw new MWSException(ex);
+            logger.error(ex.getMessage());
+            throw new DoiServiceException(ex);
         } finally {
             //close the client if client not null;
             if (client != null) {
@@ -150,15 +194,100 @@ public class HttpDOIService {
         }
     }
 
-    private byte[] loadDoiXML(String doi, String creatorName, String title, String publisher, Date publicationDate) {
+    /**
+     * Load resource xml from the freemarker template
+     *
+     * @param doiResource a DoiResource object
+     * @return a byte array for doi resource xml file
+     */
+    private byte[] loadDoiResource(DoiResource doiResource) {
         Map<String, Object> doiTemplateValues = new HashMap<>();
-        doiTemplateValues.put("doi", doi);
-        doiTemplateValues.put("creatorName", creatorName);
-        doiTemplateValues.put("title", title);
-        doiTemplateValues.put("publisher", publisher);
-        doiTemplateValues.put("publicationYear", MDUtils.yyyyDateFormat(publicationDate));
+
+        String doi = doiResource.getDoi();
+        List<DoiCreator> doiCreators = doiResource.getDoiCreators();
+        List<DoiTitle> doiTitles = doiResource.getTitles();
+        DoiPublisher doiPublisher = doiResource.getPublisher();
+        Date doiPublicationYear = doiResource.getPublicationYear();
+        List<DoiSubject> doiSubjects = doiResource.getSubjects();
+        List<DoiContributor> doiContributors = doiResource.getContributors();
+        List<DoiRelevantDate> doiRelevantDates = doiResource.getRelevantDates();
+        String doiLanguage = doiResource.getLanguage();
+        DoiResourceType doiResourceType = doiResource.getResourceType();
+        List<DoiAlternateIdentifier> doiAlternateIdentifiers = doiResource.getAlternateIdentifiers();
+        List<DoiRelatedIdentifier> doiRelatedIdentifiers = doiResource.getRelatedIdentifiers();
+        List<DoiResourceSize> doiResourceSizes = doiResource.getSizes();
+        List<DoiResourceFormat> doiResourceFormats = doiResource.getFormats();
+        String resourceVersion = doiResource.getResourceVersion();
+        String resourceRights = doiResource.getRights();
+        List<DoiDescription> doiDescriptions = doiResource.getDescriptions();
+
+        //set the resource template values
+        //set doi if any
+        if (StringUtils.isNotBlank(doi)) {
+            doiTemplateValues.put("doi", doi);
+        }
+        //set the creators
+        if (doiCreators != null && doiCreators.size() > 0) {
+            doiTemplateValues.put("doiCreators", doiCreators);
+        }
+        //set the publisher
+        doiTemplateValues.put("doiPublisher", doiPublisher);
+        //set the publication year
+        doiTemplateValues.put("doiPublicationYear", doiPublicationYear);
+
+        //set the titles if any
+        if (doiTitles != null && doiTitles.size() > 0) {
+            doiTemplateValues.put("doiTitles", doiTitles);
+        }
+
+        //set the subjects if any
+        if (doiSubjects != null && doiSubjects.size() > 0) {
+            doiTemplateValues.put("doiSubjects", doiSubjects);
+        }
+        //set the contributors if any
+        if (doiContributors != null && doiContributors.size() > 0) {
+            doiTemplateValues.put("doiContributors", doiContributors);
+        }
+        //set the relevant dates if any
+        if (doiRelevantDates != null && doiRelevantDates.size() > 0) {
+            doiTemplateValues.put("doiRelevantDates", doiRelevantDates);
+        }
+        //set the language if any
+        if (StringUtils.isNotBlank(doiLanguage)) {
+            doiTemplateValues.put("doiLanguage", doiLanguage);
+        }
+        //set the resource type if any
+        if (doiResourceType != null) {
+            doiTemplateValues.put("doiResourceType", doiResourceType);
+        }
+        //set alternateIdentifiers
+        if (doiAlternateIdentifiers != null && doiAlternateIdentifiers.size() > 0) {
+            doiTemplateValues.put("doiAlternateIdentifiers", doiAlternateIdentifiers);
+        }
+        //set relatedIdentifiers
+        if (doiRelatedIdentifiers != null && doiRelatedIdentifiers.size() > 0) {
+            doiTemplateValues.put("doiRelatedIdentifiers", doiRelatedIdentifiers);
+        }
+        //set resource sizes
+        if (doiResourceSizes != null && doiResourceSizes.size() > 0) {
+            doiTemplateValues.put("doiResourceSizes", doiResourceSizes);
+        }
+        //set resource formats
+        if (doiResourceFormats != null && doiResourceFormats.size() > 0) {
+            doiTemplateValues.put("doiResourceFormats", doiResourceFormats);
+        }
+        //set resource version
+        if (StringUtils.isNotBlank(resourceVersion)) {
+            doiTemplateValues.put("resourceVersion", resourceVersion);
+        }
+        //set resource rights
+        if (StringUtils.isNotBlank(resourceRights)) {
+            doiTemplateValues.put("resourceRights", resourceRights);
+        }
+        //set resource descriptions
+        if (doiDescriptions != null && doiDescriptions.size() > 0) {
+            doiTemplateValues.put("doiDescriptions", doiDescriptions);
+        }
         return this.freeMarkerDoiTempLoader.loadDoiXML(doiTemplateValues, this.doiServiceHelper.getDoiTemplate());
     }
-
-
 }

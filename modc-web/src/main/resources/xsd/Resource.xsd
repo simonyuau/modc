@@ -22,8 +22,6 @@
             <element name="rights" type="string" minOccurs="0" maxOccurs="1"/>
             <element name="descriptions" type="doi:DDescriptions" minOccurs="0" maxOccurs="1"/>
         </sequence>
-        <attribute name="lastMetadataUpdate" type="date" use="optional"/>
-        <attribute name="metadataVersionNumber" type="integer" use="optional"/>
     </complexType>
 
     <complexType name="DCreators">

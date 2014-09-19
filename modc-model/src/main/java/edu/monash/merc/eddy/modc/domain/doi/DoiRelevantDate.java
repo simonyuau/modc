@@ -26,44 +26,47 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.common.util;
+package edu.monash.merc.eddy.modc.domain.doi;
 
-import org.apache.commons.lang.StringUtils;
+import edu.monash.merc.eddy.modc.domain.Domain;
 
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Monash University eResearch Center
  * <p/>
  * Created by simonyu - xiaoming.yu@monash.edu
- * Date: 11/09/2014
+ * Date: 16/09/2014
  */
-public class MDUtils {
-    private static final String YYYY_DATE_FORMAT = "yyyy";
+public class DoiRelevantDate extends Domain {
 
-    private static final String YYYYMMDD_DATE_FORMAT = "yyyy-MM-dd";
+    private long id;
 
-    public static String yyyyDateFormat(Date date) {
-        SimpleDateFormat yyyydf = new SimpleDateFormat(YYYY_DATE_FORMAT);
-        return yyyydf.format(date);
+    private Date relevantDate;
+
+    private String dateType;
+
+    public Date getRelevantDate() {
+        return relevantDate;
     }
 
-    public static String yyyyMMDDDateFormat(Date date) {
-        SimpleDateFormat yyyymmdddf = new SimpleDateFormat(YYYYMMDD_DATE_FORMAT);
-        return yyyymmdddf.format(date);
-    }
-    public static String replaceURLAmpsands(String url) {
-        return StringUtils.replace(url, "&", "&amp;");
-    }
-    public static String pathEncode(String fileName) throws Exception {
-        String encodedStr = URLEncoder.encode(fileName, "UTF-8");
-        return encodedStr;
+    public void setRelevantDate(Date relevantDate) {
+        this.relevantDate = relevantDate;
     }
 
-    public static String pathDecode(String path) throws Exception {
-        return URLDecoder.decode(path, "UTF-8");
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getDateType() {
+        return dateType;
+    }
+
+    public void setDateType(String dateType) {
+        this.dateType = dateType;
     }
 }

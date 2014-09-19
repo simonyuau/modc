@@ -1,11 +1,9 @@
 
 package edu.monash.merc.eddy.modc.ws.model;
 
-import java.math.BigInteger;
 import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
@@ -41,8 +39,6 @@ import edu.monash.merc.eddy.modc.ws.jaxbadapter.JaxbDateAdapter;
  *         &lt;element name="rights" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="descriptions" type="{http://merc.monash.edu/ws/schema/doi}DDescriptions" minOccurs="0"/>
  *       &lt;/sequence>
- *       &lt;attribute name="lastMetadataUpdate" type="{http://www.w3.org/2001/XMLSchema}date" />
- *       &lt;attribute name="metadataVersionNumber" type="{http://www.w3.org/2001/XMLSchema}integer" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -95,12 +91,6 @@ public class DResource {
     protected String version;
     protected String rights;
     protected DDescriptions descriptions;
-    @XmlAttribute(name = "lastMetadataUpdate", namespace = "http://merc.monash.edu/ws/schema/doi")
-    @XmlJavaTypeAdapter(JaxbDateAdapter.class)
-    @XmlSchemaType(name = "date")
-    protected Date lastMetadataUpdate;
-    @XmlAttribute(name = "metadataVersionNumber", namespace = "http://merc.monash.edu/ws/schema/doi")
-    protected BigInteger metadataVersionNumber;
 
     /**
      * Gets the value of the creators property.
@@ -484,54 +474,6 @@ public class DResource {
      */
     public void setDescriptions(DDescriptions value) {
         this.descriptions = value;
-    }
-
-    /**
-     * Gets the value of the lastMetadataUpdate property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public Date getLastMetadataUpdate() {
-        return lastMetadataUpdate;
-    }
-
-    /**
-     * Sets the value of the lastMetadataUpdate property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setLastMetadataUpdate(Date value) {
-        this.lastMetadataUpdate = value;
-    }
-
-    /**
-     * Gets the value of the metadataVersionNumber property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getMetadataVersionNumber() {
-        return metadataVersionNumber;
-    }
-
-    /**
-     * Sets the value of the metadataVersionNumber property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setMetadataVersionNumber(BigInteger value) {
-        this.metadataVersionNumber = value;
     }
 
 }

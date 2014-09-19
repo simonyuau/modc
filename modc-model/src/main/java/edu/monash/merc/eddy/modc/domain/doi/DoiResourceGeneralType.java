@@ -26,44 +26,44 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.common.util;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+package edu.monash.merc.eddy.modc.domain.doi;
 
 /**
  * Monash University eResearch Center
  * <p/>
  * Created by simonyu - xiaoming.yu@monash.edu
- * Date: 11/09/2014
+ * Date: 16/09/2014
  */
-public class MDUtils {
-    private static final String YYYY_DATE_FORMAT = "yyyy";
+public enum DoiResourceGeneralType {
+    COLLECTION("Collection"),
+    DATASET("Dataset"),
+    EVENT("Event"),
+    FILM("Film"),
+    IMAGE("Image"),
+    INTERACTIVE_RESOURCE("InteractiveResource"),
+    MODEL("Model"),
+    PHYSICAL_OBJECT("PhysicalObject"),
+    SERVICE("Service"),
+    SOFTWARE("Software"),
+    SOUND("Sound"),
+    TEXT("Text");
+    private final String value;
 
-    private static final String YYYYMMDD_DATE_FORMAT = "yyyy-MM-dd";
-
-    public static String yyyyDateFormat(Date date) {
-        SimpleDateFormat yyyydf = new SimpleDateFormat(YYYY_DATE_FORMAT);
-        return yyyydf.format(date);
-    }
-
-    public static String yyyyMMDDDateFormat(Date date) {
-        SimpleDateFormat yyyymmdddf = new SimpleDateFormat(YYYYMMDD_DATE_FORMAT);
-        return yyyymmdddf.format(date);
-    }
-    public static String replaceURLAmpsands(String url) {
-        return StringUtils.replace(url, "&", "&amp;");
-    }
-    public static String pathEncode(String fileName) throws Exception {
-        String encodedStr = URLEncoder.encode(fileName, "UTF-8");
-        return encodedStr;
+    DoiResourceGeneralType(String v) {
+        value = v;
     }
 
-    public static String pathDecode(String path) throws Exception {
-        return URLDecoder.decode(path, "UTF-8");
+    public String value() {
+        return value;
     }
+
+    public static DoiResourceGeneralType fromValue(String v) {
+        for (DoiResourceGeneralType c : DoiResourceGeneralType.values()) {
+            if (c.value.equals(v)) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException(v);
+    }
+
 }

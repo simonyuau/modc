@@ -28,6 +28,7 @@
 
 package edu.monash.merc.eddy.modc.doi;
 
+import edu.monash.merc.eddy.modc.common.util.MDUtils;
 import edu.monash.merc.eddy.modc.domain.doi.*;
 import edu.monash.merc.eddy.modc.ws.exception.DoiServiceException;
 import org.apache.commons.lang.StringUtils;
@@ -83,7 +84,11 @@ public class HttpDOIService {
 
             String url = doiResource.getUrl();
 
-            String mint_service_url = doiServicePoint + "/" + doiVersion + "/" + doiMintSuffix + "/?app_id=" + appId + "&url=" + url;
+            if (StringUtils.isBlank(url)) {
+                throw new DoiServiceException("The url must be provided");
+            }
+
+            String mint_service_url = doiServicePoint + "/" + doiVersion + "/" + doiMintSuffix + "/?app_id=" + appId + "&url=" + MDUtils.pathEncode(url);
 
             if (logger.isDebugEnabled()) {
                 logger.debug("The url of minting doi is: " + mint_service_url);
@@ -115,8 +120,8 @@ public class HttpDOIService {
             if (logger.isDebugEnabled()) {
                 logger.debug("The minting Doi response : " + result.toString());
             }
-
             return DoiResponseParser.parseDOIXML(result.toString());
+
         } catch (Exception ex) {
             logger.error(ex.getMessage());
             throw new DoiServiceException(ex);
@@ -146,10 +151,11 @@ public class HttpDOIService {
             String update_service_url = doiServicePoint + "/" + doiVersion + "/" + doiUpdateSuffix + "/?app_id=" + appId;
 
             if (StringUtils.isNotBlank(url)) {
-                update_service_url += "&url=" + url + "&doi=" + doi;
+                update_service_url += "&url=" + MDUtils.pathEncode(url) + "&doi=" + doi;
             } else {
                 update_service_url += "&doi=" + doi;
             }
+
             if (logger.isDebugEnabled()) {
                 logger.debug("The url of updating doi is: " + update_service_url);
             }
@@ -181,7 +187,6 @@ public class HttpDOIService {
             if (logger.isDebugEnabled()) {
                 logger.debug("The updating Doi response : " + result.toString());
             }
-
             return DoiResponseParser.parseDOIXML(result.toString());
         } catch (Exception ex) {
             logger.error(ex.getMessage());
@@ -266,6 +271,15 @@ public class HttpDOIService {
         }
         //set relatedIdentifiers
         if (doiRelatedIdentifiers != null && doiRelatedIdentifiers.size() > 0) {
+            for (DoiRelatedIdentifier doiRelatedIdentifier : doiRelatedIdentifiers) {
+                String relatedIdentifierType = doiRelatedIdentifier.getRelatedIdentifierType();
+                String relatedId = doiRelatedIdentifier.getRelatedIdentifier();
+                if (StringUtils.equalsIgnoreCase(relatedIdentifierType, DoiRelatedIdentifierType.PURL.value())
+                        || StringUtils.equalsIgnoreCase(relatedIdentifierType, DoiRelatedIdentifierType.URL.value())
+                        || StringUtils.equalsIgnoreCase(relatedIdentifierType, DoiRelatedIdentifierType.URN.value())) {
+                    doiRelatedIdentifier.setRelatedIdentifier(MDUtils.pathEncode(relatedId));
+                }
+            }
             doiTemplateValues.put("doiRelatedIdentifiers", doiRelatedIdentifiers);
         }
         //set resource sizes

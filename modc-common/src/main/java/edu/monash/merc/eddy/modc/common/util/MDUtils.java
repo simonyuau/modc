@@ -28,6 +28,7 @@
 
 package edu.monash.merc.eddy.modc.common.util;
 
+import edu.monash.merc.eddy.modc.common.exception.MException;
 import org.apache.commons.lang.StringUtils;
 
 import java.net.URLDecoder;
@@ -55,15 +56,34 @@ public class MDUtils {
         SimpleDateFormat yyyymmdddf = new SimpleDateFormat(YYYYMMDD_DATE_FORMAT);
         return yyyymmdddf.format(date);
     }
+
     public static String replaceURLAmpsands(String url) {
         return StringUtils.replace(url, "&", "&amp;");
     }
-    public static String pathEncode(String fileName) throws Exception {
-        String encodedStr = URLEncoder.encode(fileName, "UTF-8");
-        return encodedStr;
+
+    public static String replaceAmpEncode(String url) {
+        return StringUtils.replace(url, "&amp;", "&");
     }
 
-    public static String pathDecode(String path) throws Exception {
-        return URLDecoder.decode(path, "UTF-8");
+    public static String pathEncode(String fileName) {
+        try {
+            return URLEncoder.encode(fileName, "UTF-8");
+        } catch (Exception ex) {
+            throw new MException(ex);
+        }
+    }
+
+    public static String pathDecode(String path) {
+        try {
+            return URLDecoder.decode(path, "UTF-8");
+        } catch (Exception ex) {
+            throw new MException(ex);
+        }
+    }
+
+    public static void main(String[] args) {
+        String url = "https://platforms.monash.edu/eresearch/index.php?option=com_content&amp;view=category&amp;layout=blog&amp;id=23&amp;Itemid=196";
+
+        System.out.println(" url " + MDUtils.replaceAmpEncode(url));
     }
 }

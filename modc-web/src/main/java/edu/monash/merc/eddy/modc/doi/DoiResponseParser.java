@@ -29,6 +29,8 @@
 package edu.monash.merc.eddy.modc.doi;
 
 import edu.monash.merc.eddy.modc.common.exception.MXmlParseException;
+import edu.monash.merc.eddy.modc.common.util.MDUtils;
+import org.apache.commons.lang.StringUtils;
 import org.jaxen.jdom.JDOMXPath;
 import org.jdom.Attribute;
 import org.jdom.Document;
@@ -80,7 +82,8 @@ public class DoiResponseParser {
     }
 
     public static DoiResponse parseDOIXML(String responseXML) {
-        Document doc = parseXML(responseXML);
+        String encodedResponseXML = MDUtils.replaceURLAmpsands(responseXML);
+        Document doc = parseXML(encodedResponseXML);
         DoiResponse doiResponse = new DoiResponse();
         try {
             JDOMXPath responsePath = new JDOMXPath(RESPONSE_PATH);
@@ -104,7 +107,11 @@ public class DoiResponseParser {
 
             Element urlEl = responseEl.getChild(NODE_URL);
             //set url
-            doiResponse.setUrl(urlEl.getValue());
+            String urlVale = urlEl.getValue();
+            if (StringUtils.isNotBlank(urlVale)) {
+                urlVale = MDUtils.replaceAmpEncode(urlVale);
+            }
+            doiResponse.setUrl(urlVale);
 
             Element appIdEl = responseEl.getChild(NODE_APP_ID);
             //set appId

@@ -34,10 +34,11 @@
     </bean>
 
     <!-- FreeMarker doi mint xml -->
-    <bean id="doiFreeMarkerConfiguration" class="edu.monash.merc.eddy.modc.doi.DoiFreeMarkerConfiguration">
+    <bean id="doiFreeMarkerConfiguration" class="edu.monash.merc.eddy.modc.common.config.MFreeMarkerConfiguration">
         <property name="templateLoaderPath" value="classpath:doi"/>
         <!-- FreeMarker template file -->
-        <property name="freemarkerSettings"><!-- FreeMarker env setting -->
+        <property name="freemarkerSettings">
+            <!-- FreeMarker env setting -->
             <props>
                 <prop key="template_update_delay">1800</prop>
                 <!--update template delay -->

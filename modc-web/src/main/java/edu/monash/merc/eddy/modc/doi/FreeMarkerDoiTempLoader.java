@@ -28,15 +28,13 @@
 
 package edu.monash.merc.eddy.modc.doi;
 
+import edu.monash.merc.eddy.modc.common.config.MFreeMarkerConfiguration;
 import edu.monash.merc.eddy.modc.common.exception.MException;
 import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.Scope;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStreamWriter;
@@ -54,7 +52,8 @@ import java.util.Map;
 public class FreeMarkerDoiTempLoader {
 
     @Autowired
-    private DoiFreeMarkerConfiguration doiFreeMarkerConfiguration;
+    @Qualifier("doiFreeMarkerConfiguration")
+    private MFreeMarkerConfiguration doiFreeMarkerConfiguration;
 
     public byte[] loadDoiXML(Map<String, Object> doiTemplateValues, String doiTemplate) {
 

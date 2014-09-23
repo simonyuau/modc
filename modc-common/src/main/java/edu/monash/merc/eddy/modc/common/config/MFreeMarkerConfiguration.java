@@ -26,7 +26,7 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.doi;
+package edu.monash.merc.eddy.modc.common.config;
 
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;
@@ -34,8 +34,7 @@ import freemarker.cache.TemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.SimpleHash;
 import freemarker.template.TemplateException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -44,8 +43,6 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.ui.freemarker.SpringTemplateLoader;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.context.ServletContextAware;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,9 +54,8 @@ import java.util.*;
  * Created by simonyu - xiaoming.yu@monash.edu
  * Date: 23/09/2014
  */
-public class DoiFreeMarkerConfiguration implements InitializingBean, ResourceLoaderAware {
-
-    protected final Log logger = LogFactory.getLog(getClass());
+public class MFreeMarkerConfiguration implements InitializingBean, ResourceLoaderAware {
+    protected final Logger logger = Logger.getLogger(this.getClass().getName());
 
     private Configuration configuration;
 
@@ -122,7 +118,6 @@ public class DoiFreeMarkerConfiguration implements InitializingBean, ResourceLoa
      * for the rendering process (for example, on Spring's FreeMarkerView).
      *
      * @see freemarker.template.Configuration#setDefaultEncoding
-     * @see org.springframework.web.servlet.view.freemarker.FreeMarkerView#setEncoding
      */
     public void setDefaultEncoding(String defaultEncoding) {
         this.defaultEncoding = defaultEncoding;
@@ -427,4 +422,5 @@ public class DoiFreeMarkerConfiguration implements InitializingBean, ResourceLoa
      */
     protected void postProcessConfiguration(Configuration config) throws IOException, TemplateException {
     }
+
 }

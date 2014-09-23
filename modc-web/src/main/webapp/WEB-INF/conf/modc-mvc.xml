@@ -41,7 +41,7 @@
     <bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
 
     <!-- FreeMarker Configuration -->
-    <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value=""/>
         <property name="freemarkerVariables">
             <map>
@@ -73,7 +73,7 @@
         <property name="suffix" value=".ftl"></property>
         <property name="prefix" value="/WEB-INF/view/"/>
         <property name="contentType" value="text/html;charset=UTF-8"/>
-        <property name="viewClass" value="edu.monash.merc.eddy.modc.web.view.MFreemarkerView"/>
+        <property name="viewClass" value="edu.monash.merc.eddy.modc.web.view.MFreeMarkerView"/>
         <property name="exposeRequestAttributes" value="true"/>
         <property name="exposeSessionAttributes" value="true"/>
         <property name="exposeSpringMacroHelpers" value="true"/>

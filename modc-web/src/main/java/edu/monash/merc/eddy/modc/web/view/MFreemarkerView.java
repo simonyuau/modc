@@ -18,8 +18,7 @@ import java.util.Map;
 /**
  * Created by simonyu on 5/08/2014.
  */
-public class MFreemarkerView extends FreeMarkerView {
-
+public class MFreeMarkerView extends FreeMarkerView {
     /**
      * deployed base path
      */
@@ -40,7 +39,7 @@ public class MFreemarkerView extends FreeMarkerView {
         Locale locale = RequestContextUtils.getLocale(request);
 
 		/*
-		 * by default. the view (html) is not generated unless you set the STATIC_HTML as true in the request.
+         * by default. the view (html) is not generated unless you set the STATIC_HTML as true in the request.
 		 */
         if (Boolean.TRUE.equals(model.get(MConts.STATIC_HTML))) {
             logger.info("====== generating a html view.");

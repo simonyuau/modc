@@ -26,47 +26,36 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.doi;
+package edu.monash.merc.eddy.modc.web.controller;
 
-import edu.monash.merc.eddy.modc.common.exception.MException;
-import freemarker.template.Template;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ResourceLoaderAware;
-import org.springframework.context.annotation.Scope;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.util.Map;
+import edu.monash.merc.eddy.modc.domain.doi.DoiResource;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Monash University eResearch Center
  * <p/>
  * Created by simonyu - xiaoming.yu@monash.edu
- * Date: 11/09/2014
+ * Date: 23/09/2014
  */
-@Scope("singleton")
-@Component
-public class FreeMarkerDoiTempLoader {
+@Controller
+@RequestMapping("/doi")
+public class DoiController extends MBaseController {
 
-    @Autowired
-    private DoiFreeMarkerConfiguration doiFreeMarkerConfiguration;
 
-    public byte[] loadDoiXML(Map<String, Object> doiTemplateValues, String doiTemplate) {
-
-        try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-            Template template = this.doiFreeMarkerConfiguration.getConfiguration().getTemplate(doiTemplate);
-            Writer writer = new OutputStreamWriter(outputStream);
-            template.process(doiTemplateValues, writer);
-            return outputStream.toByteArray();
-        } catch (Exception ex) {
-            throw new MException("Load doi metadata template error, " + ex.getMessage());
-        }
+    @RequestMapping(value = "/mint", method = RequestMethod.GET)
+    public String mintDoi(ModelMap model){
+        DoiResource doiResource = new DoiResource();
+        model.addAttribute("doiResource", doiResource);
+        return "doi/doi_mint";
     }
+
+    public String mint(@ModelAttribute("doiResource") DoiResource doiResource){
+
+        return "doi/doi_success";
+    }
+
 }

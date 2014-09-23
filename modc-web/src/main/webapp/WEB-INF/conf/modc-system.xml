@@ -34,7 +34,7 @@
     </bean>
 
     <!-- FreeMarker doi mint xml -->
-    <bean id="doiFreeMarker" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+    <bean id="doiFreeMarkerConfiguration" class="edu.monash.merc.eddy.modc.doi.DoiFreeMarkerConfiguration">
         <property name="templateLoaderPath" value="classpath:doi"/>
         <!-- FreeMarker template file -->
         <property name="freemarkerSettings"><!-- FreeMarker env setting -->

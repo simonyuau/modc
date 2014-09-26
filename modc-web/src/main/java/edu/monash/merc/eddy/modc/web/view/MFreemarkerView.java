@@ -108,6 +108,7 @@ public class MFreeMarkerView extends FreeMarkerView {
     @Override
     protected void exposeHelpers(Map<String, Object> model, HttpServletRequest request) throws Exception {
         super.exposeHelpers(model, request);
+        logger.error("============> base path : " + request.getContextPath());
         // add the base path into the mode, so every page can get the base path
         model.put(CONTEXT_PATH, request.getContextPath());
         if (logger.isDebugEnabled()) {

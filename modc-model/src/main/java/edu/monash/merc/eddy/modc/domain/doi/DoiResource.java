@@ -79,6 +79,10 @@ public class DoiResource extends Domain {
 
     private List<DoiDescription> descriptions;
 
+    public DoiResource(){
+
+    }
+
     public long getId() {
         return id;
     }

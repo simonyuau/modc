@@ -28,12 +28,17 @@
 
 package edu.monash.merc.eddy.modc.web.controller;
 
+import edu.monash.merc.eddy.modc.domain.doi.DoiCreator;
 import edu.monash.merc.eddy.modc.domain.doi.DoiResource;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Monash University eResearch Center
@@ -47,13 +52,39 @@ public class DoiController extends MBaseController {
 
 
     @RequestMapping(value = "/mint", method = RequestMethod.GET)
-    public String mintDoi(ModelMap model){
+    public String mintDoi(HttpServletRequest request, Model model) {
         DoiResource doiResource = new DoiResource();
+        List<DoiCreator> creators = new ArrayList<>();
+        DoiCreator creator = new DoiCreator();
+        creator.setCreatorName("Yu,Simon");
+        creators.add(creator);
+        creator = new DoiCreator();
+        creator.setCreatorName("Beitz,Anthony");
+        creators.add(creator);
+        doiResource.setDoiCreators(creators);
+
+        doiResource.setUrl("http://www.ozflux.org.au");
         model.addAttribute("doiResource", doiResource);
+
+
+        //add message support
+        messageSupport(request, model);
+
+        addActionError("doi.show.mint.service.success");
+        addActionError("doi.show.mint.service.page.success");
+        makeErrorAware();
+        model.addAttribute("pageTitle", "Doi Minting Service");
         return "doi/doi_mint";
     }
 
-    public String mint(@ModelAttribute("doiResource") DoiResource doiResource){
+    @RequestMapping(value = "/mint", method = RequestMethod.POST)
+    public String mint(@ModelAttribute("doiResource") DoiResource doiResource) {
+        System.out.println("========= url : " + doiResource.getUrl());
+        List<DoiCreator> creators = doiResource.getDoiCreators();
+        for (DoiCreator creator : creators) {
+            System.out.println("====== creatorName: " + creator.getCreatorName());
+        }
+        System.out.println("======== ok!");
 
         return "doi/doi_success";
     }

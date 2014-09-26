@@ -34,6 +34,7 @@
             var pathArray = window.location.pathname.split('/');
             var url = protocol + "//" + host + "/" + pathArray[1] + "/home.jspx";
             document.getElementsByTagName('a')[0].href = url;
+            document.getElementsByTagName('img')[0].src=protocol +"//"+host+"/" + pathArray[1]+"/images/stop.png";
         }
         window.onload = init;
     </script>

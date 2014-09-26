@@ -311,12 +311,62 @@ input {
     margin: 5px;
 }
 
+
+
+.page_title {
+    height: 25px;
+    line-height: 25px;
+    margin-left: 180px;
+    margin-right: 180px;
+    min-width: 1024px;
+}
+
+.page_title_inline {
+    display: inline;
+    float: left;
+    margin-right: 5px;
+    line-height: 25px;
+    text-decoration: none;
+    color: #989eab;
+    font-size: 12px;
+    font-weight: normal;
+    font-family: Arial, Verdana, sans-serif;
+}
+
+.page_title_inline a:link, .page_title_inline a:visited {
+    text-decoration: none;
+    color: #4d5a6d;
+}
+
+.page_title_inline img {
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-top: 6px;
+}
+
+
 .file_uploading_div {
     margin: 0 auto;
     padding-left: 10px;
     padding-right: 10px;
 }
 
+
+.actionError {
+    margin-left: auto;
+    margin-bottom: 2px;
+    margin-right: auto;
+    margin-top: 2px;
+    color: #b24f3c;
+    border-collapse: collapse;
+    font-weight: normal;
+    text-align: left;
+}
+
+.actionMessage {
+    padding: 10px;
+    color: #58553a;
+}
 
 
 

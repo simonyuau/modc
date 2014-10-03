@@ -41,14 +41,22 @@ a:hover {
 }
 
 input {
+    height: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #FFFFFF;
+    border: 1px solid #c2c9d7;
+    padding: 1px;
+    width: 250px;
+    font-size: 12px;
+    text-align: left;
+}
+
+.input_select_field {
     height: 22px;
     font-family: Arial, Helvetica, sans-serif;
     background-color: #FFFFFF;
     border: 1px solid #c2c9d7;
     padding: 1px;
-    width: 200px;
-    font-size: 12px;
-    text-align: left;
 }
 
 .check_box {
@@ -121,7 +129,6 @@ input {
     font-weight: bold;
     text-align: center;
 }
-
 
 .blank_separator {
     margin: 0 auto;
@@ -311,8 +318,7 @@ input {
     margin: 5px;
 }
 
-
-
+/** page title */
 .page_title {
     height: 25px;
     line-height: 25px;
@@ -344,13 +350,111 @@ input {
     padding-top: 6px;
 }
 
+/** end of page title */
+
+
+/** =========== **/
+
+.dinput_title_section {
+    font-weight: bold;
+    color: #726E4C;
+    height: 25px;
+    line-height: 25px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.dinput_row_section {
+    padding: 5px;
+    color: #000000;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.dinput_line_separator {
+    margin: 0 auto;
+    width: 100%;
+    height: 4px;
+    background-color: #e8ebf0;
+}
+
+.dfield_left_part {
+    float: left;
+    width: 140px;
+    padding-left: 5px;
+    font-weight: bold;
+}
+
+.dfield_right_part {
+    padding-left: 5px;
+    margin-left: 150px;
+    text-align: left;
+    /**border: solid 1px #b0f0c3;*/
+}
+.dfield_img {
+    vertical-align: middle;
+    cursor: pointer;
+}
+.dfield_tab {
+    width: 100%;
+    border: 0px;
+}
+
+.dfield_tab tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.dfield_tab tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+
+.dfield_inner {
+    padding: 10px;
+    border: solid 1px #f4f4f4;
+    font-size: 12px;
+}
+
+.dfield_comments {
+    padding-left: 5px;
+    margin-left: 150px;
+    font-size: 11px;
+    color: #909090;
+}
+
+.dlabel_fixed_span {
+    width: 180px;
+    display: inline-block;
+    height: 25px;
+    line-height: 25px;
+    font-size: 11;
+    padding-left: 3px;
+}
+
+.dcomment_span {
+    display: inline-block;
+    font-size: 11px;
+    color: #909090;
+}
+
+.dvalue_row_div {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.dinput_small {
+    width: 50px;
+    size: 50px;
+}
+
 
 .file_uploading_div {
     margin: 0 auto;
     padding-left: 10px;
     padding-right: 10px;
 }
-
 
 .actionError {
     margin-left: auto;
@@ -368,10 +472,7 @@ input {
     color: #58553a;
 }
 
-
-
 /** === Footer === **/
-
 
 .ands_sponsor {
     padding-top: 5px;
@@ -411,7 +512,6 @@ input {
     text-decoration: none;
 }
 
-
 .sponsor {
     margin-left: 180px;
     margin-right: 180px;
@@ -428,7 +528,6 @@ input {
     float: left;
     width: 80px;
 }
-
 
 .sponsor_inner {
     display: block;

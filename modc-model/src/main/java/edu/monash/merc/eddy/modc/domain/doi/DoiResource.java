@@ -29,6 +29,7 @@
 package edu.monash.merc.eddy.modc.domain.doi;
 
 import edu.monash.merc.eddy.modc.domain.Domain;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -47,6 +48,7 @@ public class DoiResource extends Domain {
 
     private String url;
 
+    @DateTimeFormat(pattern = "yyyy")
     private Date publicationYear;
 
     private String language;

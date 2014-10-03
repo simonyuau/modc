@@ -30,6 +30,7 @@ package edu.monash.merc.eddy.modc.web.controller;
 
 import edu.monash.merc.eddy.modc.domain.doi.DoiCreator;
 import edu.monash.merc.eddy.modc.domain.doi.DoiResource;
+import edu.monash.merc.eddy.modc.domain.doi.DoiTitle;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -48,25 +49,14 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/doi")
-public class DoiController extends MBaseController {
+public class DoiController extends BaseController {
 
+    private String pageTitle = "DOI Service";
 
     @RequestMapping(value = "/mint", method = RequestMethod.GET)
     public String mintDoi(HttpServletRequest request, Model model) {
         DoiResource doiResource = new DoiResource();
-        List<DoiCreator> creators = new ArrayList<>();
-        DoiCreator creator = new DoiCreator();
-        creator.setCreatorName("Yu,Simon");
-        creators.add(creator);
-        creator = new DoiCreator();
-        creator.setCreatorName("Beitz,Anthony");
-        creators.add(creator);
-        doiResource.setDoiCreators(creators);
-
-        doiResource.setUrl("http://www.ozflux.org.au");
         model.addAttribute("doiResource", doiResource);
-
-
         //add message support
         messageSupport(request, model);
 
@@ -83,10 +73,23 @@ public class DoiController extends MBaseController {
         List<DoiCreator> creators = doiResource.getDoiCreators();
         for (DoiCreator creator : creators) {
             System.out.println("====== creatorName: " + creator.getCreatorName());
+            System.out.println("=========> name identifier : " + creator.getNameIdentifier().getIdentifier());
+            System.out.println("=========> name identifier scheme: " + creator.getNameIdentifier().getNameIdentifierScheme());
+
         }
         System.out.println("======== ok!");
 
-        return "doi/doi_success";
+        List<DoiTitle> titles = doiResource.getTitles();
+        for (DoiTitle title : titles) {
+            System.out.println("======= title : " + title.getTitle());
+            System.out.println("========= title type : " + title.getTitleType());
+        }
+
+        System.out.println(" ==== publisher : " + doiResource.getPublisher().getPublisher());
+
+        System.out.println(" ==== publication year : " + doiResource.getPublicationYear());
+
+        return "doi/doi_mint";
     }
 
 }

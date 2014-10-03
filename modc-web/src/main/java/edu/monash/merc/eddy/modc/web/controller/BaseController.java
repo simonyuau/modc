@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by simonyu on 21/08/2014.
  */
-public class MBaseController {
+public class BaseController {
+
     protected Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Autowired

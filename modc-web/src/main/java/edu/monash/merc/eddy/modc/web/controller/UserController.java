@@ -4,19 +4,14 @@ import edu.monash.merc.eddy.modc.domain.Avatar;
 import edu.monash.merc.eddy.modc.domain.Profile;
 import edu.monash.merc.eddy.modc.domain.User;
 import edu.monash.merc.eddy.modc.service.UserService;
-import edu.monash.merc.eddy.modc.web.validation.ProfileValidator;
-import edu.monash.merc.eddy.modc.web.validation.UserValidator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.io.File;
 
 /**
@@ -24,7 +19,7 @@ import java.io.File;
  */
 @Controller
 @RequestMapping("/user")
-public class UserController extends MBaseController {
+public class UserController extends BaseController {
 
 //    @Autowired
 //    private UserValidator userValidator;

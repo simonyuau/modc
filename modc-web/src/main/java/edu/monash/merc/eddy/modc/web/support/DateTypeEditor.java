@@ -3,6 +3,7 @@ package edu.monash.merc.eddy.modc.web.support;
 import org.springframework.util.StringUtils;
 
 import java.beans.PropertyEditorSupport;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,9 +16,9 @@ public class DateTypeEditor extends PropertyEditorSupport {
 
     private static final DateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final DateFormat DATE_YYYY_MM_DD_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
-    private static final int DATE_FORMAT_LEN = 10;
+    private static final DateFormat DATE_YYYY_FORMAT = new SimpleDateFormat("yyyy");
 
     @Override
     public String getAsText() {
@@ -33,15 +34,24 @@ public class DateTypeEditor extends PropertyEditorSupport {
             return;
         }
         try {
-            if (text.length() <= DATE_FORMAT_LEN) {
-                setValue(new java.sql.Date(DATE_FORMAT.parse(text).getTime()));
+            if (text.length() == 4) {
+                System.out.println("========= parse the yyyy date.");
+                setValue(new Date(DATE_YYYY_FORMAT.parse(text).getTime()));
+            } else if (text.length() > 4 && text.length() <= 10) {
+                setValue(new Date(DATE_YYYY_MM_DD_FORMAT.parse(text).getTime()));
             } else {
-                setValue(new java.sql.Timestamp(TIMESTAMP_FORMAT.parse(text).getTime()));
+                setValue(new Timestamp(TIMESTAMP_FORMAT.parse(text).getTime()));
             }
         } catch (ParseException ex) {
             IllegalArgumentException iae = new IllegalArgumentException("Could not parse date: " + ex.getMessage());
             iae.initCause(ex);
             throw iae;
         }
+    }
+
+    public static void main(String args[]) throws Exception {
+
+        String date = "2014";
+        System.out.println(new Date(DATE_YYYY_FORMAT.parse(date).getTime()));
     }
 }

@@ -37,8 +37,8 @@ package edu.monash.merc.eddy.modc.domain.doi;
 public enum DoiTitleType {
     ALTERNATIVE_TITLE("AlternativeTitle"),
     SUBTITLE("Subtitle"),
-    TRANSLATED_TITLE("TranslatedTitle"),
-    NONE("NonTitle");
+    TRANSLATED_TITLE("TranslatedTitle");
+
     private final String value;
 
     DoiTitleType(String v) {
@@ -55,6 +55,6 @@ public enum DoiTitleType {
                 return c;
             }
         }
-        return NONE;
+        throw new IllegalArgumentException(v);
     }
 }

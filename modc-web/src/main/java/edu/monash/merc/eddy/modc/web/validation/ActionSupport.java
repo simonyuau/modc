@@ -119,19 +119,25 @@ public class ActionSupport {
         messageAwareSupport.addActionMessage(message);
     }
 
+    public boolean hasActionMessages() {
+        return this.messageAwareSupport.hasActionMessages();
+    }
+
     public void makeMessageAware() {
         if (messageAwareSupport.hasActionMessages()) {
             List<String> messages = messageAwareSupport.getActionMessages();
-            System.out.println("============= action messages size : " + messages.size());
             model.addAttribute(ACTION_MESSAGES, messages);
         }
+    }
+
+    public boolean hasActionErrors() {
+        return messageAwareSupport.hasActionErrors();
     }
 
     public void makeErrorAware() {
         if (messageAwareSupport.hasActionErrors()) {
             List<String> errors = messageAwareSupport.getActionErrors();
             model.addAttribute(ACTION_ERRORS, errors);
-            System.out.println("============= action error size : " + errors.size());
         } else {
             throw new MActionSupportException("No action error");
         }

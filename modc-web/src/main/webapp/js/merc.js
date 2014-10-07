@@ -6,15 +6,16 @@ $(document).ready(function () {
         creatorHtml += "<td>";
         creatorHtml += "<div class='dvalue_row_div'>";
         creatorHtml += "<span class='dlabel_fixed_span'>Creator Name: </span> <input type='text' name='doiCreators[" + rowIndex + "].creatorName' id='creatorName'>";
+        creatorHtml += " <span class='red_span'> *</span>";
         creatorHtml += " <span class='dcomment_span'>Required. Format: Family, Given.</span>";
         creatorHtml += "</div>";
         creatorHtml += "<div class='dvalue_row_div'>";
         creatorHtml += "<span class='dlabel_fixed_span'>Name Identifier: </span> <input type='text'  name='doiCreators[" + rowIndex + "].nameIdentifier.identifier' id='nameIdentifier'>";
-        creatorHtml += " <span class='dcomment_span'>Optional</span>";
+        creatorHtml += " <span class='dcomment_span'>Optional, eg: ISNI identifier or ORCID.</span>";
         creatorHtml += "</div>";
         creatorHtml += "<div class='dvalue_row_div'>";
         creatorHtml += "<span class='dlabel_fixed_span'>Name Identifier Scheme: </span> <input type='text' class='dinput_small' name='doiCreators[" + rowIndex + "].nameIdentifier.nameIdentifierScheme' id='nameIdentifierScheme'>";
-        creatorHtml += " <span class='dcomment_span'>Optional</span>";
+        creatorHtml += " <span class='dcomment_span'>Optional, eg: ISNI or ORCID.</span>";
         creatorHtml += "</div>";
         creatorHtml += "</td>";
         creatorHtml += "<td width='50'><img src='../images/delete.png' class='dfield_img' title='remove' id='remove_creator' /></td>";
@@ -64,6 +65,7 @@ $(document).ready(function () {
         titleHtml += "<td>";
         titleHtml += "<div class='dvalue_row_div'>";
         titleHtml += "<input type='text' name='titles[" + rowIndex + "].title' id='title'>";
+        titleHtml += " <span class='red_span'> *</span>";
         titleHtml += " <span class='dcomment_span'>Required</span>";
         titleHtml += "</div>";
         titleHtml += "<div class='dvalue_row_div'>";
@@ -106,3 +108,18 @@ function resortTitleTabIndex() {
         }
     });
 }
+
+//
+//$(document).ready(function () {
+//    alert("ready to start!");
+//    var currentYear = (new Date()).getFullYear();
+//    var select = $("#publication_year");
+//    alert(select.attr('name'));
+//    for(var i=2050; i >= 1900; i--){
+//        var option =  $('<option>', {value: i, text: i});
+//        if(i==currentYear){
+//           option.attr('selected', 'selected');
+//        }
+//       option.appendTo(select);
+//    }
+//});

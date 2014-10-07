@@ -33,8 +33,11 @@ import org.apache.commons.lang.StringUtils;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Monash University eResearch Center
@@ -43,16 +46,31 @@ import java.util.Date;
  * Date: 11/09/2014
  */
 public class MDUtils {
+    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
     private static final String YYYY_DATE_FORMAT = "yyyy";
 
     private static final String YYYYMMDD_DATE_FORMAT = "yyyy-MM-dd";
+
+    private static final String FIRST_TIME_OF_DAY = " 00:00:00";
+
+    public static Date formatDate(final String dateStr) {
+        Date date = null;
+        DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+        try {
+            date = df.parse(dateStr);
+        } catch (ParseException e) {
+            throw new MException(e.getMessage());
+        }
+        return date;
+    }
 
     public static String yyyyDateFormat(Date date) {
         SimpleDateFormat yyyydf = new SimpleDateFormat(YYYY_DATE_FORMAT);
         return yyyydf.format(date);
     }
 
-    public static String yyyyMMDDDateFormat(Date date) {
+    public static String yyyyMMddDateFormat(Date date) {
         SimpleDateFormat yyyymmdddf = new SimpleDateFormat(YYYYMMDD_DATE_FORMAT);
         return yyyymmdddf.format(date);
     }
@@ -80,6 +98,13 @@ public class MDUtils {
             throw new MException(ex);
         }
     }
+
+    public static Date getToday() {
+        Date date = GregorianCalendar.getInstance().getTime();
+        String endtimeStr = MDUtils.yyyyMMddDateFormat(date);
+        return formatDate(endtimeStr + FIRST_TIME_OF_DAY);
+    }
+
 
     public static void main(String[] args) {
         String url = "https://platforms.monash.edu/eresearch/index.php?option=com_content&amp;view=category&amp;layout=blog&amp;id=23&amp;Itemid=196";

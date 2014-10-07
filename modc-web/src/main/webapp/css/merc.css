@@ -51,6 +51,17 @@ input {
     text-align: left;
 }
 
+.input_big {
+    height: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #FFFFFF;
+    border: 1px solid #c2c9d7;
+    padding: 1px;
+    width: 380px;
+    font-size: 12px;
+    text-align: left;
+}
+
 .input_select_field {
     height: 22px;
     font-family: Arial, Helvetica, sans-serif;
@@ -317,6 +328,10 @@ input {
 .content_none_border_div {
     margin: 5px;
 }
+.red_span{
+    display: inline-block;
+    color: #b24f3c;
+}
 
 /** page title */
 .page_title {
@@ -333,7 +348,7 @@ input {
     margin-right: 5px;
     line-height: 25px;
     text-decoration: none;
-    color: #989eab;
+    color: #858585;
     font-size: 12px;
     font-weight: normal;
     font-family: Arial, Verdana, sans-serif;
@@ -352,18 +367,35 @@ input {
 
 /** end of page title */
 
-
 /** =========== **/
 
 .dinput_title_section {
     font-weight: bold;
-    color: #726E4C;
+    color: #726e4c;
     height: 25px;
     line-height: 25px;
     padding-top: 5px;
     padding-bottom: 5px;
     padding-left: 10px;
     padding-right: 10px;
+    border-left: solid 1px #ffffff;
+    border-top: solid 1px #ffffff;
+    border-right: solid 1px #ffffff;
+    border-bottom: solid 1px #C2C9D7;
+}
+
+.dinput_bottom_section {
+    font-weight: bold;
+    height: 25px;
+    line-height: 25px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-left: solid 1px #ffffff;
+    border-top: solid 1px #C2C9D7;
+    border-right: solid 1px #ffffff;
+    border-bottom: solid 1px #ffffff;
 }
 
 .dinput_row_section {
@@ -393,10 +425,12 @@ input {
     text-align: left;
     /**border: solid 1px #b0f0c3;*/
 }
+
 .dfield_img {
     vertical-align: middle;
     cursor: pointer;
 }
+
 .dfield_tab {
     width: 100%;
     border: 0px;
@@ -409,7 +443,6 @@ input {
 .dfield_tab tr:nth-child(odd) {
     background-color: #ffffff;
 }
-
 
 .dfield_inner {
     padding: 10px;
@@ -449,6 +482,25 @@ input {
     size: 50px;
 }
 
+.content_display_div {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 15px;
+    border: solid 1px #f2f2f2;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.doi_response_blue_div {
+    color: #175AAA;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.doi_response_norm_div {
+    font-size: 12px;
+}
 
 .file_uploading_div {
     margin: 0 auto;
@@ -467,9 +519,19 @@ input {
     text-align: left;
 }
 
-.actionMessage {
-    padding: 10px;
-    color: #58553a;
+/*.actionMessage {*/
+    /*padding: 10px;*/
+    /*color: #58553a;*/
+/*}*/
+
+.actionMessage{
+    position: relative;
+    margin: 5px auto;
+    border: solid 1px #F2F2F2;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    color: #726E4C;
 }
 
 /** === Footer === **/

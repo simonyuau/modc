@@ -12,13 +12,16 @@
 #modal_window {
 	position: absolute;
 	display: none;
-	padding: 20px;
+	padding: 30px;
 	background: #ffffff;
 	color: #003766;
-    border: 3px solid #003766;
+    border: solid 1px #C0C7D5;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+    -moz-box-shadow: 0 0 5px #C0C7D5;
+    -webkit-box-shadow: 0 0 5px #C0C7D5;
+    box-shadow: 0 0 5px #C0C7D5;
 }
 
 .loading_image {

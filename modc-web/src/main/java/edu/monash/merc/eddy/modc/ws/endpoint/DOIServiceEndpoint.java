@@ -266,7 +266,7 @@ public class DOIServiceEndpoint {
 
     private boolean isValidYYYYOrYYYYMMDDDate(Date date) {
         //verify yyyy-MM-dd format first
-        String yyyyMMddDate = MDUtils.yyyyMMDDDateFormat(date);
+        String yyyyMMddDate = MDUtils.yyyyMMddDateFormat(date);
         DateValidator dateValidator = DateValidator.getInstance();
         boolean valid = dateValidator.isValid(yyyyMMddDate, "yyyy-MM-dd");
         if (valid) {

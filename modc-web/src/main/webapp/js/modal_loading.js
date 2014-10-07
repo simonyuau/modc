@@ -4,6 +4,13 @@ $(document).ready(function() {
 	var window_width = $(window).width();
 	var window_height = $(window).height();
 
+//    var browserWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+//    var browserHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+//    var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+//    var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+
+   // var window_width = browserWidth + scrollX;
+    //var window_height = browserHeight + scrollY;
 	// vertical and horizontal centering of modal window(s)
 	/*
 	 * we will use each function so if we have more then 1 modal window we
@@ -16,7 +23,7 @@ $(document).ready(function() {
 		var modal_width = $(this).outerWidth();
 
 		// calculate top and left offset needed for centering
-		var top = (window_height - modal_height) / 3;
+		var top = (window_height - modal_height) / 2;
 		var left = (window_width - modal_width) / 2;
 
 		// apply new top and left css values

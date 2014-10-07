@@ -31,12 +31,17 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID"
 
     <filter-mapping>
         <filter-name>encoding</filter-name>
+        <url-pattern>*.jspx</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>encoding</filter-name>
         <url-pattern>*.do</url-pattern>
     </filter-mapping>
 
     <filter-mapping>
         <filter-name>encoding</filter-name>
-        <url-pattern>*.jspx</url-pattern>
+        <url-pattern>*.html</url-pattern>
     </filter-mapping>
 
     <filter-mapping>
@@ -71,6 +76,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID"
     <servlet-mapping>
         <servlet-name>modc</servlet-name>
         <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>modc</servlet-name>
+        <url-pattern>*.html</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

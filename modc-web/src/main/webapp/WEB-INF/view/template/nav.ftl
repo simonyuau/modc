@@ -20,9 +20,10 @@
 <div class="nav_div">
     <div class="nav_menu">
         <ul>
-            <li><a href="${base}/home.jspx">Home</a></li>
+            <li><a href="${base}/home.html">Home</a></li>
             <li><a href="#">Projects</a></li>
-            <li><a href="${base}/user/users.jspx">Users</a></li>
+            <li><a href="${base}/doi/mint.html">DOI</a></li>
+            <li><a href="${base}/user/users.html">Users</a></li>
             <li><a href="${base}/site/aboutus">About Us</a></li>
         </ul>
     </div>

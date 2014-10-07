@@ -60,8 +60,16 @@ public class BaseController {
         actionSupport.addActionMessage(code, actionMessages, defaultActionMessage);
     }
 
+    public boolean hasActionMessages() {
+        return actionSupport.hasActionMessages();
+    }
+
     public void makeMessageAware() {
         actionSupport.makeMessageAware();
+    }
+
+    public boolean hasActionErrors() {
+        return actionSupport.hasActionErrors();
     }
 
     public void makeErrorAware() {

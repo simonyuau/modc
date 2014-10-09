@@ -7,7 +7,6 @@
 <body>
 <!-- Navigation Section -->
 <#include "../template/nav.ftl" />
-
 <!-- Navigation Title -->
 <div class="page_title">
     <div class="page_title_inline">&nbsp;</div>
@@ -27,7 +26,7 @@
         <#include "../template/action_message.ftl" />
 
             <!-- @sf.form action="register.do" method="post" -->
-        <@sf.form action="mint.html" commandName="doiResource" method="post">
+        <@sf.form action="mint.htm" commandName="doiResource" method="post">
 
             <div class="dinput_title_section">
                 DOI resource fields (required) <span class="red_span"> * </span>

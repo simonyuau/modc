@@ -9,6 +9,13 @@ img {
     border: none;
 }
 
+.img_position {
+    vertical-align: middle;
+    align: top;
+    vspace: 4;
+    border: 0;
+}
+
 *:focus {
     outline: none;
 }
@@ -328,7 +335,8 @@ input {
 .content_none_border_div {
     margin: 5px;
 }
-.red_span{
+
+.red_span {
     display: inline-block;
     color: #b24f3c;
 }
@@ -366,6 +374,89 @@ input {
 }
 
 /** end of page title */
+
+.hints_panel {
+    color: #726E4C;
+    padding: 10px;
+    margin: 5px;
+    font-style: italic;
+    font-size: 12px;
+}
+
+/** ==== Registration ==== **/
+.reg_panel {
+    margin-left: auto;
+    margin-bottom: 5px;
+    margin-right: auto;
+    margin-top: 5px;
+}
+
+.reg_middle_panel {
+    margin-left: auto;
+    margin-bottom: 10px;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+.reg_options_middle {
+    padding: 10px;
+    margin: 10px;
+    text-align: left;
+    font-family: Arial, Verdana, sans-serif;
+    font-size: 12px;
+}
+
+.reg_choices {
+    width: 240px;
+    padding-top: 3px;
+    padding-bottom: 6px;
+    padding-left: 5px;
+    padding-right: 5px;
+    float: left;
+    text-align: left;
+}
+
+.reg_choices img {
+    margin-left: 5px;
+    padding-right: 3px;
+    vertical-align: bottom;
+}
+
+.reg_choices strong {
+    font-family: Arial, Verdana, sans-serif;
+    font-size: 14px;
+    color: #505050;
+}
+
+.reg_choices a {
+    color: #505050;
+    text-decoration: none;
+    padding-bottom: 6px;
+}
+
+.reg_choices a:hover {
+    text-decoration: underline;
+}
+
+.input_field_row {
+    padding: 5px;
+    color: #000000;
+}
+
+.input_field_title {
+    display: block;
+    float: left;
+    width: 160px;
+    height: 22px;
+    line-height: 22px;
+    padding-left: 5px;
+}
+
+.input_field_value_section {
+    padding-left: 5px;
+    margin-left: 170px;
+    text-align: left;
+}
 
 /** =========== **/
 
@@ -416,13 +507,13 @@ input {
     float: left;
     width: 140px;
     padding-left: 5px;
-    font-weight: bold;
 }
 
 .dfield_right_part {
     padding-left: 5px;
     margin-left: 150px;
     text-align: left;
+    font-size: 12px;
     /**border: solid 1px #b0f0c3;*/
 }
 
@@ -502,12 +593,6 @@ input {
     font-size: 12px;
 }
 
-.file_uploading_div {
-    margin: 0 auto;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
 .actionError {
     margin-left: auto;
     margin-bottom: 2px;
@@ -519,12 +604,7 @@ input {
     text-align: left;
 }
 
-/*.actionMessage {*/
-    /*padding: 10px;*/
-    /*color: #58553a;*/
-/*}*/
-
-.actionMessage{
+.actionMessage {
     position: relative;
     margin: 5px auto;
     border: solid 1px #F2F2F2;

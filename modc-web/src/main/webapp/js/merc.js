@@ -123,3 +123,13 @@ function resortTitleTabIndex() {
 //       option.appendTo(select);
 //    }
 //});
+
+$(document).ready(function () {
+
+    $('#date_picker').datepicker({
+        showOn: "both",
+        dateFormat: "dd-mm-yy",
+        buttonImageOnly: true,
+        buttonImage: "../images/calendar.png"
+    });
+});

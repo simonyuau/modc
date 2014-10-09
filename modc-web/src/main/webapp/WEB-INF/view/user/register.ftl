@@ -3,6 +3,12 @@
 <head>
 <#include "../template/header.ftl"/>
     <title>User Register</title>
+
+    <script type="text/javascript">
+        function refresh() {
+            document.getElementById("captcha_img").src = '${base}/captcha/secode.html?now=' + new Date();
+        }
+    </script>
 </head>
 <body>
 <!-- Navigation Section -->
@@ -51,6 +57,22 @@
                     <tr>
                         <td colspan="3"><input type="submit" value="Register" class="input_button_norm"/></td>
                     </tr>
+
+                    <tr>
+                        <td>Date Birth :</td>
+                        <td><@sf.input path="user.firstName" id="date_picker"/></td>
+                        <td> </td>
+                    </tr>
+
+                    <tr>
+                        <td>Security Code : </td>
+                        <td>
+                            <img src="${base}/captcha/secode.html" id="captcha_img" name="captcha_img"/>
+                            <a href="#" onclick="refresh()"> &nbsp;<img src="${base}/images/refresh.png" class="img_position"/> can't read this?</a>
+                        </td>
+                        <td></td>
+                    </tr>
+
                 </table>
             <!-- /@sf.form -->
                 </form>

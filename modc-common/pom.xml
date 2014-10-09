@@ -53,5 +53,11 @@
             <artifactId>commons-lang</artifactId>
         </dependency>
 
+        <!-- jhlabs image -->
+        <dependency>
+            <groupId>com.jhlabs</groupId>
+            <artifactId>imaging</artifactId>
+        </dependency>
+
     </dependencies>
 </project>

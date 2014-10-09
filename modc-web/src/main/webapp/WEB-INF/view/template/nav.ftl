@@ -9,7 +9,7 @@
     </div>
     <div class="site_top_right">
         <div class="user_login">
-            <a href="${base}/user/showLogin.jspx">Login</a> <a href="${base}/user/showRegister.jspx">Register</a>
+            <a href="${base}/user/user_login.htm">Login</a> <a href="${base}/user/registration_options.htm">Register</a>
         </div>
     </div>
 </div>
@@ -20,11 +20,11 @@
 <div class="nav_div">
     <div class="nav_menu">
         <ul>
-            <li><a href="${base}/home.html">Home</a></li>
+            <li><a href="${base}/home.htm">Home</a></li>
             <li><a href="#">Projects</a></li>
-            <li><a href="${base}/doi/mint.html">DOI</a></li>
-            <li><a href="${base}/user/users.html">Users</a></li>
-            <li><a href="${base}/site/aboutus">About Us</a></li>
+            <li><a href="${base}/doi/mint.htm">DOI</a></li>
+            <li><a href="${base}/user/users.htm">Users</a></li>
+            <li><a href="${base}/site/aboutus.htm">About Us</a></li>
         </ul>
     </div>
 </div>

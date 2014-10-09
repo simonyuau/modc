@@ -4,6 +4,7 @@
 <link type="text/css" href="${base}/css/dialog_confirm.css" rel="stylesheet" media="all">
 <link type="text/css" href="${base}/css/modal_loading.css" rel="stylesheet" media="all">
 <link type="text/css" href="${base}/css/merc.fileupload.css" rel="stylesheet" media="all">
+<link type="text/css" href="${base}/css/jquery-ui.theme.min.css" rel="stylesheet" media="all">
 
 <script type="text/javascript" src="${base}/js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="${base}/js/jquery-ui.min.js"></script>

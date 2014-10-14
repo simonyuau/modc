@@ -70,6 +70,9 @@
         <!-- apache common io -->
         <commons-io.version>2.2</commons-io.version>
 
+        <!-- java mail -->
+        <javax.mail.version>1.5.2</javax.mail.version>
+
         <!-- apache file upload -->
         <commons-fileupload.version>1.3</commons-fileupload.version>
 
@@ -265,7 +268,6 @@
                 <version>${hibernate-validator.version}</version>
             </dependency>
 
-
             <!-- commons validator -->
             <dependency>
                 <groupId>commons-validator</groupId>
@@ -355,6 +357,13 @@
                 <groupId>xerces</groupId>
                 <artifactId>xercesImpl</artifactId>
                 <version>${xercesImpl.version}</version>
+            </dependency>
+
+            <!-- java mail -->
+            <dependency>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+                <version>${javax.mail.version}</version>
             </dependency>
 
 

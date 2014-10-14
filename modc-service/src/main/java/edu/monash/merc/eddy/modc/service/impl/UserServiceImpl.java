@@ -1,8 +1,11 @@
 package edu.monash.merc.eddy.modc.service.impl;
 
+import edu.monash.merc.eddy.modc.common.ldap.LdapUser;
+import edu.monash.merc.eddy.modc.common.util.MD5;
 import edu.monash.merc.eddy.modc.dao.UserDAO;
 import edu.monash.merc.eddy.modc.domain.User;
 import edu.monash.merc.eddy.modc.service.UserService;
+import edu.monash.merc.eddy.modc.service.ldap.LdapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -20,8 +23,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO userDao;
 
+    @Autowired
+    private LdapService ldapService;
+
     public void setUserDao(UserDAO userDao) {
         this.userDao = userDao;
+    }
+
+    public void setLdapService(LdapService ldapService) {
+        this.ldapService = ldapService;
     }
 
     @Override
@@ -75,7 +85,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(String uniqueId, String password) {
-        return this.userDao.checkUserLogin(uniqueId, password);
+    public User login(String uniqueId, String password, boolean ldapSupported) {
+        String md5pwd = MD5.hash(password);
+        User user = this.userDao.checkUserLogin(uniqueId, md5pwd);
+        if (user != null) {
+            return user;
+        }
+
+        if (ldapSupported) {
+            user = this.userDao.getUserByUniqueId(uniqueId);
+            if (user != null) {
+                boolean logined = this.ldapService.login(uniqueId, password);
+                if (logined) {
+                    return user;
+                }
+            }
+        }
+        return null;
     }
 }

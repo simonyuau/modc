@@ -25,67 +25,87 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package edu.monash.merc.eddy.modc.common.ldap;
 
-package edu.monash.merc.eddy.modc.sql.condition;
+public class LdapUser {
 
-import org.hibernate.criterion.Order;
+	private String uid;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+	private String title;
 
-/**
- * Created by simonyu on 27/08/2014.
- */
-public class SqlOrderBy {
+	private String firstName;
 
-    private Map<String, Object> orderByMaps = new LinkedHashMap<>();
+	private String lastName;
 
-    public SqlOrderBy() {
+	private String displayName;
 
-    }
+	private String mail;
 
-    public SqlOrderBy asc(String fieldName) {
-        orderByMaps.put(fieldName, OrderByType.ASC);
-        return this;
-    }
+	private String gender;
 
-    public SqlOrderBy desc(String fieldName) {
-        orderByMaps.put(fieldName, OrderByType.DESC);
-        return this;
-    }
+	public String getUid() {
+		return uid;
+	}
 
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 
-    public Order[] orders() {
-        List<Order> orders = new ArrayList<Order>();
+	public String getTitle() {
+		return title;
+	}
 
-        for (Map.Entry<String, Object> entry : orderByMaps.entrySet()) {
-            String fieldName = entry.getKey();
-            OrderByType orderByType = (OrderByType) entry.getValue();
-            Order order = null;
-            if (OrderByType.ASC == orderByType) {
-                order = Order.asc(fieldName);
-            } else if (OrderByType.DESC == orderByType) {
-                order = Order.desc(fieldName);
-            }
-            if (order != null) {
-                orders.add(order);
-            }
-        }
-        return orders.toArray(new Order[orders.size()]);
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public static void main(String[] args) {
-        SqlOrderBy allOrderBys = new SqlOrderBy();
-        allOrderBys.asc("test1").desc("test1").desc("ok1").asc("test2").desc("ok2").asc("ok1");
+	public String getDisplayName() {
+		return displayName;
+	}
 
-        Order[] orders = allOrderBys.orders();
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+		String[] fullName = displayName.split(" ");
+		// System.out.println(" display name split length: " + fullName.length);
+		if (fullName != null && fullName.length == 2) {
+			this.lastName = fullName[1];
+			this.firstName = fullName[0];
+		} else {
+			this.firstName = displayName;
+			this.lastName = "";
+		}
+	}
 
-        for (Order order : orders) {
-            System.out.println("===== order : " + order);
+	public String getMail() {
+		return mail;
+	}
 
-        }
-    }
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
 }

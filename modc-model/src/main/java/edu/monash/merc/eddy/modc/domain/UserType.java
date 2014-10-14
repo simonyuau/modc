@@ -26,80 +26,50 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.web.validation;
-
-import org.apache.log4j.Logger;
-
-import java.util.LinkedList;
-import java.util.List;
+package edu.monash.merc.eddy.modc.domain;
 
 /**
  * Monash University eResearch Center
  * <p/>
  * Created by simonyu - xiaoming.yu@monash.edu
- * Date: 26/09/2014
+ * Date: 13/10/2014
  */
-public class ActionMessageAwareSupport implements ActionMessageAware {
+public enum UserType {
+    SUPERADMIN(1), ADMIN(2), USER(3), UNKNOWN(6);
 
-    private List<String> actionErrors;
+    private int code;
 
-    private List<String> actionMessages;
-
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
-
-    @Override
-    public List<String> getActionErrors() {
-        return internalGetActionErrors();
+    UserType(int code) {
+        this.code = code;
     }
 
-    @Override
-    public List<String> getActionMessages() {
-        return internalGetActionMessages();
+    public int code() {
+        return code;
     }
 
-    @Override
-    public void addActionError(String errorMessage) {
-        internalGetActionErrors().add(errorMessage);
-    }
-
-
-    @Override
-    public void addActionMessage(String message) {
-        internalGetActionMessages().add(message);
-    }
-
-    @Override
-    public boolean hasActionMessages() {
-        return (actionMessages != null) && !actionMessages.isEmpty();
-    }
-
-    @Override
-    public boolean hasActionErrors() {
-        return (actionErrors != null) && !actionErrors.isEmpty();
-    }
-
-    @Override
-    public void clearMessages() {
-        internalGetActionMessages().clear();
-    }
-
-    @Override
-    public void clearActionErrors() {
-        internalGetActionErrors().clear();
-    }
-
-    private List<String> internalGetActionErrors() {
-        if (actionErrors == null) {
-            actionErrors = new LinkedList<>();
+    public static UserType fromCode(int code) {
+        switch (code) {
+            case 1:
+                return SUPERADMIN;
+            case 2:
+                return ADMIN;
+            case 3:
+                return USER;
+            default:
+                return UNKNOWN;
         }
-        return actionErrors;
     }
 
-
-    private List<String> internalGetActionMessages() {
-        if (actionMessages == null) {
-            actionMessages = new LinkedList<>();
+    public String toString() {
+        switch (this) {
+            case SUPERADMIN:
+                return "superAdmin";
+            case ADMIN:
+                return "Admin";
+            case USER:
+                return "User";
+            default:
+                return "Unknown";
         }
-        return actionMessages;
     }
 }

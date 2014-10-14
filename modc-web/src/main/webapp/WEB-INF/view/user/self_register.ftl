@@ -26,8 +26,12 @@
         <div class="left_display_div">
             <div style="clear:both"></div>
             <div class="left_display_inner">
+            <#include "../template/action_message.ftl" />
                 <div class="reg_panel">
                 <@sf.form action="self_register.htm" commandName="registration" method="post">
+                    <div class="error">
+                    <@sf.errors path="*"  cssClass="actionError" delimiter="<br>"/>
+                    </div>
                     <div class="hints_panel">
                         <img src="${base}/images/warn.png"/> &nbsp; If you already have a Monash Authcate Account, you can create an account <a href="${base}/user/ldap_register.htm">Here</a>
                     </div>
@@ -37,7 +41,7 @@
                                 <@s.message "user.firstName" />:
                             </div>
                             <div class="input_field_value_section">
-                                <@sf.input path="user.firstName" />
+                                <@sf.input path="user.firstName" /> <@sf.errors path="user.firstName"  cssStyle="color : red;"/>
                                 <div class="comments">
                                     <@s.message "user.reg.firstName.hint" />
                                 </div>

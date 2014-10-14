@@ -36,6 +36,7 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Locale;
 
@@ -69,15 +70,15 @@ public class ActionSupport {
             throw new MIllegalArgumentException("Model can't be null");
         }
 
+        this.request = request;
         WebApplicationContext webApplicationContext = RequestContextUtils.getWebApplicationContext(request);
         if (webApplicationContext != null) {
-            LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+            LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(this.request);
             if (localeResolver != null) {
                 this.locale = localeResolver.resolveLocale(request);
             }
             this.wac = webApplicationContext;
         }
-        this.request = request;
         this.model = model;
         messageAwareSupport = new ActionMessageAwareSupport();
         System.out.println("========== finished to create ActionMessageSupport");
@@ -143,4 +144,15 @@ public class ActionSupport {
         }
     }
 
+    public String getText(String code) {
+        return wac.getMessage(code, null, locale);
+    }
+
+    public String getText(String code, String[] actionMessages) {
+        return wac.getMessage(code, actionMessages, locale);
+    }
+
+    public String getText(String code, String[] actionMessages, String defaultActionMessage) {
+        return wac.getMessage(code, actionMessages, defaultActionMessage, locale);
+    }
 }

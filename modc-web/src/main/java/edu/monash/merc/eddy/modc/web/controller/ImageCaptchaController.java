@@ -31,6 +31,7 @@ package edu.monash.merc.eddy.modc.web.controller;
 import edu.monash.merc.eddy.modc.common.captcha.GradiatedBackgroundProducer;
 import edu.monash.merc.eddy.modc.common.captcha.ImageUtil;
 import edu.monash.merc.eddy.modc.common.captcha.ImgCaptcha;
+import edu.monash.merc.eddy.modc.web.conts.MConts;
 import edu.monash.merc.eddy.modc.web.view.ImageView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,7 +54,7 @@ import java.io.InputStream;
  */
 @Controller
 @RequestMapping("/captcha")
-public class ImageCaptchaController {
+public class ImageCaptchaController extends BaseController {
 
     @Autowired
     private ImageView imageView;
@@ -69,7 +70,7 @@ public class ImageCaptchaController {
 
         String code = captcha.getCode();
         System.out.println("=========== captcha code : " + code);
-        //todo: put the code into the session for later checking
+        storeInSession(request, MConts.CAPTCHA_CODE_KEY, code);
         BufferedImage img = captcha.getImage();
 
         //define a output stream to hold the image

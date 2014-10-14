@@ -26,80 +26,21 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.web.validation;
+package edu.monash.merc.eddy.modc.service.ldap;
 
-import org.apache.log4j.Logger;
-
-import java.util.LinkedList;
-import java.util.List;
+import edu.monash.merc.eddy.modc.common.ldap.LdapUser;
 
 /**
  * Monash University eResearch Center
  * <p/>
  * Created by simonyu - xiaoming.yu@monash.edu
- * Date: 26/09/2014
+ * Date: 13/10/2014
  */
-public class ActionMessageAwareSupport implements ActionMessageAware {
+public interface LdapService {
 
-    private List<String> actionErrors;
+    LdapUser lookup(String cnOrEmail);
 
-    private List<String> actionMessages;
+    LdapUser verifyLdapUser(String authcatId, String password);
 
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
-
-    @Override
-    public List<String> getActionErrors() {
-        return internalGetActionErrors();
-    }
-
-    @Override
-    public List<String> getActionMessages() {
-        return internalGetActionMessages();
-    }
-
-    @Override
-    public void addActionError(String errorMessage) {
-        internalGetActionErrors().add(errorMessage);
-    }
-
-
-    @Override
-    public void addActionMessage(String message) {
-        internalGetActionMessages().add(message);
-    }
-
-    @Override
-    public boolean hasActionMessages() {
-        return (actionMessages != null) && !actionMessages.isEmpty();
-    }
-
-    @Override
-    public boolean hasActionErrors() {
-        return (actionErrors != null) && !actionErrors.isEmpty();
-    }
-
-    @Override
-    public void clearMessages() {
-        internalGetActionMessages().clear();
-    }
-
-    @Override
-    public void clearActionErrors() {
-        internalGetActionErrors().clear();
-    }
-
-    private List<String> internalGetActionErrors() {
-        if (actionErrors == null) {
-            actionErrors = new LinkedList<>();
-        }
-        return actionErrors;
-    }
-
-
-    private List<String> internalGetActionMessages() {
-        if (actionMessages == null) {
-            actionMessages = new LinkedList<>();
-        }
-        return actionMessages;
-    }
+    boolean login(String authcatId, String password);
 }

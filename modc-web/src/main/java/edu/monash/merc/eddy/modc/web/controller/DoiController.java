@@ -108,8 +108,8 @@ public class DoiController extends BaseController {
         System.out.println(" ==== publication year : " + doiResource.getPublicationYear());
 
         try {
-            //add message support
-            messageSupport(request, model);
+            //add action support
+            actionSupport(request, model);
             //validate the request
             validate(doiResource, true);
 

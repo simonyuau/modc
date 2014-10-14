@@ -6,6 +6,8 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import edu.monash.merc.eddy.modc.dao.UserDAO;
 import edu.monash.merc.eddy.modc.domain.User;
+import edu.monash.merc.eddy.modc.sql.condition.SqlOrderBy;
+import edu.monash.merc.eddy.modc.sql.page.Pager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +93,16 @@ public class UserDAOTest {
     public void testCheckExistedName() {
         boolean nameExisted = this.userDao.checkExistedName("Dev MeRC");
         assertTrue(nameExisted);
+    }
+
+    @Test
+    @DatabaseSetup(value = "test-user.xml", type = DatabaseOperation.CLEAN_INSERT)
+    @DatabaseTearDown(value = "test-user.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testGetUsers() {
+        SqlOrderBy myOrders = new SqlOrderBy().asc("displayName");
+        Pager<User> pagedUsers = this.userDao.getUsers(1, 5, myOrders.orders());
+        assertNotNull(pagedUsers);
+        assertEquals(5, pagedUsers.getPageResults().size());
     }
 
 

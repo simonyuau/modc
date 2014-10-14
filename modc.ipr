@@ -37,6 +37,8 @@
             <element id="library" level="project" name="Maven: org.freemarker:freemarker:2.3.20" />
             <element id="library" level="project" name="Maven: log4j:log4j:1.2.17" />
             <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.6" />
+            <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.5.2" />
+            <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
             <element id="library" level="project" name="Maven: com.jhlabs:imaging:01012005" />
             <element id="archive" name="modc-model-1.0.jar">
               <element id="module-output" name="modc-model" />
@@ -446,6 +448,17 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/mchange/mchange-commons-java/0.2.3.4/mchange-commons-java-0.2.3.4-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: com.sun.mail:javax.mail:1.5.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/mail/javax.mail/1.5.2/javax.mail-1.5.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/mail/javax.mail/1.5.2/javax.mail-1.5.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/mail/javax.mail/1.5.2/javax.mail-1.5.2-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Maven: commons-beanutils:commons-beanutils:1.8.3">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/commons-beanutils/commons-beanutils/1.8.3/commons-beanutils-1.8.3.jar!/" />
@@ -554,6 +567,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/dom4j/dom4j/1.6.1/dom4j-1.6.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: javax.activation:activation:1.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/activation/activation/1.1/activation-1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/activation/activation/1.1/activation-1.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/activation/activation/1.1/activation-1.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: javax.servlet:servlet-api:2.5">

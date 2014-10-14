@@ -70,6 +70,9 @@ public class User extends Domain {
     @Column(name = "activated_date")
     private Date activatedDate;
 
+    @Column(name = "user_type", columnDefinition = "integer", nullable = false)
+    private int userType;
+
     @OneToOne(mappedBy = "user", targetEntity = Avatar.class, fetch = FetchType.LAZY)
     @Cascade(CascadeType.ALL)
     private Avatar avatar;
@@ -119,6 +122,9 @@ public class User extends Domain {
     }
 
     public String getDisplayName() {
+        if (displayName == null) {
+            displayName = firstName + " " + lastName;
+        }
         return displayName;
     }
 
@@ -196,5 +202,13 @@ public class User extends Domain {
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public int getUserType() {
+        return userType;
+    }
+
+    public void setUserType(int userType) {
+        this.userType = userType;
     }
 }

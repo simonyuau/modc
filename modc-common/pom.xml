@@ -53,6 +53,12 @@
             <artifactId>commons-lang</artifactId>
         </dependency>
 
+        <!-- java mail -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+        </dependency>
+
         <!-- jhlabs image -->
         <dependency>
             <groupId>com.jhlabs</groupId>

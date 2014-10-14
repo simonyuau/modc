@@ -1,5 +1,6 @@
 package edu.monash.merc.eddy.modc.service;
 
+import edu.monash.merc.eddy.modc.common.ldap.LdapUser;
 import edu.monash.merc.eddy.modc.domain.User;
 
 /**
@@ -27,5 +28,5 @@ public interface UserService {
 
     boolean checkExistedEmail(String email);
 
-    User login(String uniqueId, String password);
+    User login(String uniqueId, String password, boolean ldapSupported);
 }

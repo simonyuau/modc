@@ -2,10 +2,12 @@ package edu.monash.merc.eddy.modc.dao;
 
 import edu.monash.merc.eddy.modc.domain.User;
 import edu.monash.merc.eddy.modc.repository.UserRepository;
+import edu.monash.merc.eddy.modc.sql.page.Pager;
 import edu.monash.merc.eddy.modc.support.QueryHelper;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.criterion.Order;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
@@ -60,5 +62,13 @@ public class UserDAO extends HibernateGenericDAO<User> implements UserRepository
         Map<String, Object> namedParam = QueryHelper.createNamedParam("uniqueId", uniqueId);
         namedParam = QueryHelper.addNamedParam(namedParam, "password", password);
         return this.find(hql, namedParam);
+    }
+
+    @Override
+    public Pager<User> getUsers(int startPageNo, int sizePerPage, Order[] orderParams) {
+        String hql = "FROM " + this.persistClass.getSimpleName();
+        hql = QueryHelper.setOrderByParams(hql, null, orderParams);
+        System.out.println("========== getUsers sql : " + hql);
+        return this.find(hql, null, startPageNo, sizePerPage);
     }
 }

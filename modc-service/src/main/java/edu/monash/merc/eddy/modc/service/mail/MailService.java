@@ -25,28 +25,13 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package edu.monash.merc.eddy.modc.service.mail;
 
-package edu.monash.merc.eddy.modc.sql.condition;
+import java.util.Map;
 
-/**
- * Created by simonyu on 27/08/2014.
- */
-public class Condition {
-    protected String fieldName;
+public interface MailService {
 
-    public Condition() {
+    public void sendMail(String emailFrom, String emailTo, String emailSubject, String emailBody, boolean isHtml);
 
-    }
-
-    public Condition(String fieldName) {
-        this.fieldName = fieldName;
-    }
-
-    public String getFieldName() {
-        return this.fieldName;
-    }
-
-    public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
-    }
+    public void sendMail(String emailFrom, String emailTo, String emailSubject, Map<String, String> templateValues, String templateFile, boolean isHtml);
 }

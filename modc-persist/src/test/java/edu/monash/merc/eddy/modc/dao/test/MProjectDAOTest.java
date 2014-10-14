@@ -76,7 +76,7 @@ public class MProjectDAOTest {
     @DatabaseSetup(value = "test-project.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-project.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetPagedProjectsByUser() {
-        SqlOrderBy myOrders = SqlOrderBy.asc("name").desc("uniqueId");
+        SqlOrderBy myOrders = new SqlOrderBy().asc("name").desc("uniqueId");
 
         Pager<MProject> pagedProjects = this.mProjectDAO.getPagedProjectsByUser(1, 0, 12, myOrders.orders());
 

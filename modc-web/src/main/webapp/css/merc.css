@@ -614,6 +614,17 @@ input {
     color: #726E4C;
 }
 
+.action_complete{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: 5px auto;
+    border: solid 1px #F2F2F2;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    color: #726E4C;
+}
+
 /** === Footer === **/
 
 .ands_sponsor {

@@ -26,6 +26,7 @@
         <div class="left_display_div">
             <div style="clear:both"></div>
             <div class="left_display_inner">
+            <#include "../template/action_message.ftl" />
                 <div class="reg_panel">
                 <@sf.form action="ldap_register.htm" commandName="registration" method="post">
                     <div class="reg_middle_panel">
@@ -45,7 +46,7 @@
                                 <@s.message "user.password" />:
                             </div>
                             <div class="input_field_value_section">
-                                <@sf.password path"user.password" />
+                                <@sf.password path="user.password" />
                                 <div class="comments"><@s.message "user.ldap.reg.authcate.password.hint" /></div>
                             </div>
                         </div>

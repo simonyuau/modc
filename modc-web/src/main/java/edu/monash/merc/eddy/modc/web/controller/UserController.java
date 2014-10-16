@@ -38,13 +38,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/user")
 public class UserController extends BaseController {
-
-//    @Autowired
-//    private UserValidator userValidator;
-////
-//    @Autowired
-//    private ProfileValidator profileValidator;
-
     @Autowired
     private UserService userService;
 
@@ -54,7 +47,6 @@ public class UserController extends BaseController {
     @Autowired
     private LdapService ldapService;
 
-
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @RequestMapping("/registration_options")
@@ -63,23 +55,12 @@ public class UserController extends BaseController {
         return "user/registration_options";
     }
 
-    @RequestMapping("/showRegister")
-    public String register(ModelMap model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        Profile profile = new Profile();
-        profile.setOrganization("Monash");
-        model.addAttribute("profile", profile);
-        return "user/register";
-    }
-
     @RequestMapping(value = "/ldap_register", method = RequestMethod.GET)
     public String ldapRegister(Model model) {
         RegistrationBean registration = new RegistrationBean();
         model.addAttribute("registration", registration);
         return "user/ldap_register";
     }
-
 
     @RequestMapping(value = "/ldap_register", method = RequestMethod.POST)
     public String ldapRegister(@ModelAttribute("registration") RegistrationBean registration, HttpServletRequest request, Model model) {
@@ -163,7 +144,7 @@ public class UserController extends BaseController {
         //set success message
         addActionMessage("user.registration.finished.msg", new String[]{user.getDisplayName()});
         makeMessageAware();
-        return "user/user_action_finished";
+        return "user/user_register_finished";
     }
 
 
@@ -228,33 +209,267 @@ public class UserController extends BaseController {
         //set success message
         addActionMessage("user.registration.finished.msg", new String[]{user.getDisplayName()});
         makeMessageAware();
-        return "user/user_action_finished";
+        return "user/user_register_finished";
     }
 
     @RequestMapping(value = "/user_login", method = RequestMethod.GET)
-    public String userLogin(Model model) {
+    public String userLogin(Model model, HttpServletRequest request) {
         LoginBean loginBean = new LoginBean();
         model.addAttribute("userLogin", loginBean);
+        cleanAuthenInSession(request);
         return "user/user_login";
     }
 
     @RequestMapping(value = "/user_login", method = RequestMethod.POST)
     public String userLogin(@ModelAttribute("userLogin") LoginBean login, HttpServletRequest request, Model model) {
+        actionSupport(request, model);
+        validateLogin(login, request);
+        if (hasActionErrors()) {
+            makeErrorAware();
+            return "user/user_login";
+        }
 
-        return "user/user_login";
+        try {
+            String ldapStr = systemPropertySettings.getPropValue(SystemPropertyConts.LDAP_AUTH_SUPPORTED);
+            boolean ldapsupported = Boolean.valueOf(ldapStr);
+            User user = login.getUser();
+            User loginUser = this.userService.login(user.getUniqueId(), user.getPassword(), ldapsupported);
+            if (loginUser == null) {
+                addActionError("user.login.credentials.invalid");
+                makeErrorAware();
+                return "user/user_login";
+            } else {
+                if (!loginUser.isActivated()) {
+                    addActionError("user.login.account.inactive.error");
+                    makeErrorAware();
+                    return "user/user_login";
+                }
+                storeInSession(request, MConts.SE_AUTHEN_FLAG, MConts.SE_LOGIN);
+                storeInSession(request, MConts.SE_AUTHEN_USER_ID, loginUser.getId());
+                storeInSession(request, MConts.SE_AUTHEN_USER_NAME, loginUser.getDisplayName());
+                storeInSession(request, MConts.SE_USER_TYPE, loginUser.getUserType());
+            }
+            //set the application name
+            String applicationName = systemPropertySettings.getPropValue(SystemPropertyConts.APPLICATION_NAME);
+            model.addAttribute("applicationName", applicationName);
+            //get requestedUrl
+            String requestedUrl = (String) getFromSession(request, MConts.REQUESTED_URL);
+            System.out.println("================> User Login success - requested URL is : " + requestedUrl);
+            if (StringUtils.isBlank(requestedUrl)) {
+                requestedUrl = "/home.htm";
+            }
+            //set the requested url
+            model.addAttribute("requestedUrl", requestedUrl);
+            return "user/login_success";
+        } catch (Exception ex) {
+            logger.error(ex);
+            addActionError("user.login.failed");
+            makeErrorAware();
+            return "user/user_login";
+        }
     }
 
-    @RequestMapping(value = "/password_reset", method = RequestMethod.GET)
-    public String resetPassword(Model model) {
+    private void validateLogin(LoginBean loginBean, HttpServletRequest request) {
+        try {
+            User user = loginBean.getUser();
+
+            //uniqueId
+            String uniqueId = user.getUniqueId();
+            if (StringUtils.isBlank(uniqueId)) {
+                addActionError("user.login.uniqueId.required");
+            }
+            //password
+            String password = user.getPassword();
+            if (StringUtils.isBlank(password)) {
+                addActionError("user.login.password.required");
+            }
+
+            //security code
+            String securityCode = loginBean.getSecurityCode();
+            if (StringUtils.isBlank(securityCode)) {
+                addActionError("security.code.required");
+            } else {
+                String captchaCode = (String) getFromSession(request, MConts.CAPTCHA_CODE_KEY);
+                if (!StringUtils.equalsIgnoreCase(securityCode, captchaCode)) {
+                    addActionError("security.code.invalid");
+                }
+            }
+        } catch (Exception ex) {
+            logger.error(ex);
+            addActionError("user.login.check.user.account.failed");
+        }
+
+    }
+
+    @RequestMapping(value = "/request_pwd_reset", method = RequestMethod.GET)
+    public String requestResetPassword(Model model) {
         ResetPasswordBean passwordReset = new ResetPasswordBean();
         model.addAttribute("passwordReset", passwordReset);
-        return "user/password_reset";
+        return "user/request_pwd_reset";
     }
 
-    @RequestMapping(value = "/password_reset", method = RequestMethod.POST)
-    public String resetPassword(@ModelAttribute("passwordReset") ResetPasswordBean passwordreset, HttpServletRequest request, Model model) {
+    @RequestMapping(value = "/request_pwd_reset", method = RequestMethod.POST)
+    public String requestResetPassword(@ModelAttribute("passwordReset") ResetPasswordBean passwordBean, HttpServletRequest request, Model model) {
+        actionSupport(request, model);
+        validateRequestResetPwd(passwordBean, request);
+        if (hasActionErrors()) {
+            makeErrorAware();
+            return "user/request_pwd_reset";
+        }
 
-        return "user/password_reset";
+        try {
+            User submittedUser = passwordBean.getUser();
+            User foundUser = this.userService.getUserByEmail(submittedUser.getEmail());
+            if (foundUser == null) {
+                addActionError("user.forgot.password.account.invalid");
+                makeErrorAware();
+                return "user/request_pwd_reset";
+            }
+
+            // user account is inactive
+            if (!foundUser.isActivated()) {
+                addActionError("user.forgot.password.account.inactive");
+                makeErrorAware();
+                return "user/request_pwd_reset";
+            }
+            if (foundUser.getPassword().equals("ldap")) {
+                addActionError("user.forgot.password.cannot.reset.ldap.account");
+                makeErrorAware();
+                return "user/request_pwd_reset";
+            }
+            String displayName = foundUser.getDisplayName();
+            String submittedName = submittedUser.getFirstName() + " " + submittedUser.getLastName();
+            if (!StringUtils.equals(displayName, submittedName)) {
+                addActionError("user.forgot.password.account.invalid");
+                makeErrorAware();
+                return "user/request_pwd_reset";
+            }
+            String resetPasswdCode = generateSecurityHash(foundUser.getEmail());
+            foundUser.setResetPasswdHashCode(resetPasswdCode);
+            this.userService.updateUser(foundUser);
+
+            // site name
+            String serverQName = getServerQName(request);
+            String appContext = getAppContextPath(request);
+
+            // construct a reset password url
+            String resetPwdUrl = constructResetPwdUrl(serverQName, appContext, foundUser.getId(), foundUser.getResetPasswdHashCode());
+
+            sendResetPasswdEmailToUser(serverQName, foundUser.getEmail(), resetPwdUrl);
+
+            // set action finished messsage
+            addActionMessage(getText("user.forgot.password.request.finished.msg", new String[]{displayName}));
+            makeMessageAware();
+            return "user/request_pwd_finished";
+        } catch (Exception ex) {
+            logger.error(ex);
+            addActionError("user.forgot.password.request.failed");
+            makeErrorAware();
+            return "user/request_pwd_reset";
+        }
+    }
+
+    @RequestMapping(value = "/verify_resetpwd", method = RequestMethod.GET)
+    public String resetPassword(@RequestParam("id") long id, @RequestParam("code") String code, HttpServletRequest request, Model model) {
+        actionSupport(request, model);
+        ResetPasswordBean passwordReset = new ResetPasswordBean();
+        model.addAttribute("passwordReset", passwordReset);
+        try {
+            User user = this.userService.getUserById(id);
+            if (user == null) {
+                addActionError("user.reset.password.confirmation.link.invalid");
+                makeErrorAware();
+                return "user/verify_reset_pwd_error";
+            }
+
+            if (user.getResetPasswdHashCode() == null) {
+                addActionError("user.reset.password.confirmation.link.expired");
+                makeErrorAware();
+                return "user/verify_reset_pwd_error";
+            }
+
+            if (user.getResetPasswdHashCode() != null && (!user.getResetPasswdHashCode().equals(code))) {
+                addActionError("user.reset.password.confirmation.link.invalid");
+                makeErrorAware();
+                return "user/verify_reset_pwd_error";
+            }
+
+            if (!user.isActivated()) {
+                addActionError("user.reset.password.confirmation.link.invalid");
+                makeErrorAware();
+                return "user/verify_reset_pwd_error";
+            }
+            //finally set the user into password reset bean
+            passwordReset.setUser(user);
+            return "user/reset_password";
+        } catch (Exception ex) {
+            logger.error(ex);
+            addActionError("user.reset.password.validate.confirmation.failed");
+            return "user/verify_reset_pwd_error";
+        }
+    }
+
+    @RequestMapping(value = "/reset_password", method = RequestMethod.POST)
+    public String resetPassword(@ModelAttribute("passwordReset") ResetPasswordBean passwordBean, HttpServletRequest request, Model model) {
+        actionSupport(request, model);
+        validateResetPassword(passwordBean, request);
+        if (hasActionErrors()) {
+            makeErrorAware();
+            return "user/reset_password";
+        }
+
+        try {
+            User user = passwordBean.getUser();
+            User foundUser = this.userService.getUserById(user.getId());
+            if (foundUser == null) {
+                addActionError("user.reset.password.account.invalid");
+                makeErrorAware();
+                return "user/reset_password";
+            }
+
+            // reset password hash code is null, means the reset password link has been expired
+            if (foundUser.getResetPasswdHashCode() == null) {
+                // The reset password link has been expired
+                addActionError("user.reset.password.confirmation.link.expired");
+                makeErrorAware();
+                return "user/reset_password";
+            }
+
+            if (user.getResetPasswdHashCode() != null && (!user.getResetPasswdHashCode().equals(user.getResetPasswdHashCode()))) {
+                addActionError("user.reset.password.confirmation.link.invalid");
+                makeErrorAware();
+                return "user/reset_password";
+            }
+
+            foundUser.setPassword(MD5.hash(user.getPassword()));
+            foundUser.setResetPasswdHashCode(null);
+            this.userService.updateUser(foundUser);
+
+            addActionMessage("user.reset.password.success.msg", new String[]{foundUser.getDisplayName()});
+            makeMessageAware();
+            return "user/reset_password_finished";
+
+        } catch (Exception ex) {
+            addActionError("user.reset.password.failed");
+            makeErrorAware();
+            return "user/reset_password";
+        }
+    }
+
+    @RequestMapping(value = "user_logout")
+    public String logout(HttpServletRequest request) {
+        cleanAllInSession(request);
+        return "home";
+    }
+
+    private void cleanAuthenInSession(HttpServletRequest request) {
+        removeFromSession(request, MConts.SE_AUTHEN_FLAG);
+        removeFromSession(request, MConts.SE_AUTHEN_USER_ID);
+        removeFromSession(request, MConts.SE_AUTHEN_USER_NAME);
+        removeFromSession(request, MConts.SE_USER_TYPE);
+    }
+    private void cleanAllInSession(HttpServletRequest request){
+        request.getSession().invalidate();
     }
 
     private void validateLdapReg(RegistrationBean registration, HttpServletRequest request) {
@@ -367,6 +582,74 @@ public class UserController extends BaseController {
         }
     }
 
+    private void validateRequestResetPwd(ResetPasswordBean resetPasswordBean, HttpServletRequest request) {
+        User user = resetPasswordBean.getUser();
+        //first name
+        String firstName = user.getFirstName();
+        if (StringUtils.isBlank(firstName)) {
+            addActionError("user.first.name.empty");
+        }
+
+        //last name
+        String lastName = user.getLastName();
+        if (StringUtils.isBlank(lastName)) {
+            addActionError("user.last.name.empty");
+        }
+
+        //email
+        String email = user.getEmail();
+        if (StringUtils.isBlank(email)) {
+            addActionError("user.email.empty");
+        } else {
+            if (!MDValidator.validateEmail(email)) {
+                addActionError("user.email.invalid");
+            }
+        }
+
+        //security code
+        String securityCode = resetPasswordBean.getSecurityCode();
+        if (StringUtils.isBlank(securityCode)) {
+            addActionError("security.code.required");
+        } else {
+            String captchaCode = (String) getFromSession(request, MConts.CAPTCHA_CODE_KEY);
+            if (!StringUtils.equalsIgnoreCase(securityCode, captchaCode)) {
+                addActionError("security.code.invalid");
+            }
+        }
+    }
+
+    private void validateResetPassword(ResetPasswordBean resetPasswordBean, HttpServletRequest request) {
+        User user = resetPasswordBean.getUser();
+
+        String rePassword = resetPasswordBean.getRePassword();
+
+        //password
+        if (StringUtils.isBlank(user.getPassword())) {
+            addActionError("user.reset.password.required");
+        }
+
+        //repassword
+        if (StringUtils.isBlank(rePassword)) {
+            addActionError("user.reset.password.rePassword.required");
+        }
+        //compare two passwords
+        if (StringUtils.isNotBlank(user.getPassword()) && StringUtils.isNotBlank(rePassword)) {
+            if (!user.getPassword().equals(rePassword)) {
+                addActionError("user.reset.password.two.passwords.not.same");
+            }
+        }
+        //security code
+        String securityCode = resetPasswordBean.getSecurityCode();
+        if (StringUtils.isBlank(securityCode)) {
+            addActionError("security.code.required");
+        } else {
+            String captchaCode = (String) getFromSession(request, MConts.CAPTCHA_CODE_KEY);
+            if (!StringUtils.equalsIgnoreCase(securityCode, captchaCode)) {
+                addActionError("security.code.invalid");
+            }
+        }
+    }
+
     private Avatar genAvatar(String gender) {
         Avatar avatar = new Avatar();
         String avatarFile = null;
@@ -422,6 +705,41 @@ public class UserController extends BaseController {
         templateMap.put("AppName", appName);
 
         this.mailService.sendMail(adminEmail, adminEmail, subject, templateMap, activateEmailTemplateFile, true);
+    }
+
+    private String constructResetPwdUrl(String serverQName, String appContext, long id, String hashCode) {
+
+        String pkName = "user";
+        String actionName = "verify_resetpwd.htm?";
+        String actIdPair = "id=" + id;
+        String hashCodePair = "&code=" + hashCode;
+
+        StringBuffer resetPwdUrl = new StringBuffer();
+        // application root url
+        resetPwdUrl.append(serverQName).append(appContext).append(MConts.URL_PATH_DEIM);
+        // action name
+        resetPwdUrl.append(pkName).append(MConts.URL_PATH_DEIM).append(actionName);
+        // actId and hash code
+        resetPwdUrl.append(actIdPair).append(hashCodePair);
+        return new String(resetPwdUrl).trim();
+    }
+
+    private void sendResetPasswdEmailToUser(String serverQName, String userEmail, String resetPasswdURL) {
+        String resetPasswdMailTemplateFile = "resetPasswordEmailTemplate.ftl";
+
+        // prepare to send email.
+        String appName = systemPropertySettings.getPropValue(SystemPropertyConts.APPLICATION_NAME);
+        String adminEmail = systemPropertySettings.getPropValue(SystemPropertyConts.SYSTEM_SERVICE_EMAIL);
+        String subject = getText("user.forgot.password.mail.title");
+
+        Map<String, String> templateMap = new HashMap<String, String>();
+        templateMap.put("userEmail", userEmail);
+        templateMap.put("resetPasswdURL", resetPasswdURL);
+        templateMap.put("SiteName", serverQName);
+        templateMap.put("AppName", appName);
+
+        // send an email to user
+        this.mailService.sendMail(adminEmail, userEmail, subject, templateMap, resetPasswdMailTemplateFile, true);
     }
 
 }

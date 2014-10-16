@@ -263,7 +263,7 @@ public class LDAPUtil {
             return true;
         } catch (Exception e) {
             logger.error(e.getMessage());
-            throw new MSecurityException(e);
+            return false;
         } finally {
             if (dir != null) {
                 try {

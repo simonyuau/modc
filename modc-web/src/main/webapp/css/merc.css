@@ -341,6 +341,17 @@ input {
     color: #b24f3c;
 }
 
+.redirect_span {
+    color: #000000;
+}
+
+.redirect_pane {
+    color: #58553a;
+    margin: 0 auto;
+    padding: 10px;
+    text-align: center;
+}
+
 /** page title */
 .page_title {
     height: 25px;

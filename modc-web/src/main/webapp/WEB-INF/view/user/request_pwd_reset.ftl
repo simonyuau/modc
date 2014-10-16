@@ -2,7 +2,7 @@
 <html>
 <head>
 <#include "../template/header.ftl"/>
-    <title><@s.message "user.login.title" /></title>
+    <title><@s.message "user.reset.password.title" /></title>
     <script type="text/javascript">
         function refresh() {
             document.getElementById("captcha_img").src = '${base}/captcha/secode.htm?now=' + new Date();
@@ -16,7 +16,7 @@
 <div class="page_title">
     <div class="page_title_inline">&nbsp;</div>
     <div class="page_title_inline"><img src="${base}/images/link_arrow.png" border="0"/></div>
-    <div class="page_title_inline"><@s.message "user.login.title" /></div>
+    <div class="page_title_inline"><@s.message "user.reset.password.title" /></div>
 </div>
 <div style="clear:both"></div>
 <div class="main_body_div">
@@ -28,28 +28,41 @@
             <div class="left_display_inner">
             <#include "../template/action_message.ftl" />
                 <div class="reg_panel">
-                <@sf.form action="user_login.htm" commandName="userLogin" method="post">
-
+                <@sf.form action="request_pwd_reset.htm" commandName="passwordReset" method="post">
+                    <div class="hints_panel">
+                        <img src="${base}/images/warn.png"/> &nbsp; Monash Authcate user, please contact ITS support service to reset your password
+                    </div>
                     <div class="reg_middle_panel">
                         <div class="input_field_row">
                             <div class="input_field_title">
-                                <@s.message "user.uniqueId" />:
+                                <@s.message "user.firstName" />:
                             </div>
                             <div class="input_field_value_section">
-                                <@sf.input path="user.uniqueId" />
+                                <@sf.input path="user.firstName" />
                                 <div class="comments">
-                                    <@s.message "user.login.uniqueId.hint" />
+                                    Your first name
                                 </div>
                             </div>
                         </div>
                         <div class="input_field_row">
                             <div class="input_field_title">
-                                <@s.message "user.password" />:
+                                <@s.message "user.lastName" />:
                             </div>
                             <div class="input_field_value_section">
-                                <@sf.password path="user.password" />
+                                <@sf.input path="user.lastName" />
                                 <div class="comments">
-                                    <@s.message "user.login.password.hint" />
+                                    Your last name
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input_field_row">
+                            <div class="input_field_title">
+                                <@s.message "user.email" />
+                            </div>
+                            <div class="input_field_value_section">
+                                <@sf.input path="user.email" />
+                                <div class="comments">
+                                    Your registed E-mail, e.g. yourname@example.com
                                 </div>
                             </div>
                         </div>
@@ -75,6 +88,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="blank_separator"></div>
                         <div class="blank_separator"></div>
                         <div class="input_field_row">
@@ -82,9 +96,8 @@
                                 &nbsp;
                             </div>
                             <div class="input_field_value_section">
-                                <input type="submit" value="Login" class="input_button_style"/> &nbsp; <input type="reset" value="Reset" class="input_button_style"/>
-                                <span class="inline_span">Don't have an Account, <a href="${base}/user/registration_options.htm">Register an account now </a></span>
-                                &nbsp; <span class="inline_span"><a href="${base}/user/request_pwd_reset.htm">Forgot your password?</a></span>
+                                <input type="submit" value="Submit" class="input_button_style"/> &nbsp; <input type="reset" value="Reset" class="input_button_style"/>
+                                <span class="inline_span"> If you already have an account, please <a href="${base}/user/user_login.htm">Sign in now </a></span>
                             </div>
                         </div>
                     </div>

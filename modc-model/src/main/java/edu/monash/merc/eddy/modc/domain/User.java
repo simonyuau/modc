@@ -70,6 +70,10 @@ public class User extends Domain {
     @Column(name = "activated_date")
     private Date activatedDate;
 
+    @Basic
+    @Column(name = "reset_password_code", length = 50)
+    private String resetPasswdHashCode;
+
     @Column(name = "user_type", columnDefinition = "integer", nullable = false)
     private int userType;
 
@@ -210,5 +214,13 @@ public class User extends Domain {
 
     public void setUserType(int userType) {
         this.userType = userType;
+    }
+
+    public String getResetPasswdHashCode() {
+        return resetPasswdHashCode;
+    }
+
+    public void setResetPasswdHashCode(String resetPasswdHashCode) {
+        this.resetPasswdHashCode = resetPasswdHashCode;
     }
 }

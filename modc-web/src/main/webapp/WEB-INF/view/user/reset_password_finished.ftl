@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<#include "template/header.ftl"/>
-    <title>Home Page</title>
-    <title><@s.message "home.action.title" /></title>
+<#include "../template/header.ftl"/>
+    <title><@s.message "user.reset.password.title" /></title>
 </head>
 <body>
 <!-- Navigation Section -->
-<#include "template/nav.ftl" />
+<#include "../template/nav.ftl" />
 <!-- Navigation Title -->
 <div class="page_title">
     <div class="page_title_inline">&nbsp;</div>
     <div class="page_title_inline"><img src="${base}/images/link_arrow.png" border="0"/></div>
-    <div class="page_title_inline"><@s.message "home.action.title" /></div>
+    <div class="page_title_inline"><@s.message "user.reset.password.title" /></div>
 </div>
 <div style="clear:both"></div>
 <div class="main_body_div">
@@ -22,30 +21,9 @@
         <div class="left_display_div">
             <div style="clear:both"></div>
             <div class="left_display_inner">
-
-            home page
-
                 <br/>
+            <#include "../template/action_completed.ftl" />
                 <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-
-                <br/>
-                <br/>
-
             </div>
         </div>
         <!-- right panel -->
@@ -57,6 +35,6 @@
 </div>
 <div style="clear:both"></div>
 </div>
-<#include "template/footer.ftl"/>
+<#include "../template/footer.ftl"/>
 </body>
 </html>

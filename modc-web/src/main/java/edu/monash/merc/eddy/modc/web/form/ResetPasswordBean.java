@@ -40,7 +40,7 @@ public class ResetPasswordBean {
 
     private User user;
 
-    private String newPassword;
+    private String rePassword;
 
     private String securityCode;
 
@@ -52,12 +52,12 @@ public class ResetPasswordBean {
         this.user = user;
     }
 
-    public String getNewPassword() {
-        return newPassword;
+    public String getRePassword() {
+        return rePassword;
     }
 
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
+    public void setRePassword(String rePassword) {
+        this.rePassword = rePassword;
     }
 
     public String getSecurityCode() {

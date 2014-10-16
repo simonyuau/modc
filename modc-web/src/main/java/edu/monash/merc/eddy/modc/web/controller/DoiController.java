@@ -70,7 +70,7 @@ public class DoiController extends BaseController {
         return publicationYears;
     }
 
-    @RequestMapping(value = "/mint", method = RequestMethod.GET)
+    @RequestMapping(value = "/show_mint", method = RequestMethod.GET)
     public String mintDoi(HttpServletRequest request, Model model) {
         DoiResource doiResource = new DoiResource();
         model.addAttribute("doiResource", doiResource);
@@ -81,7 +81,7 @@ public class DoiController extends BaseController {
         return "doi/doi_mint";
     }
 
-    @RequestMapping(value = "/mint", method = RequestMethod.POST)
+    @RequestMapping(value = "/mint")
     public String mint(@ModelAttribute("doiResource") DoiResource doiResource, HttpServletRequest request, Model model) {
 
         //TODO: remove the following debug

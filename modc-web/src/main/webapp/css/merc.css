@@ -77,6 +77,15 @@ input {
     padding: 1px;
 }
 
+.input_select_small {
+    height: 20px;
+    width: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #FFFFFF;
+    border: 1px solid #c2c9d7;
+    padding: 1px;
+}
+
 .check_box {
     line-height: 14px;
     height: 14px;
@@ -130,6 +139,21 @@ input {
     text-align: center;
 }
 
+.input_button_style2 {
+    background: none repeat scroll 0 0 #eff2f7;
+    border-left: solid 1px #E1E8F0;
+    border-top: solid 1px #E1E8F0;
+    border-right: solid 1px #C2C9D7;
+    border-bottom: solid 1px #C2C9D7;
+    text-decoration: none;
+    width: 85px;
+    height: 22px;
+    padding-bottom: 2px;
+    cursor: pointer;
+    font-weight: normal;
+    text-align: center;
+}
+
 .input_button_norm {
     width: 85px;
     border: solid 1px #E1E8F0;
@@ -152,6 +176,22 @@ input {
     margin: 0 auto;
     width: 100%;
     height: 4px;
+}
+
+.name_title {
+    display: block;
+    font-weight: normal;
+    font-size: 12px;
+    color: #003766;
+}
+
+.none_display_link_div{
+    display: none;
+}
+
+.span_number {
+    color: green;
+    font-weight: bold;
 }
 
 /** ==== End of common --->
@@ -336,6 +376,44 @@ input {
     margin: 5px;
 }
 
+.none_border_block {
+    margin-left: auto;
+    margin-bottom: 3px;
+    margin-right: auto;
+    margin-top: 3px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    text-align: center;
+}
+
+.none_border_block a {
+    width: 50px;
+    border: solid 1px #C2C9D7;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size: 11px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    color: #3a4c66;
+}
+
+.none_border_block a:hover {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: solid 1px #999;
+    color: #fff;
+    background-color: #006377;
+    font-weight: bold;
+    text-align: center;
+    font-size: 11px;
+}
+
+
 .red_span {
     display: inline-block;
     color: #b24f3c;
@@ -469,6 +547,70 @@ input {
     text-align: left;
 }
 
+.display_data_tab {
+    width: 100%;
+    text-align: left;
+    border: solid 1px #F2F2F2;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.display_data_tab th {
+    background-color: #f9f9f9;
+    border-bottom: solid 1px #F2F2F2;
+    border-right: solid 1px #F2F2F2;
+    padding: 5px;
+}
+
+.display_data_tab td {
+    border-bottom: solid 1px #F2F2F2;
+    border-right: solid 1px #F2F2F2;
+    padding: 5px;
+    font-size: 11px;
+}
+
+
+.tab_link {
+    text-align: center;
+}
+
+.tab_link a {
+    width: 60px;
+    height: 22px;
+    line-height: 22px;
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+    color: #3a4c66;
+    text-decoration: none;
+    border: solid 1px #E1E8F0;
+}
+
+.tab_link a:hover {
+    text-decoration: none;
+    background-color: #006377;
+    color: #fff;
+    height: 22px;
+    line-height: 22px;
+}
+
+
+.user_details_left {
+    padding: 10px;
+    margin-right: 5px;
+    text-align: center;
+    width: 200px;
+    float: left;
+}
+
+.user_details_right {
+    padding: 10px;
+    margin-left: 230px;
+    margin-right: 5px;
+}
+
+
+
 /** =========== **/
 
 .dinput_title_section {
@@ -585,8 +727,8 @@ input {
 }
 
 .content_display_div {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     padding: 15px;
     border: solid 1px #f2f2f2;
     -webkit-border-radius: 5px;
@@ -634,6 +776,67 @@ input {
     -moz-border-radius: 5px;
     border-radius: 5px;
     color: #726E4C;
+}
+
+/** pagination **/
+.pagination_div{
+    font-size: 12px;
+
+}
+.page_style {
+    margin: 5px auto;
+    padding: 3px;
+    text-align: center;
+}
+
+.total {
+    border: solid 1px #c2c9d7;
+    padding: 2px 5px;
+    margin: 2px;
+    color: #7d7d7d;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.page_style a {
+    border: solid 1px #c2c9d7;
+    padding: 2px 5px;
+    margin: 2px;
+    color: #3a4c66;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.page_style a:hover {
+    border: solid 1px #999;
+    color: #fff;
+    background-color: #006377;
+}
+
+.page_style a:active {
+    border: solid 1px #999;
+    color: #666;
+}
+
+.page_style .current {
+    border: solid 1px #036cb4;
+    padding: 2px 5px;
+    font-weight: bold;
+    margin: 2px;
+    color: #3A4C66;
+    background: #F2F2F2;
+}
+
+.page_style .disabled {
+    border: solid 1px #eee;
+    padding: 2px 5px;
+    margin: 2px;
+    color: #ddd;
+}
+
+.page_order_inline_span {
+    color: #909090;
+    font-size: 11px;
 }
 
 /** === Footer === **/

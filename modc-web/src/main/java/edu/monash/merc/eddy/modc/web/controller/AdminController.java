@@ -32,8 +32,11 @@ import edu.monash.merc.eddy.modc.common.config.SystemPropertyConts;
 import edu.monash.merc.eddy.modc.common.exception.MException;
 import edu.monash.merc.eddy.modc.domain.Profile;
 import edu.monash.merc.eddy.modc.domain.User;
+import edu.monash.merc.eddy.modc.domain.UserType;
 import edu.monash.merc.eddy.modc.service.UserService;
 import edu.monash.merc.eddy.modc.service.mail.MailService;
+import edu.monash.merc.eddy.modc.web.conts.MConts;
+import edu.monash.merc.eddy.modc.web.form.ManagedUserBean;
 import edu.monash.merc.eddy.modc.web.form.RegistrationBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -134,7 +137,6 @@ public class AdminController extends BaseController {
             this.userService.updateUser(checkedUser);
             // site name
             String serverQName = getServerQName(request);
-
             // set action finished messsage
             Profile profile = registrationBean.getProfile();
             sendApprovalAccountEmail(serverQName, checkedUser.getDisplayName(), checkedUser.getEmail(), profile.getOrganization());
@@ -188,7 +190,6 @@ public class AdminController extends BaseController {
             this.userService.updateUser(checkedUser);
             // site name
             String serverQName = getServerQName(request);
-
             // set action finished messsage
             Profile profile = registrationBean.getProfile();
             sendRejectAccountEmail(serverQName, checkedUser.getDisplayName(), checkedUser.getEmail(), profile.getOrganization());
@@ -201,6 +202,106 @@ public class AdminController extends BaseController {
             addActionError("admin.activate.account.failed");
             makeErrorAware();
             return "admin/activate_account";
+        }
+    }
+
+    @RequestMapping(value = "/manage_user", method = RequestMethod.GET)
+    public String manageUser(@RequestParam("id") long id, HttpServletRequest request, Model model) {
+        actionSupport(request, model);
+        ManagedUserBean userBean = new ManagedUserBean();
+        model.addAttribute("userBean", userBean);
+        try {
+            User user = this.userService.getUserById(id);
+            if (user == null) {
+                addActionError("admin.manage.user.not.found");
+                makeErrorAware();
+                return "admin/manage_user_error";
+            }
+            userBean.setUser(user);
+            userBean.setProfile(user.getProfile());
+            userBean.setAvatar(user.getAvatar());
+            return "admin/manage_user";
+        } catch (Exception ex) {
+            logger.error(ex);
+            addActionError("admin.manage.user.check.user.details.error");
+            makeErrorAware();
+            return "admin/manage_user_error";
+        }
+    }
+
+    @RequestMapping(value = "/manage_user", method = RequestMethod.POST)
+    public String manageUser(@ModelAttribute("userBean") ManagedUserBean userBean, HttpServletRequest request, Model model) {
+        actionSupport(request, model);
+        try {
+            User user = userBean.getUser();
+            String managedType = userBean.getManagedType();
+
+            User regUser = this.userService.getUserById(user.getId());
+
+            if (regUser == null) {
+                addActionError("admin.manage.user.not.found");
+                makeErrorAware();
+                return "admin/manage_user_error";
+            }
+
+            if (managedType.equals(MConts.ACTIVATE)) {
+                if (!regUser.isActivated()) {
+                    regUser.setActivated(true);
+                    regUser.setRejected(false);
+                    this.userService.updateUser(regUser);
+
+                    // site name
+                    String serverQName = getServerQName(request);
+                    // set action finished messsage
+                    Profile profile = regUser.getProfile();
+                    sendApprovalAccountEmail(serverQName, regUser.getDisplayName(), regUser.getEmail(), profile.getOrganization());
+                    addActionMessage("admin.manage.user.success", new String[]{("Activated " + regUser.getDisplayName() + " user account")});
+                }
+            }
+            if (managedType.equals(MConts.DEACTIVATE)) {
+                if (regUser.isActivated()) {
+                    regUser.setActivated(false);
+                    regUser.setRejected(false);
+                    this.userService.updateUser(regUser);
+
+                    // site name
+                    String serverQName = getServerQName(request);
+                    // set action finished messsage
+                    Profile profile = regUser.getProfile();
+                    sendRejectAccountEmail(serverQName, regUser.getDisplayName(), regUser.getEmail(), profile.getOrganization());
+                    // set action successful message
+                    addActionMessage("admin.manage.user.success", new String[]{("Deactivated " + regUser.getDisplayName() + " user account")});
+                }
+            }
+
+            if (managedType.equals(MConts.SETASADMIN)) {
+                if (regUser.getUserType() != UserType.ADMIN.code()) {
+                    regUser.setUserType(UserType.ADMIN.code());
+                    this.userService.updateUser(regUser);
+                    // set action successful message
+                    addActionMessage("admin.manage.user.success", new String[]{("Set " + regUser.getDisplayName() + " user as an admin")});
+                }
+
+            }
+            if (managedType.equals(MConts.SETASUSER)) {
+                if (regUser.getUserType() == UserType.ADMIN.code()) {
+                    regUser.setUserType(UserType.USER.code());
+                    this.userService.updateUser(regUser);
+                    // set action successful message
+                    addActionMessage("admin.manage.user.success", new String[]{("Set " + regUser.getDisplayName() + " user as a normal user")});
+                }
+            }
+
+            makeMessageAware();
+            userBean.setUser(regUser);
+            userBean.setProfile(regUser.getProfile());
+            userBean.setAvatar(regUser.getAvatar());
+            return "admin/manage_user";
+        } catch (Exception ex) {
+            logger.error(ex);
+            addActionMessage("admin.manage.user.failed");
+            makeErrorAware();
+            return "admin/manage_user_error";
         }
     }
 

@@ -133,3 +133,25 @@ $(document).ready(function () {
         buttonImage: "../images/calendar.png"
     });
 });
+
+
+/** pagination orderby */
+$(document).ready(function () {
+    $("#item_select_size").change(function () {
+        // var message_index = $("#item_select_size").val();
+        // alert(message_index)
+        window.location.href = $('.page_url').attr('href') + "&sizePerPage=" + $("#item_select_size").val();
+    });
+});
+
+$(document).ready(function () {
+    $("#item_select_order").change(function () {
+        window.location.href = $('.page_url').attr('href') + "&orderBy=" + $("#item_select_order").val() + "&orderByType=" + $("#item_select_otype").val();
+    });
+});
+
+$(document).ready(function () {
+    $("#item_select_otype").change(function () {
+        window.location.href = $('.page_url').attr('href') + "&orderBy=" + $("#item_select_order").val() + "&orderByType=" + $("#item_select_otype").val();
+    });
+});

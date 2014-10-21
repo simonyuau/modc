@@ -27,7 +27,7 @@
             <li><a href="${base}/home.htm">Home</a></li>
             <li><a href="#">Projects</a></li>
             <li><a href="${base}/doi/show_mint.htm">DOI</a></li>
-            <li><a href="#">Users</a></li>
+            <li><a href="${base}/user/list_users.htm">Users</a></li>
             <li><a href="#">About Us</a></li>
         </ul>
     </div>

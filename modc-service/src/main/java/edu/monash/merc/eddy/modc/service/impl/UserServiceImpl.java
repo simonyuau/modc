@@ -6,6 +6,8 @@ import edu.monash.merc.eddy.modc.dao.UserDAO;
 import edu.monash.merc.eddy.modc.domain.User;
 import edu.monash.merc.eddy.modc.service.UserService;
 import edu.monash.merc.eddy.modc.service.ldap.LdapService;
+import edu.monash.merc.eddy.modc.sql.page.Pager;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -102,5 +104,10 @@ public class UserServiceImpl implements UserService {
             }
         }
         return null;
+    }
+
+    @Override
+    public Pager<User> getUsers(int startPageNo, int sizePerPage, Order[] orderParams) {
+        return this.userDao.getUsers(startPageNo, sizePerPage, orderParams);
     }
 }

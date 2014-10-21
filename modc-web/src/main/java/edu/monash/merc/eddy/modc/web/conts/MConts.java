@@ -4,6 +4,7 @@ package edu.monash.merc.eddy.modc.web.conts;
  * Created by simonyu on 5/08/2014.
  */
 public interface MConts {
+
     static final String STATIC_HTML = "static_html";
 
     static String HTTP_SCHEME = "http";
@@ -29,4 +30,23 @@ public interface MConts {
     static String SE_USER_TYPE = "authen_user_type";
 
     static String REQUESTED_URL = "requested_url_key";
+
+    static int DEFAULT_START_PAGE_NO = 1;
+
+    static int DEFAULT_SIZE_PER_PAGE = 20;
+
+    static String SIZE_PER_PAGE = "size_per_page";
+
+    static String ORDER_BY = "order_by";
+
+    static String ORDER_BY_TYPE = "order_by_type";
+
+    static String ACTIVATE = "activate";
+
+    static String DEACTIVATE = "deactivate";
+
+    static String SETASADMIN = "setasadmin";
+
+    static String SETASUSER = "setasuser";
+
 }

@@ -87,7 +87,9 @@
         </div>
         <!-- right panel -->
         <div class="right_display_div">
-            &nbsp;
+        <#if authen_flag?? && authen_flag == 'authenticated'>
+            <#include "../template/sub_nav.ftl" />
+        </#if>
         </div>
     </div>
 </div>

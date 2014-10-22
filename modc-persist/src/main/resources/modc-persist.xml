@@ -39,8 +39,8 @@
         <!-- hibernate properties -->
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
                 <prop key="hibernate.dialect">${hibernate.jdbc.dialect}</prop>
                 <!-- enable second level cache and query cache -->
                 <!-- Hibernate 3.3 and above using region factory class, below 3.3 please use  -->

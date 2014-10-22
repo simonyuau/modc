@@ -15,26 +15,24 @@ import edu.monash.merc.eddy.modc.sql.condition.SqlOrderBy;
 import edu.monash.merc.eddy.modc.sql.page.Pager;
 import edu.monash.merc.eddy.modc.web.conts.MConts;
 import edu.monash.merc.eddy.modc.web.form.LoginBean;
+import edu.monash.merc.eddy.modc.web.form.ManagedUserBean;
 import edu.monash.merc.eddy.modc.web.form.RegistrationBean;
 import edu.monash.merc.eddy.modc.web.form.ResetPasswordBean;
 import edu.monash.merc.eddy.modc.web.validation.MDValidator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.io.File;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -254,6 +252,11 @@ public class UserController extends BaseController {
                 storeInSession(request, MConts.SE_AUTHEN_USER_ID, loginUser.getId());
                 storeInSession(request, MConts.SE_AUTHEN_USER_NAME, loginUser.getDisplayName());
                 storeInSession(request, MConts.SE_USER_TYPE, loginUser.getUserType());
+                Avatar avatar = loginUser.getAvatar();
+                String avatarName = avatar.getFileName();
+                if (StringUtils.isNotBlank(avatarName)) {
+                    storeInSession(request, MConts.SE_USER_AVATAR, avatarName);
+                }
             }
             //set the application name
             String applicationName = systemPropertySettings.getPropValue(SystemPropertyConts.APPLICATION_NAME);
@@ -501,12 +504,10 @@ public class UserController extends BaseController {
         model.addAttribute("pageLink", "user/list_users.htm");
         try {
             Pager<User> paginationUsers = this.userService.getUsers(pageNo, sizePerPage, myOrders.orders());
-            if (paginationUsers != null) {
-                System.out.println(" paginationUsers " + paginationUsers.getTotalSize());
-            } else {
+            if (paginationUsers == null) {
                 paginationUsers = new Pager<>();
             }
-           //set the pagination users
+            //set the pagination users
             model.addAttribute("paginationUsers", paginationUsers);
         } catch (Exception ex) {
             actionSupport(request, model);
@@ -515,6 +516,30 @@ public class UserController extends BaseController {
             return "user/list_users_error";
         }
         return "user/list_users";
+    }
+
+    @RequestMapping(value = "/view_user", method = RequestMethod.GET)
+    public String viewUser(@RequestParam("id") long id, HttpServletRequest request, Model model) {
+        actionSupport(request, model);
+        ManagedUserBean userBean = new ManagedUserBean();
+        model.addAttribute("userBean", userBean);
+        try {
+            User user = this.userService.getUserById(id);
+            if (user == null) {
+                addActionError("user.show.details.account.not.found");
+                makeErrorAware();
+                return "user/show_user_error";
+            }
+            userBean.setUser(user);
+            userBean.setProfile(user.getProfile());
+            userBean.setAvatar(user.getAvatar());
+            return "user/user_details";
+        } catch (Exception ex) {
+            logger.error(ex);
+            addActionError("user.show.details.check.user.error");
+            makeErrorAware();
+            return "user/show_user_error";
+        }
     }
 
     private SqlOrderBy genOrderBy(String orderBy, String orderByType) {

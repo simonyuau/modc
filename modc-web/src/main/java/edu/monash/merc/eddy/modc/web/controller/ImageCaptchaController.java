@@ -34,7 +34,6 @@ import edu.monash.merc.eddy.modc.common.captcha.ImgCaptcha;
 import edu.monash.merc.eddy.modc.web.conts.MConts;
 import edu.monash.merc.eddy.modc.web.view.ImageView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,9 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 
 /**
  * Monash University eResearch Center
@@ -69,10 +66,8 @@ public class ImageCaptchaController extends BaseController {
         ImgCaptcha captcha = new ImgCaptcha.Builder(200, 45).addText().addBackground(new GradiatedBackgroundProducer()).gimp().addNoise().addBorder().build();
 
         String code = captcha.getCode();
-        System.out.println("=========== captcha code : " + code);
         storeInSession(request, MConts.CAPTCHA_CODE_KEY, code);
         BufferedImage img = captcha.getImage();
-
         //define a output stream to hold the image
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         ImageUtil.writeImage(output, img);

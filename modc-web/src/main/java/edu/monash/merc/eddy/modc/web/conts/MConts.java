@@ -29,6 +29,8 @@ public interface MConts {
 
     static String SE_USER_TYPE = "authen_user_type";
 
+    static String SE_USER_AVATAR = "authen_user_avatar";
+
     static String REQUESTED_URL = "requested_url_key";
 
     static int DEFAULT_START_PAGE_NO = 1;

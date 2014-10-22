@@ -35,7 +35,6 @@ public class DateTypeEditor extends PropertyEditorSupport {
         }
         try {
             if (text.length() == 4) {
-                System.out.println("========= parse the yyyy date.");
                 setValue(new Date(DATE_YYYY_FORMAT.parse(text).getTime()));
             } else if (text.length() > 4 && text.length() <= 10) {
                 setValue(new Date(DATE_YYYY_MM_DD_FORMAT.parse(text).getTime()));

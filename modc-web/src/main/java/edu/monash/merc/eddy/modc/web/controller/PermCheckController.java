@@ -26,29 +26,23 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.web.context;
+package edu.monash.merc.eddy.modc.web.controller;
 
-import edu.monash.merc.eddy.modc.web.multipart.ProgressMonitor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Monash University eResearch Center
  * <p/>
  * Created by simonyu - xiaoming.yu@monash.edu
- * Date: 9/09/2014
+ * Date: 22/10/14
  */
-public class MDContext {
+@Controller
+@RequestMapping("/perm")
+public class PermCheckController extends BaseController {
 
-    private static ThreadLocal<ProgressMonitor> progressMonitor = new ThreadLocal<>();
-
-    public static ProgressMonitor getProgressMonitor(){
-        return progressMonitor.get();
-    }
-
-    public static void setProgressMonitor(ProgressMonitor pMonitor){
-        progressMonitor.set(pMonitor);
-    }
-
-    public static void removeProgressMonitor(){
-        progressMonitor.remove();
+    @RequestMapping("/perm_denied")
+    public String permDenied() {
+        return "perm/perm_denied";
     }
 }

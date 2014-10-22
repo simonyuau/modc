@@ -42,10 +42,12 @@ public class MFreeMarkerView extends FreeMarkerView {
          * by default. the view (html) is not generated unless you set the STATIC_HTML as true in the request.
 		 */
         if (Boolean.TRUE.equals(model.get(MConts.STATIC_HTML))) {
-            logger.info("====== generating a html view.");
+            if (logger.isDebugEnabled()) {
+                logger.debug("it's generating a html view in MFreeMarkerView.");
+            }
             processStaticHTML(getTemplate(locale), fmModel, request, response);
         } else {
-            logger.info("====== Freemarker is processing the template now.");
+            //logger.info("====== Freemarker is processing the template now.");
             processTemplate(getTemplate(locale), fmModel, response);
         }
     }
@@ -56,7 +58,7 @@ public class MFreeMarkerView extends FreeMarkerView {
 
         // base path
         String basePath = request.getSession().getServletContext().getRealPath("/");
-        logger.info("============ base path : " + basePath);
+        //logger.info("============ base path : " + basePath);
         String requestHTML = this.getRequestHTML(request);
         // the html output path
         String htmlPath = basePath + requestHTML;
@@ -65,11 +67,12 @@ public class MFreeMarkerView extends FreeMarkerView {
         if (!htmlFile.getParentFile().exists()) {
             htmlFile.getParentFile().mkdirs();
         }
-        logger.info("==================== html file path: " + htmlPath);
+        // logger.info("==================== html file path: " + htmlPath);
         if (!htmlFile.exists()) {
             htmlFile.createNewFile();
-        } else {
-            logger.info("========== file already exists");
+            if (logger.isDebugEnabled()) {
+                logger.debug("=====  create a new static html file");
+            }
         }
         // create a Writer
         Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(htmlFile), "UTF-8"));
@@ -92,15 +95,15 @@ public class MFreeMarkerView extends FreeMarkerView {
     private String getRequestHTML(HttpServletRequest request) {
         // web应用名称,部署在ROOT目录时为空
         String contextPath = request.getContextPath();
-        logger.info("=== contextPath : " + contextPath);
         // web应用/目录/文件.do
         String requestURI = request.getRequestURI();
-        logger.info("==== request URI : " + requestURI);
         // basePath里面已经有了web应用名称，所以直接把它replace掉，以免重复
         requestURI = requestURI.replaceFirst(contextPath, "");
         // 将.do改为.htm,稍后将请求转发到此htm文件
         requestURI = requestURI.substring(0, requestURI.indexOf(".")) + ".htm";
-        logger.info("============ request uri : " + requestURI);
+        if (logger.isDebugEnabled()) {
+            logger.debug("request html url" + requestURI);
+        }
         return requestURI;
     }
 
@@ -108,7 +111,7 @@ public class MFreeMarkerView extends FreeMarkerView {
     @Override
     protected void exposeHelpers(Map<String, Object> model, HttpServletRequest request) throws Exception {
         super.exposeHelpers(model, request);
-        logger.error("============> base path : " + request.getContextPath());
+
         // add the base path into the mode, so every page can get the base path
         model.put(CONTEXT_PATH, request.getContextPath());
         if (logger.isDebugEnabled()) {

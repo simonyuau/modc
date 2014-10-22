@@ -7,7 +7,6 @@ import edu.monash.merc.eddy.modc.web.conts.MConts;
 import edu.monash.merc.eddy.modc.web.validation.ActionSupport;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.ui.Model;
 
 import javax.annotation.PostConstruct;
@@ -24,9 +23,6 @@ public class BaseController {
     @Autowired
     protected SystemPropertySettings systemPropertySettings;
 
-    @Autowired
-    protected MessageSource messageSource;
-
     private ActionSupport actionSupport;
 
     public void setSystemPropertySettings(SystemPropertySettings systemPropertySettings) {
@@ -36,7 +32,6 @@ public class BaseController {
     @PostConstruct
     public void init() {
         String applicationName = this.systemPropertySettings.getPropValue(SystemPropertyConts.APPLICATION_NAME);
-        System.out.println("======== application name : " + applicationName);
     }
 
     public void actionSupport(HttpServletRequest request, Model model) {

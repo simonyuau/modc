@@ -2,7 +2,7 @@
 <html>
 <head>
 <#include "../template/header.ftl"/>
-    <title><@s.message "admin.manage.user.action.title" /></title>
+    <title><@s.message "permission.denied.action.title" /></title>
 </head>
 <body>
 <!-- Navigation Section -->
@@ -11,23 +11,29 @@
 <div class="page_title">
     <div class="page_title_inline">&nbsp;</div>
     <div class="page_title_inline"><img src="${base}/images/link_arrow.png" border="0"/></div>
-    <div class="page_title_inline"><@s.message "admin.manage.user.action.title" /></div>
+    <div class="page_title_inline"><@s.message "permission.denied.action.title" /></div>
 </div>
 <div style="clear:both"></div>
 <div class="main_body_div">
     <div class="main_middle_div">
+
         <!-- left panel -->
         <div class="left_display_div">
             <div style="clear:both"></div>
             <div class="left_display_inner">
-                <#include "../template/action_message.ftl" />
+                <div class="redirect_pane">
+                    <br/>
+                    <b>Sorry!</b> &nbsp;&nbsp; Permission Denied !
+                    <br/>
+                    <br/>
+                    <span class="redirect_span">After a few seconds, the page will redirect ...</span>
+                    <br/>
+                    <br/>
+                    <span class="redirect_span">Problems with the redirect? Please use this <a href='${base}'>direct link</a>.</span>
+                    <br/>
+                    <br/>
+                </div>
             </div>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
         </div>
         <!-- right panel -->
         <div class="right_display_div">
@@ -41,5 +47,12 @@
 <div style="clear:both"></div>
 </div>
 <#include "../template/footer.ftl"/>
+
+<script>
+    function jump() {
+        location.href = '${base}';
+    }
+    setTimeout("jump()", 3000);
+</script>
 </body>
 </html>

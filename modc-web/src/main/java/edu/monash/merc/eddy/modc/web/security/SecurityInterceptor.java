@@ -30,7 +30,6 @@ package edu.monash.merc.eddy.modc.web.security;
 
 import edu.monash.merc.eddy.modc.web.conts.MConts;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -48,17 +47,19 @@ public class SecurityInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("Pre-handle");
-        System.out.println("========= in security interceptor the getRequestURI : " + request.getRequestURI());
-        System.out.println("==========> request getRequestURL : " + request.getRequestURL());
-        System.out.println("==========> request context path : " + request.getContextPath());
+//        System.out.println("Pre-handle");
+//        System.out.println("========= in security interceptor the getRequestURI : " + request.getRequestURI());
+//        System.out.println("==========> request getRequestURL : " + request.getRequestURL());
+//        System.out.println("==========> request context path : " + request.getContextPath());
 
         String requestURL = request.getServletPath();
-        System.out.println("==========> request servlet path : " + requestURL);
+//        System.out.println("==========> request servlet path : " + requestURL);
 //        HandlerMethod hm = (HandlerMethod) handler;
 //        String actionName = hm.getMethod().getName();
 //        System.out.println("================== method name : " + actionName);
 
+        //action path
+        String actionPath = requestURL.substring(0, requestURL.indexOf("/", 1));
         @SuppressWarnings("unchecked")
         Map<String, Object> parameters = request.getParameterMap();
         if (parameters != null) {
@@ -78,13 +79,24 @@ public class SecurityInterceptor implements HandlerInterceptor {
                 }
             }
         }
-        // System.out.println("========= in security interceptor the final request url : " + requestURL);
         request.getSession().setAttribute(MConts.REQUESTED_URL, requestURL);
 
         String authenticated = (String) request.getSession().getAttribute(MConts.SE_AUTHEN_FLAG);
         if (!StringUtils.equals(authenticated, MConts.SE_LOGIN)) {
             response.sendRedirect(request.getContextPath() + "/user/user_login.htm");
+            return true;
         }
+
+        if (StringUtils.equalsIgnoreCase(actionPath, "/admin")) {
+            int userType = (Integer) request.getSession().getAttribute(MConts.SE_USER_TYPE);
+            //check the user permission. it's super admin 1 or admin 2
+            if (userType != 1 && userType != 2) {
+                response.sendRedirect(request.getContextPath() + "/perm/perm_denied.htm");
+                return true;
+            }
+
+        }
+
         return true;
     }
 

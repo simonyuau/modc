@@ -9,11 +9,11 @@
     </div>
     <div class="site_top_right">
         <div class="user_login">
-            <#if authen_flag?? && authen_flag == 'authenticated'>
-                <a href="${base}/user/user_logout.htm">Logout</a>
-            <#else>
-                <a href="${base}/user/user_login.htm">Login</a> <a href="${base}/user/registration_options.htm">Register</a>
-            </#if>
+        <#if authen_flag?? && authen_flag == 'authenticated'>
+            <a href="${base}/user/user_logout.htm">Logout</a>
+        <#else>
+            <a href="${base}/user/user_login.htm">Login</a> <a href="${base}/user/registration_options.htm">Register</a>
+        </#if>
         </div>
     </div>
 </div>
@@ -25,9 +25,11 @@
     <div class="nav_menu">
         <ul>
             <li><a href="${base}/home.htm">Home</a></li>
-            <li><a href="#">Projects</a></li>
+            <li><a href="#">Collections</a></li>
+        <#if authen_flag?? && authen_flag == 'authenticated'>
             <li><a href="${base}/doi/show_mint.htm">DOI</a></li>
             <li><a href="${base}/user/list_users.htm">Users</a></li>
+        </#if>
             <li><a href="#">About Us</a></li>
         </ul>
     </div>

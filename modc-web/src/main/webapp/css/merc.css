@@ -335,6 +335,24 @@ input {
     top: 0;
 }
 
+
+/** sub nav **/
+.user_avatar_div {
+    padding: 10px;
+    margin-right: 5px;
+    text-align: center;
+    width: 210px;
+    float: right;
+}
+.user_info_div {
+    float: right;
+    margin-top: 5px;
+    margin-right: 5px;
+    text-align: center;
+    width: 210px;
+    font-size: 11px;
+}
+
 /** ==== End of  Menu ==== **/
 
 /** === START OF Main Body Section ==== **/
@@ -453,7 +471,7 @@ input {
 
 .page_title_inline a:link, .page_title_inline a:visited {
     text-decoration: none;
-    color: #4d5a6d;
+    color: #3b4a6d;
 }
 
 .page_title_inline img {

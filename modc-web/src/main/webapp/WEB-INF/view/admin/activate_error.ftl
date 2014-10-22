@@ -16,17 +16,24 @@
 <div style="clear:both"></div>
 <div class="main_body_div">
     <div class="main_middle_div">
-
         <!-- left panel -->
         <div class="left_display_div">
             <div style="clear:both"></div>
             <div class="left_display_inner">
             <#include "../template/action_message.ftl" />
             </div>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
         </div>
         <!-- right panel -->
         <div class="right_display_div">
-            &nbsp;
+        <#if authen_flag?? && authen_flag == 'authenticated'>
+            <#include "../template/sub_nav.ftl" />
+        </#if>
         </div>
     </div>
 </div>

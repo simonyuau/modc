@@ -84,28 +84,28 @@ public class DoiController extends BaseController {
     @RequestMapping(value = "/mint")
     public String mint(@ModelAttribute("doiResource") DoiResource doiResource, HttpServletRequest request, Model model) {
 
-        //TODO: remove the following debug
-        System.out.println("========= url : " + doiResource.getUrl());
-        List<DoiCreator> creators = doiResource.getDoiCreators();
-        if (creators != null && creators.size() >= 0) {
-            for (DoiCreator creator : creators) {
-                System.out.println("====== creatorName: " + creator.getCreatorName());
-                System.out.println("=========> name identifier : " + creator.getNameIdentifier().getIdentifier());
-                System.out.println("=========> name identifier scheme: " + creator.getNameIdentifier().getNameIdentifierScheme());
-
-            }
-        }
-
-        List<DoiTitle> titles = doiResource.getTitles();
-        if (titles != null && titles.size() >= 0) {
-            for (DoiTitle title : titles) {
-                System.out.println("======= title : " + title.getTitle());
-                System.out.println("========= title type : " + title.getTitleType());
-            }
-        }
-        System.out.println(" ==== publisher : " + doiResource.getPublisher().getPublisher());
-
-        System.out.println(" ==== publication year : " + doiResource.getPublicationYear());
+//        //TODO: remove the following debug
+//        System.out.println("========= url : " + doiResource.getUrl());
+//        List<DoiCreator> creators = doiResource.getDoiCreators();
+//        if (creators != null && creators.size() >= 0) {
+//            for (DoiCreator creator : creators) {
+//                System.out.println("====== creatorName: " + creator.getCreatorName());
+//                System.out.println("=========> name identifier : " + creator.getNameIdentifier().getIdentifier());
+//                System.out.println("=========> name identifier scheme: " + creator.getNameIdentifier().getNameIdentifierScheme());
+//
+//            }
+//        }
+//
+//        List<DoiTitle> titles = doiResource.getTitles();
+//        if (titles != null && titles.size() >= 0) {
+//            for (DoiTitle title : titles) {
+//                System.out.println("======= title : " + title.getTitle());
+//                System.out.println("========= title type : " + title.getTitleType());
+//            }
+//        }
+//        System.out.println(" ==== publisher : " + doiResource.getPublisher().getPublisher());
+//
+//        System.out.println(" ==== publication year : " + doiResource.getPublicationYear());
 
         try {
             //add action support

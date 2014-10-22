@@ -81,7 +81,6 @@ public class ActionSupport {
         }
         this.model = model;
         messageAwareSupport = new ActionMessageAwareSupport();
-        System.out.println("========== finished to create ActionMessageSupport");
     }
 
     public static ActionSupport actionSupport(HttpServletRequest request, Model model) {
@@ -90,7 +89,6 @@ public class ActionSupport {
 
     public void addActionError(String code) {
         String error = wac.getMessage(code, null, locale);
-        System.out.println("======== added error : " + error);
         messageAwareSupport.addActionError(error);
     }
 
@@ -106,7 +104,6 @@ public class ActionSupport {
 
     public void addActionMessage(String code) {
         String message = wac.getMessage(code, null, locale);
-        System.out.println("======== added message : " + message);
         messageAwareSupport.addActionMessage(message);
     }
 

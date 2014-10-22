@@ -2,7 +2,7 @@
 <html>
 <head>
 <#include "../template/header.ftl"/>
-    <title><@s.message "admin.manage.user.action.title" /></title>
+    <title><@s.message "user.show.details.action.title" /></title>
 </head>
 <body>
 <!-- Navigation Section -->
@@ -13,7 +13,7 @@
     <div class="page_title_inline"><img src="${base}/images/link_arrow.png" border="0"/></div>
     <div class="page_title_inline"><a href="${base}/user/list_users.htm"><@s.message "user.all.users.action.title" /></a></div>
     <div class="page_title_inline"><img src="${base}/images/link_arrow.png" border="0"/></div>
-    <div class="page_title_inline"><@s.message "admin.manage.user.action.title" /></div>
+    <div class="page_title_inline"><@s.message "user.show.details.action.title" /></div>
 </div>
 <div style="clear:both"></div>
 <div class="main_body_div">
@@ -93,45 +93,7 @@
                             ${userBean.profile.organization}
                             </div>
                         </div>
-                        <div class="blank_separator"></div>
-                        <div class="input_field_row">
-                            <div class="input_field_title">
-                            <#if (authen_user_type??&&authen_user_type == 1 || authen_user_type??&&authen_user_type == 2) && (authen_user_id != userBean.user.id) && (userBean.user.userType !=1)>
-                                <@sf.form action="manage_user.htm" commandName="userBean" method="post">
-                                    <@sf.hidden path="user.id"/>
-                                    <#if userBean.user.activated>
-                                        <@sf.hidden path="managedType" value="deactivate" />
-                                        <input type="submit" value="Deactivate" class="input_button_style2"/>
-                                    <#else>
-                                        <@sf.hidden path="managedType" value="activate" />
-                                        <input type="submit" value="Activate" class="input_button_style2"/>
-                                    </#if>
-                                </@sf.form>
-                            <#else>
-                                &nbsp;
-                            </#if>
-                            </div>
-                            <div class="input_field_value_section">
-                            <#if (authen_user_type??&&authen_user_type == 1 || authen_user_type??&&authen_user_type == 2) && (authen_user_id != userBean.user.id)>
-                                <@sf.form action="manage_user.htm" commandName="userBean" method="post">
-                                    <@sf.hidden path="user.id"/>
-                                    <#if (userBean.user.userType ==3 && userBean.user.activated == true )>
-                                        <@sf.hidden path="managedType" value="setasadmin" />
-                                        <input type="submit" value="Set As Admin" class="input_button_style2"/>
-                                    </#if>
-                                    <#if (userBean.user.userType ==2 && userBean.user.activated == true )>
-                                        <@sf.hidden path="managedType" value="setasuser" />
-                                        <input type="submit" value="Set As User" class="input_button_style2"/>
-                                    </#if>
-                                </@sf.form>
-                            <#else>
-                                &nbsp;
-                            </#if>
-                            </div>
-                        </div>
-
                         <div style="clear:both"></div>
-
                     </div>
                 </div>
             </div>

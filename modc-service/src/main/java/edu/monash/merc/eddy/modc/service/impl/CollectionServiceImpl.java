@@ -77,48 +77,33 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Override
-    public void deleteCollection(long collectionId) {
+    public void deleteCollectionById(long collectionId) {
         this.collectionDao.delete(collectionId);
     }
 
     @Override
-    public MCollection getCollectionByRefKeyAndProject(String refKey, long projectId) {
-        return this.collectionDao.getCollectionByRefKeyAndProject(refKey, projectId);
+    public MCollection getCollectionByRefKeyAndServiceAppId(String refKey, long serviceAppId) {
+        return this.collectionDao.getCollectionByRefKeyAndServiceAppId(refKey, serviceAppId);
     }
 
     @Override
-    public MCollection getCollectionByNameAndProject(String name, long projectId) {
-        return this.collectionDao.getCollectionByNameAndProject(name, projectId);
+    public MCollection getCollectionByNameAndServiceAppId(String name, long serviceAppId) {
+        return this.collectionDao.getCollectionByNameAndServiceAppId(name, serviceAppId);
     }
 
     @Override
-    public List<MCollection> listCollectionsByUser(long userId) {
-        return this.collectionDao.listCollectionsByUser(userId);
+    public List<MCollection> listCollectionsByServiceApp(long serviceAppId) {
+        return this.collectionDao.listCollectionsByServiceApp(serviceAppId);
     }
 
     @Override
-    public List<MCollection> listCollectionsByUser(long userId, Order[] orderParams) {
-        return this.collectionDao.listCollectionsByUser(userId, orderParams);
+    public List<MCollection> listCollectionsByServiceApp(long serviceAppId, Order[] orderParams) {
+        return this.collectionDao.listCollectionsByServiceApp(serviceAppId, orderParams);
     }
 
     @Override
-    public Pager<MCollection> getCollectionsByUser(long userId, int startPageNo, int sizePerPage, Order[] orderParams) {
-        return this.collectionDao.getCollectionsByUser(userId, startPageNo, sizePerPage, orderParams);
-    }
-
-    @Override
-    public List<MCollection> listCollectionsByProject(long projectId) {
-        return this.collectionDao.listCollectionsByProject(projectId);
-    }
-
-    @Override
-    public List<MCollection> listCollectionsByProject(long projectId, Order[] orderParams) {
-        return this.collectionDao.listCollectionsByProject(projectId, orderParams);
-    }
-
-    @Override
-    public Pager<MCollection> getCollectionsByProject(long projectId, int startPageNo, int sizePerPage, Order[] orderParams) {
-        return this.collectionDao.getCollectionsByProject(projectId, startPageNo, sizePerPage, orderParams);
+    public Pager<MCollection> getCollectionsByServiceApp(long serviceAppId, int startPageNo, int sizePerPage, Order[] orderParams) {
+        return this.collectionDao.getCollectionsByServiceApp(serviceAppId, startPageNo, sizePerPage, orderParams);
     }
 
     @Override
@@ -129,5 +114,10 @@ public class CollectionServiceImpl implements CollectionService {
     @Override
     public Pager<MCollection> getCollectionsByParty(long partyId, int startPageNo, int sizePerPage, Order[] orderParams) {
         return this.collectionDao.getCollectionsByParty(partyId, startPageNo, sizePerPage, orderParams);
+    }
+
+    @Override
+    public Pager<MCollection> getCollections(int startPageNo, int sizePerPage, Order[] orderParams) {
+        return this.collectionDao.getCollections(startPageNo, sizePerPage, orderParams);
     }
 }

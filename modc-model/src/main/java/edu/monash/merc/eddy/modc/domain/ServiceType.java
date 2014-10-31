@@ -26,33 +26,45 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.repository;
-
-import edu.monash.merc.eddy.modc.domain.MCollection;
-import edu.monash.merc.eddy.modc.sql.page.Pager;
-import org.hibernate.criterion.Order;
-
-import java.util.List;
+package edu.monash.merc.eddy.modc.domain;
 
 /**
- * Created by simonyu on 28/08/2014.
+ * Monash University eResearch Center
+ * <p/>
+ * Created by simonyu - xiaoming.yu@monash.edu
+ * Date: 13/10/2014
  */
-public interface MCollectionRepository {
+public enum ServiceType {
+    DOI("doi"), MD("md"), UNKNOWN("unknown");
 
-    MCollection getCollectionByRefKeyAndServiceAppId(String refKey, long serviceAppId);
+    private String type;
 
-    MCollection getCollectionByNameAndServiceAppId(String name, long serviceAppId);
+    ServiceType(String type) {
+        this.type = type;
+    }
 
-    List<MCollection> listCollectionsByServiceApp(long serviceAppId);
+    public String type() {
+        return type;
+    }
 
-    List<MCollection> listCollectionsByServiceApp(long serviceAppId, Order[] orderParams);
+    public static ServiceType fromType(String type) {
+        for (ServiceType serviceType : ServiceType.values()) {
+            if (serviceType.type().equalsIgnoreCase(type)) {
+                return serviceType;
+            }
+        }
+        //if not found, just use ASC
+        return UNKNOWN;
+    }
 
-    Pager<MCollection> getCollectionsByServiceApp(long serviceAppId, int startPageNo, int sizePerPage, Order[] orderParams);
-
-    List<MCollection> listCollectionByParty(long partyId);
-
-    Pager<MCollection> getCollectionsByParty(long partyId, int startPageNo, int sizePerPage, Order[] orderParams);
-
-    Pager<MCollection> getCollections(int startPageNo, int sizePerPage, Order[] orderParams);
-
+    public String toString() {
+        switch (this) {
+            case DOI:
+                return "doi";
+            case MD:
+                return "md";
+            default:
+                return "Unknown";
+        }
+    }
 }

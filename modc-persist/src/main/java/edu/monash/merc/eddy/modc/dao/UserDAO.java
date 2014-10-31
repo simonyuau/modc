@@ -68,7 +68,6 @@ public class UserDAO extends HibernateGenericDAO<User> implements UserRepository
     public Pager<User> getUsers(int startPageNo, int sizePerPage, Order[] orderParams) {
         String hql = "FROM " + this.persistClass.getSimpleName();
         hql = QueryHelper.setOrderByParams(hql, null, orderParams);
-        System.out.println("========== getUsers sql : " + hql);
         return this.find(hql, null, startPageNo, sizePerPage);
     }
 }

@@ -75,7 +75,7 @@ public class PartyServiceImpl implements PartyService {
     }
 
     @Override
-    public void deleteParty(long partyId) {
+    public void deletePartyById(long partyId) {
         this.partyDao.delete(partyId);
     }
 

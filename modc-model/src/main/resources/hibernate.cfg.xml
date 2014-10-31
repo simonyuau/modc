@@ -15,9 +15,10 @@
         <mapping class="edu.monash.merc.eddy.modc.domain.MLicence"/>
         <mapping class="edu.monash.merc.eddy.modc.domain.MParty"/>
         <mapping class="edu.monash.merc.eddy.modc.domain.MPerson"/>
-        <mapping class="edu.monash.merc.eddy.modc.domain.MProject"/>
         <mapping class="edu.monash.merc.eddy.modc.domain.MPublication"/>
         <mapping class="edu.monash.merc.eddy.modc.domain.Profile"/>
         <mapping class="edu.monash.merc.eddy.modc.domain.User"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.ServiceApp"/>
+        <mapping class="edu.monash.merc.eddy.modc.domain.ServiceAuthIP"/>
     </session-factory>
 </hibernate-configuration>

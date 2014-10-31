@@ -50,25 +50,21 @@ public interface CollectionService {
 
     void deleteCollection(MCollection collection);
 
-    void deleteCollection(long collectionId);
+    void deleteCollectionById(long collectionId);
 
-    MCollection getCollectionByRefKeyAndProject(String refKey, long projectId);
+    MCollection getCollectionByRefKeyAndServiceAppId(String refKey, long serviceAppId);
 
-    MCollection getCollectionByNameAndProject(String name, long projectId);
+    MCollection getCollectionByNameAndServiceAppId(String name, long serviceAppId);
 
-    List<MCollection> listCollectionsByUser(long userId);
+    List<MCollection> listCollectionsByServiceApp(long serviceAppId);
 
-    List<MCollection> listCollectionsByUser(long userId, Order[] orderParams);
+    List<MCollection> listCollectionsByServiceApp(long serviceAppId, Order[] orderParams);
 
-    Pager<MCollection> getCollectionsByUser(long userId, int startPageNo, int sizePerPage, Order[] orderParams);
-
-    List<MCollection> listCollectionsByProject(long projectId);
-
-    List<MCollection> listCollectionsByProject(long projectId, Order[] orderParams);
-
-    Pager<MCollection> getCollectionsByProject(long projectId, int startPageNo, int sizePerPage, Order[] orderParams);
+    Pager<MCollection> getCollectionsByServiceApp(long serviceAppId, int startPageNo, int sizePerPage, Order[] orderParams);
 
     List<MCollection> listCollectionByParty(long partyId);
 
     Pager<MCollection> getCollectionsByParty(long partyId, int startPageNo, int sizePerPage, Order[] orderParams);
+
+    Pager<MCollection> getCollections(int startPageNo, int sizePerPage, Order[] orderParams);
 }

@@ -75,7 +75,7 @@ public class SearchDAOTest {
     @DatabaseSetup(value = "test-collection-keyword.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-collection-keyword.xml", type = DatabaseOperation.DELETE_ALL)
     public void testListCollectionsByKeyword(){
-        List<MCollection> collections = this.searchDao.listCollectionsByKeyword("de-collection12");
+        List<MCollection> collections = this.searchDao.listCollectionsByKeyword("dev-collection12");
         assertNotNull(collections);
         for(MCollection collection: collections){
             System.out.println("=========> found collection with the search keyword : " +  collection.getName());

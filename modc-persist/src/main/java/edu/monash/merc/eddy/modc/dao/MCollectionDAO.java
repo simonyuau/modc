@@ -50,59 +50,39 @@ import java.util.Map;
 public class MCollectionDAO extends HibernateGenericDAO<MCollection> implements MCollectionRepository {
 
     @Override
-    public MCollection getCollectionByRefKeyAndProject(String refKey, long projectId) {
-        String hql = "FROM " + this.persistClass.getSimpleName() + " AS c WHERE c.refKey = :refKey AND c.project.id = :projectId";
+    public MCollection getCollectionByRefKeyAndServiceAppId(String refKey, long serviceAppId) {
+        String hql = "FROM " + this.persistClass.getSimpleName() + " AS c WHERE c.refKey = :refKey AND c.serviceApp.id = :serviceAppId";
         Map<String, Object> namedParams = QueryHelper.createNamedParam("refKey", refKey);
-        namedParams = QueryHelper.addNamedParam(namedParams, "projectId", projectId);
+        namedParams = QueryHelper.addNamedParam(namedParams, "serviceAppId", serviceAppId);
         return this.find(hql, namedParams);
     }
 
     @Override
-    public MCollection getCollectionByNameAndProject(String name, long projectId) {
-        String hql = "FROM " + this.persistClass.getSimpleName() + " AS c WHERE c.name = :name AND c.project.id = :projectId";
+    public MCollection getCollectionByNameAndServiceAppId(String name, long serviceAppId) {
+        String hql = "FROM " + this.persistClass.getSimpleName() + " AS c WHERE c.name = :name AND c.serviceApp.id = :serviceAppId";
         Map<String, Object> namedParams = QueryHelper.createNamedParam("name", name);
-        namedParams = QueryHelper.addNamedParam(namedParams, "projectId", projectId);
+        namedParams = QueryHelper.addNamedParam(namedParams, "serviceAppId", serviceAppId);
         return this.find(hql, namedParams);
     }
 
+
     @Override
-    public List<MCollection> listCollectionsByUser(long userId) {
-        return this.listCollectionsByUser(userId, null);
+    public List<MCollection> listCollectionsByServiceApp(long serviceAppId) {
+        return this.listCollectionsByServiceApp(serviceAppId, null);
     }
 
     @Override
-    public List<MCollection> listCollectionsByUser(long userId, Order[] orderParams) {
-        String hql = "FROM " + this.persistClass.getSimpleName() + " AS c WHERE c.project.owner.id = :userId";
-        Map<String, Object> namedParam = QueryHelper.createNamedParam("userId", userId);
+    public List<MCollection> listCollectionsByServiceApp(long serviceAppId, Order[] orderParams) {
+        String hql = "FROM " + this.persistClass.getSimpleName() + " AS c WHERE c.serviceApp.id = :serviceAppId";
+        Map<String, Object> namedParam = QueryHelper.createNamedParam("serviceAppId", serviceAppId);
         QueryHelper.setOrderByParams(hql, "c", orderParams);
         return this.list(hql, namedParam);
     }
 
     @Override
-    public Pager<MCollection> getCollectionsByUser(long userId, int startPageNo, int sizePerPage, Order[] orderParams) {
-        String hql = "FROM " + this.persistClass.getSimpleName() + " AS c WHERE c.project.owner.id = :userId";
-        Map<String, Object> namedParam = QueryHelper.createNamedParam("userId", userId);
-        QueryHelper.setOrderByParams(hql, "c", orderParams);
-        return this.find(hql, namedParam, startPageNo, sizePerPage);
-    }
-
-    @Override
-    public List<MCollection> listCollectionsByProject(long projectId) {
-        return this.listCollectionsByProject(projectId, null);
-    }
-
-    @Override
-    public List<MCollection> listCollectionsByProject(long projectId, Order[] orderParams) {
-        String hql = "FROM " + this.persistClass.getSimpleName() + " AS c WHERE c.project.id = :projectId";
-        Map<String, Object> namedParam = QueryHelper.createNamedParam("projectId", projectId);
-        QueryHelper.setOrderByParams(hql, "c", orderParams);
-        return this.list(hql, namedParam);
-    }
-
-    @Override
-    public Pager<MCollection> getCollectionsByProject(long projectId, int startPageNo, int sizePerPage, Order[] orderParams) {
-        String hql = "FROM " + this.persistClass.getSimpleName() + " AS c WHERE c.project.id = :projectId";
-        Map<String, Object> namedParam = QueryHelper.createNamedParam("projectId", projectId);
+    public Pager<MCollection> getCollectionsByServiceApp(long serviceAppId, int startPageNo, int sizePerPage, Order[] orderParams) {
+        String hql = "FROM " + this.persistClass.getSimpleName() + " AS c WHERE c.serviceApp.id = :serviceAppId";
+        Map<String, Object> namedParam = QueryHelper.createNamedParam("serviceAppId", serviceAppId);
         QueryHelper.setOrderByParams(hql, "c", orderParams);
         return this.find(hql, namedParam, startPageNo, sizePerPage);
     }
@@ -123,5 +103,12 @@ public class MCollectionDAO extends HibernateGenericDAO<MCollection> implements 
         Map<String, Object> namedParam = QueryHelper.createNamedParam("partyId", partyId);
         QueryHelper.setOrderByParams(hql, "c", orderParams);
         return this.find(hql, namedParam, startPageNo, sizePerPage);
+    }
+
+    @Override
+    public Pager<MCollection> getCollections(int startPageNo, int sizePerPage, Order[] orderParams) {
+        String hql = "FROM " + this.persistClass.getSimpleName();
+        hql = QueryHelper.setOrderByParams(hql, null, orderParams);
+        return this.find(hql, null, startPageNo, sizePerPage);
     }
 }

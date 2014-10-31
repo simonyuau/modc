@@ -48,7 +48,7 @@ public interface PartyService {
 
     void deleteParty(MParty party);
 
-    void deleteParty(long partyId);
+    void deletePartyById(long partyId);
 
     MParty getPartyByRefKey(String refKey);
 

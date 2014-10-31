@@ -29,9 +29,12 @@
 package edu.monash.merc.eddy.modc.ws.endpoint;
 
 import edu.monash.merc.eddy.modc.common.util.MDUtils;
+import edu.monash.merc.eddy.modc.common.util.MIPUtils;
 import edu.monash.merc.eddy.modc.doi.DoiResponse;
 import edu.monash.merc.eddy.modc.doi.HttpDOIService;
+import edu.monash.merc.eddy.modc.domain.ServiceApp;
 import edu.monash.merc.eddy.modc.domain.doi.*;
+import edu.monash.merc.eddy.modc.service.ServiceAppService;
 import edu.monash.merc.eddy.modc.ws.exception.DoiValidateException;
 import edu.monash.merc.eddy.modc.ws.model.*;
 import org.apache.commons.lang.StringUtils;
@@ -43,7 +46,11 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+import org.springframework.ws.transport.context.TransportContext;
+import org.springframework.ws.transport.context.TransportContextHolder;
+import org.springframework.ws.transport.http.HttpServletConnection;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -63,13 +70,31 @@ public class DOIServiceEndpoint {
     @Autowired
     private HttpDOIService doiService;
 
+    @Autowired
+    private ServiceAppService serviceAppService;
+
     @PayloadRoot(localPart = "MintDoiRequest", namespace = SERVICE_NS)
     @ResponsePayload
     public MintDoiResponse mintDoi(@RequestPayload MintDoiRequest request) {
+
+        TransportContext context = TransportContextHolder.getTransportContext();
+        HttpServletConnection connection = (HttpServletConnection)context.getConnection();
+        HttpServletRequest httpServletRequest = connection.getHttpServletRequest();
+        String ipAddress = MIPUtils.getRemoteAddr(httpServletRequest);
+
+        System.out.println("===========> Client IP address : " + ipAddress);
+
         String serviceId = request.getServiceId();
         if (StringUtils.isBlank(serviceId)) {
             throw new DoiValidateException("The serviceId is invalid");
         }
+
+        ServiceApp serviceApp = serviceAppService.getServiceAppByUniqueIdAndIp(serviceId, ipAddress);
+
+        if(serviceApp == null){
+            throw new DoiValidateException("This doi service is not authorized");
+        }
+
         System.out.println("==== publication year : " + request.getResource().getPublicationYear());
         //TODO Call ANDS DOI Service
 

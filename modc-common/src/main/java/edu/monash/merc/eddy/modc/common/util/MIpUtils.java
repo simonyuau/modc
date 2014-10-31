@@ -26,33 +26,44 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.repository;
+package edu.monash.merc.eddy.modc.common.util;
 
-import edu.monash.merc.eddy.modc.domain.MCollection;
-import edu.monash.merc.eddy.modc.sql.page.Pager;
-import org.hibernate.criterion.Order;
+import org.apache.commons.lang.StringUtils;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 /**
- * Created by simonyu on 28/08/2014.
+ * Monash University eResearch Center
+ * <p/>
+ * Created by simonyu - xiaoming.yu@monash.edu
+ * Date: 23/10/14
  */
-public interface MCollectionRepository {
+public class MIPUtils {
 
-    MCollection getCollectionByRefKeyAndServiceAppId(String refKey, long serviceAppId);
+    private static final String NUKNOWN = "unknown";
+    private static final String[] ADDRESS_HEADERS = { "X-Forwarded-For", "Proxy-Client-IP", "WL-Proxy-Client-IP", "X-Real-IP" };
 
-    MCollection getCollectionByNameAndServiceAppId(String name, long serviceAppId);
-
-    List<MCollection> listCollectionsByServiceApp(long serviceAppId);
-
-    List<MCollection> listCollectionsByServiceApp(long serviceAppId, Order[] orderParams);
-
-    Pager<MCollection> getCollectionsByServiceApp(long serviceAppId, int startPageNo, int sizePerPage, Order[] orderParams);
-
-    List<MCollection> listCollectionByParty(long partyId);
-
-    Pager<MCollection> getCollectionsByParty(long partyId, int startPageNo, int sizePerPage, Order[] orderParams);
-
-    Pager<MCollection> getCollections(int startPageNo, int sizePerPage, Order[] orderParams);
-
+    public static String getRemoteAddr(HttpServletRequest request) {
+        String addr = null;
+        if (request instanceof HttpServletRequest) {
+            HttpServletRequest hsr = (HttpServletRequest) request;
+            for (String header : ADDRESS_HEADERS) {
+                if (StringUtils.isBlank(addr) || NUKNOWN.equalsIgnoreCase(addr)) {
+                    addr = hsr.getHeader(header);
+                } else {
+                    break;
+                }
+            }
+        }
+        if (StringUtils.isBlank(addr) || NUKNOWN.equalsIgnoreCase(addr)) {
+            addr = request.getRemoteAddr();
+        } else {
+            // in multiple proxy case, the first ip will be a real ip address and separated by comma - ','
+            int i = addr.indexOf(",");
+            if (i > 0) {
+                addr = addr.substring(0, i);
+            }
+        }
+        return addr;
+    }
 }

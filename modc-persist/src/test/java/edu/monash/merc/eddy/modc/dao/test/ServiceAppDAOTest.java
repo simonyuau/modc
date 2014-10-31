@@ -32,8 +32,9 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
-import edu.monash.merc.eddy.modc.dao.MProjectDAO;
-import edu.monash.merc.eddy.modc.domain.MProject;
+import edu.monash.merc.eddy.modc.dao.ServiceAppDAO;
+import edu.monash.merc.eddy.modc.domain.ServiceApp;
+import edu.monash.merc.eddy.modc.domain.ServiceType;
 import edu.monash.merc.eddy.modc.sql.condition.SqlOrderBy;
 import edu.monash.merc.eddy.modc.sql.page.Pager;
 import org.junit.Test;
@@ -51,6 +52,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by simonyu on 26/08/2014.
@@ -63,54 +65,55 @@ import static org.junit.Assert.assertEquals;
         DbUnitTestExecutionListener.class})
 @TransactionConfiguration(defaultRollback = false, transactionManager = "transactionManager")
 @Transactional
-public class MProjectDAOTest {
+public class ServiceAppDAOTest {
 
     @Autowired
-    public MProjectDAO mProjectDAO;
+    public ServiceAppDAO serviceAppDAO;
 
-    public void setmProjectDAO(MProjectDAO mProjectDAO) {
-        this.mProjectDAO = mProjectDAO;
+
+    public void setServiceAppDAO(ServiceAppDAO serviceAppDAO) {
+        this.serviceAppDAO = serviceAppDAO;
     }
 
     @Test
-    @DatabaseSetup(value = "test-project.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-project.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testGetPagedProjectsByUser() {
+    @DatabaseSetup(value = "test-service.xml", type = DatabaseOperation.CLEAN_INSERT)
+    @DatabaseTearDown(value = "test-service.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testGetPagedServiceApps() {
         SqlOrderBy myOrders = new SqlOrderBy().asc("name").desc("uniqueId");
 
-        Pager<MProject> pagedProjects = this.mProjectDAO.getPagedProjectsByUser(1, 0, 12, myOrders.orders());
+        Pager<ServiceApp> pagedServiceApps = this.serviceAppDAO.getPagedServiceApps(ServiceType.DOI.type(), 1, 12, myOrders.orders());
 
-        System.out.println("current page : " + pagedProjects.getPageNo() + " ===== total pages: " + pagedProjects.getNextPage() + " == total records: " + pagedProjects.getTotalSize());
-        List<MProject> projects = pagedProjects.getPageResults();
+        System.out.println("current page : " + pagedServiceApps.getPageNo() + " ===== total pages: " + pagedServiceApps.getNextPage() + " == total records: " + pagedServiceApps.getTotalSize());
+        List<ServiceApp> projects = pagedServiceApps.getPageResults();
 
-        for (MProject project : projects) {
-            System.out.println("======== project: name: " + project.getName() + " uniqueId: " + project.getUniqueId());
+        for (ServiceApp project : projects) {
+            System.out.println("======== service app name: " + project.getName() + " uniqueId: " + project.getUniqueId());
         }
-        assertEquals(12, pagedProjects.getSizePerPage());
-    }
-
-
-    @Test
-    @DatabaseSetup(value = "test-project.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-project.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testGetProjectsByUser() {
-        List<MProject> allProjects = this.mProjectDAO.getProjectsByUser(1, null);
-        assertEquals(15, allProjects.size());
+        assertEquals(12, pagedServiceApps.getSizePerPage());
     }
 
     @Test
-    @DatabaseSetup(value = "test-project.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-project.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testGetByProjectName() {
-        MProject project = this.mProjectDAO.getByProjectName("MercTest5");
-        assertEquals("mercTest5", project.getName());
+    @DatabaseSetup(value = "test-service.xml", type = DatabaseOperation.CLEAN_INSERT)
+    @DatabaseTearDown(value = "test-service.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testGetByServiceAppName() {
+        ServiceApp serviceApp = this.serviceAppDAO.getServiceAppByName("MercTest5");
+        assertEquals("mercTest5", serviceApp.getName());
     }
 
     @Test
-    @DatabaseSetup(value = "test-project.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-project.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testGetProjectByUniqueId() {
-        MProject project = this.mProjectDAO.getByUniqueId("modctest1-01");
-        assertEquals("modctest1-01", project.getUniqueId());
+    @DatabaseSetup(value = "test-service.xml", type = DatabaseOperation.CLEAN_INSERT)
+    @DatabaseTearDown(value = "test-service.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testGetServiceAppByUniqueId() {
+        ServiceApp serviceApp = this.serviceAppDAO.getServiceAppByUniqueId("modctest1-01");
+        assertEquals("modctest1-01", serviceApp.getUniqueId());
+    }
+
+    @Test
+    @DatabaseSetup(value = "test-service.xml", type = DatabaseOperation.CLEAN_INSERT)
+    @DatabaseTearDown(value = "test-service.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testGetServiceAppByUniqueIdAndIp(){
+        ServiceApp serviceApp = this.serviceAppDAO.getServiceAppByUniqueIdAndIp("modctest1-01", "192.168.1.28");
+        assertNotNull(serviceApp);
+        assertEquals(serviceApp.getId(), 16);
     }
 }

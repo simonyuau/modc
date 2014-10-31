@@ -6,6 +6,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -81,9 +82,9 @@ public class MCollection extends Domain {
     @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
     private List<MLicence> licences;
 
-    @ManyToOne(targetEntity = MProject.class)
-    @JoinColumn(name = "project_id", referencedColumnName = "id", nullable = false)
-    private MProject project;
+    @ManyToOne(targetEntity = ServiceApp.class)
+    @JoinColumn(name = "service_id", referencedColumnName = "id", nullable = false)
+    private ServiceApp serviceApp;
 
     public long getId() {
         return id;
@@ -213,11 +214,11 @@ public class MCollection extends Domain {
         this.licences = licences;
     }
 
-    public MProject getProject() {
-        return project;
+    public ServiceApp getServiceApp() {
+        return serviceApp;
     }
 
-    public void setProject(MProject project) {
-        this.project = project;
+    public void setServiceApp(ServiceApp serviceApp) {
+        this.serviceApp = serviceApp;
     }
 }

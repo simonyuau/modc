@@ -26,37 +26,58 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.service;
+package edu.monash.merc.eddy.modc.domain;
 
-import edu.monash.merc.eddy.modc.domain.MProject;
-import edu.monash.merc.eddy.modc.sql.page.Pager;
-import org.hibernate.criterion.Order;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import java.util.List;
+import javax.persistence.*;
 
 /**
  * Monash University eResearch Center
  * <p/>
  * Created by simonyu - xiaoming.yu@monash.edu
- * Date: 4/09/2014
+ * Date: 29/10/14
  */
-public interface ProjectService {
+@Entity
+@Table(name = "service_auth_ip")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "freqRegion")
+public class ServiceAuthIP {
 
-    void saveProject(MProject project);
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private long id;
 
-    MProject getProjectById(long id);
+    @Basic
+    @Column(name = "ip_address")
+    private String ipAddress;
 
-    void updateProject(MProject project);
+    @ManyToOne(targetEntity = ServiceApp.class)
+    @JoinColumn(name = "service_app_id")
+    private ServiceApp serviceApp;
 
-    void deleteProject(MProject project);
+    public long getId() {
+        return id;
+    }
 
-    void deleteProject(long projectId);
+    public void setId(long id) {
+        this.id = id;
+    }
 
-    MProject getByUniqueId(String uniqueid);
+    public String getIpAddress() {
+        return ipAddress;
+    }
 
-    MProject getByProjectName(String projectName);
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
 
-    List<MProject> getProjectsByUser(long userId, Order[] orderParams);
+    public ServiceApp getServiceApp() {
+        return serviceApp;
+    }
 
-    Pager<MProject> getPagedProjectsByUser(long userId, int startPageNo, int sizePerPage, Order[] orderParams);
+    public void setServiceApp(ServiceApp serviceApp) {
+        this.serviceApp = serviceApp;
+    }
 }

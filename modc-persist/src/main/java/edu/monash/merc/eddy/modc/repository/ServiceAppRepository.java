@@ -28,31 +28,27 @@
 
 package edu.monash.merc.eddy.modc.repository;
 
-import edu.monash.merc.eddy.modc.domain.MCollection;
+import edu.monash.merc.eddy.modc.domain.ServiceApp;
 import edu.monash.merc.eddy.modc.sql.page.Pager;
 import org.hibernate.criterion.Order;
 
 import java.util.List;
 
 /**
- * Created by simonyu on 28/08/2014.
+ * Monash University eResearch Center
+ * <p/>
+ * Created by simonyu - xiaoming.yu@monash.edu
+ * Date: 31/10/14
  */
-public interface MCollectionRepository {
+public interface ServiceAppRepository {
 
-    MCollection getCollectionByRefKeyAndServiceAppId(String refKey, long serviceAppId);
+    ServiceApp getServiceAppByUniqueId(String uniqueId);
 
-    MCollection getCollectionByNameAndServiceAppId(String name, long serviceAppId);
+    ServiceApp getServiceAppByName(String name);
 
-    List<MCollection> listCollectionsByServiceApp(long serviceAppId);
+    List<ServiceApp> listServiceApps(String serviceType, Order[] orderParams);
 
-    List<MCollection> listCollectionsByServiceApp(long serviceAppId, Order[] orderParams);
+    Pager<ServiceApp> getPagedServiceApps(String serviceType, int startPageNo, int sizePerPage, Order[] orderParams);
 
-    Pager<MCollection> getCollectionsByServiceApp(long serviceAppId, int startPageNo, int sizePerPage, Order[] orderParams);
-
-    List<MCollection> listCollectionByParty(long partyId);
-
-    Pager<MCollection> getCollectionsByParty(long partyId, int startPageNo, int sizePerPage, Order[] orderParams);
-
-    Pager<MCollection> getCollections(int startPageNo, int sizePerPage, Order[] orderParams);
-
+    ServiceApp getServiceAppByUniqueIdAndIp(String uniqueId, String authIp);
 }

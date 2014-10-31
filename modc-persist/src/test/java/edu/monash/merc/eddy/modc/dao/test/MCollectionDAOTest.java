@@ -74,40 +74,20 @@ public class MCollectionDAOTest {
     @DatabaseSetup(value = "test-collection.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-collection.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetCollectionByRefKeyAndProject() {
-        MCollection collection = this.mCollectionDAO.getCollectionByRefKeyAndProject("101", 1);
+        MCollection collection = this.mCollectionDAO.getCollectionByRefKeyAndServiceAppId("101", 1);
         assertNotNull(collection);
         assertEquals("101", collection.getRefKey());
-        assertEquals(1, collection.getProject().getId());
+        assertEquals(1, collection.getServiceApp().getId());
     }
 
     @Test
     @DatabaseSetup(value = "test-collection.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-collection.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetCollectionByNameAndProject() {
-        MCollection collection = this.mCollectionDAO.getCollectionByNameAndProject("test-collection3", 16);
+        MCollection collection = this.mCollectionDAO.getCollectionByNameAndServiceAppId("test-collection3", 16);
         assertNotNull(collection);
         assertEquals("test-collection3", collection.getName());
-        assertEquals(16, collection.getProject().getId());
-    }
-
-    @Test
-    @DatabaseSetup(value = "test-collection.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-collection.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testListCollectionsByUser() {
-        SqlOrderBy myOrders = new SqlOrderBy().desc("name");
-        List<MCollection> collections = this.mCollectionDAO.listCollectionsByUser(1, myOrders.orders());
-        assertEquals(10, collections.size());
-        assertEquals("test-collection1", collections.get(0).getName());
-    }
-
-    @Test
-    @DatabaseSetup(value = "test-collection.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-collection.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testGetCollectionsByUser() {
-        SqlOrderBy myOrders = new SqlOrderBy().desc("name");
-        Pager<MCollection> pagedCollections = this.mCollectionDAO.getCollectionsByUser(1, 0, 5, myOrders.orders());
-        assertEquals(5, pagedCollections.getPageResults().size());
-        assertEquals("test-collection1", pagedCollections.getPageResults().get(0).getName());
+        assertEquals(16, collection.getServiceApp().getId());
     }
 
     @Test
@@ -115,7 +95,7 @@ public class MCollectionDAOTest {
     @DatabaseTearDown(value = "test-collection.xml", type = DatabaseOperation.DELETE_ALL)
     public void testListCollectionsByProject() {
         SqlOrderBy myOrders = new SqlOrderBy().desc("name");
-        List<MCollection> collections = this.mCollectionDAO.listCollectionsByProject(16, myOrders.orders());
+        List<MCollection> collections = this.mCollectionDAO.listCollectionsByServiceApp(16, myOrders.orders());
         assertEquals(2, collections.size());
         assertEquals("test-collection3", collections.get(0).getName());
     }
@@ -125,7 +105,7 @@ public class MCollectionDAOTest {
     @DatabaseTearDown(value = "test-collection.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetCollectionsByProject() {
         SqlOrderBy myOrders = new SqlOrderBy().desc("name");
-        Pager<MCollection> pagedCollections = this.mCollectionDAO.getCollectionsByProject(1, 0, 9, myOrders.orders());
+        Pager<MCollection> pagedCollections = this.mCollectionDAO.getCollectionsByServiceApp(1, 0, 9, myOrders.orders());
         assertEquals(8, pagedCollections.getPageResults().size());
         assertEquals("test-collection1", pagedCollections.getPageResults().get(0).getName());
     }

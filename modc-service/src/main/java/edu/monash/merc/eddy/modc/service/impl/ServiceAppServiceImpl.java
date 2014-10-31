@@ -28,76 +28,65 @@
 
 package edu.monash.merc.eddy.modc.service.impl;
 
-import edu.monash.merc.eddy.modc.dao.MProjectDAO;
-import edu.monash.merc.eddy.modc.domain.MProject;
-import edu.monash.merc.eddy.modc.service.ProjectService;
-import edu.monash.merc.eddy.modc.sql.page.Pager;
-import org.hibernate.criterion.Order;
-import org.springframework.beans.factory.annotation.Autowired;
+import edu.monash.merc.eddy.modc.dao.ServiceAppDAO;
+import edu.monash.merc.eddy.modc.domain.ServiceApp;
+import edu.monash.merc.eddy.modc.service.ServiceAppService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * Monash University eResearch Center
  * <p/>
  * Created by simonyu - xiaoming.yu@monash.edu
- * Date: 4/09/2014
+ * Date: 31/10/14
  */
 @Service
 @Transactional
-public class ProjectServiceImpl implements ProjectService {
+public class ServiceAppServiceImpl implements ServiceAppService {
 
-    @Autowired
-    private MProjectDAO projectDao;
+    private ServiceAppDAO serviceAppDao;
 
-    public void setProjectDao(MProjectDAO projectDao) {
-        this.projectDao = projectDao;
+    public void setServiceAppDao(ServiceAppDAO serviceAppDao) {
+        this.serviceAppDao = serviceAppDao;
     }
 
     @Override
-    public void saveProject(MProject project) {
-        this.projectDao.add(project);
+    public void saveServiceApp(ServiceApp serviceApp) {
+        this.serviceAppDao.add(serviceApp);
     }
 
     @Override
-    public MProject getProjectById(long id) {
-        return this.projectDao.get(id);
+    public ServiceApp getServiceAppById(long id) {
+        return this.serviceAppDao.get(id);
     }
 
     @Override
-    public void updateProject(MProject project) {
-        this.projectDao.update(project);
+    public void updateServiceApp(ServiceApp serviceApp) {
+        this.serviceAppDao.update(serviceApp);
     }
 
     @Override
-    public void deleteProject(MProject project) {
-        this.projectDao.remove(project);
+    public void deleteServiceApp(ServiceApp serviceApp) {
+        this.serviceAppDao.remove(serviceApp);
     }
 
     @Override
-    public void deleteProject(long projectId) {
-        this.projectDao.delete(projectId);
+    public void deleteServiceAppById(long serviceAppId) {
+        this.serviceAppDao.delete(serviceAppId);
     }
 
     @Override
-    public MProject getByUniqueId(String uniqueid) {
-        return this.projectDao.getByUniqueId(uniqueid);
+    public ServiceApp getServiceAppByUniqueId(String uniqueId) {
+        return this.serviceAppDao.getServiceAppByUniqueId(uniqueId);
     }
 
     @Override
-    public MProject getByProjectName(String projectName) {
-        return this.projectDao.getByProjectName(projectName);
+    public ServiceApp getServiceAppByName(String serviceAppName) {
+        return this.serviceAppDao.getServiceAppByName(serviceAppName);
     }
 
     @Override
-    public List<MProject> getProjectsByUser(long userId, Order[] orderParams) {
-        return this.projectDao.getProjectsByUser(userId, orderParams);
-    }
-
-    @Override
-    public Pager<MProject> getPagedProjectsByUser(long userId, int startPageNo, int sizePerPage, Order[] orderParams) {
-        return this.projectDao.getPagedProjectsByUser(userId, startPageNo, sizePerPage, orderParams);
+    public ServiceApp getServiceAppByUniqueIdAndIp(String uniqueId, String authIp) {
+        return this.serviceAppDao.getServiceAppByUniqueIdAndIp(uniqueId, authIp);
     }
 }

@@ -26,33 +26,31 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.repository;
+package edu.monash.merc.eddy.modc.service;
 
-import edu.monash.merc.eddy.modc.domain.MCollection;
-import edu.monash.merc.eddy.modc.sql.page.Pager;
-import org.hibernate.criterion.Order;
-
-import java.util.List;
+import edu.monash.merc.eddy.modc.domain.ServiceApp;
 
 /**
- * Created by simonyu on 28/08/2014.
+ * Monash University eResearch Center
+ * <p/>
+ * Created by simonyu - xiaoming.yu@monash.edu
+ * Date: 4/09/2014
  */
-public interface MCollectionRepository {
+public interface ServiceAppService {
 
-    MCollection getCollectionByRefKeyAndServiceAppId(String refKey, long serviceAppId);
+    void saveServiceApp(ServiceApp serviceApp);
 
-    MCollection getCollectionByNameAndServiceAppId(String name, long serviceAppId);
+    ServiceApp getServiceAppById(long id);
 
-    List<MCollection> listCollectionsByServiceApp(long serviceAppId);
+    void updateServiceApp(ServiceApp serviceApp);
 
-    List<MCollection> listCollectionsByServiceApp(long serviceAppId, Order[] orderParams);
+    void deleteServiceApp(ServiceApp serviceApp);
 
-    Pager<MCollection> getCollectionsByServiceApp(long serviceAppId, int startPageNo, int sizePerPage, Order[] orderParams);
+    void deleteServiceAppById(long serviceAppId);
 
-    List<MCollection> listCollectionByParty(long partyId);
+    ServiceApp getServiceAppByUniqueId(String uniqueId);
 
-    Pager<MCollection> getCollectionsByParty(long partyId, int startPageNo, int sizePerPage, Order[] orderParams);
+    ServiceApp getServiceAppByName(String serviceAppName);
 
-    Pager<MCollection> getCollections(int startPageNo, int sizePerPage, Order[] orderParams);
-
+    ServiceApp getServiceAppByUniqueIdAndIp(String uniqueId, String authIp);
 }

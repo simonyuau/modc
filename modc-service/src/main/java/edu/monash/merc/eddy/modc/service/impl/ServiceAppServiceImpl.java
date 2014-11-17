@@ -84,10 +84,7 @@ public class ServiceAppServiceImpl implements ServiceAppService {
     @Override
     public void updateServiceApp(ServiceApp serviceApp, List<ServiceAuthIP> authIPs) {
         this.updateServiceApp(serviceApp);
-        System.out.println("============ finished to update serviceApp");
         List<ServiceAuthIP> oldAuthIps = this.serviceAuthIPService.listAuthIPsByServiceAppId(serviceApp.getId());
-
-        System.out.println("============ existedAuthIps size : " + oldAuthIps.size());
         updateAuthIps(serviceApp, oldAuthIps, authIPs);
     }
 
@@ -96,13 +93,11 @@ public class ServiceAppServiceImpl implements ServiceAppService {
         if (updatedAuthIps != null && updatedAuthIps.size() > 0) {
             for (ServiceAuthIP authIP : updatedAuthIps) {
                 long id = authIP.getId();
-                System.out.println("==== updating auth ip id: " + id + ", ip address : " + authIP.getIpAddress());
                 if (id <= 0) {
                     authIP.setServiceApp(serviceApp);
                     this.serviceAuthIPService.saveServiceAuthIP(authIP);
                 } else {
                     if (oldAuthIps.contains(authIP)) {
-                        System.out.println("==== to be updated  ip : " + authIP.getIpAddress());
                         oldAuthIps.remove(authIP);
                     }
                 }
@@ -111,7 +106,6 @@ public class ServiceAppServiceImpl implements ServiceAppService {
 
         if (oldAuthIps != null && oldAuthIps.size() > 0) {
             for (ServiceAuthIP deleteIp : oldAuthIps) {
-                System.out.println("==== to be delete  ip : " + deleteIp.getIpAddress());
                 this.serviceAuthIPService.deleteServiceAuthIP(deleteIp);
             }
         }

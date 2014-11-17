@@ -10,12 +10,8 @@ import edu.monash.merc.eddy.modc.domain.UserType;
 import edu.monash.merc.eddy.modc.service.UserService;
 import edu.monash.merc.eddy.modc.service.ldap.LdapService;
 import edu.monash.merc.eddy.modc.service.mail.MailService;
-import edu.monash.merc.eddy.modc.sql.condition.OrderByType;
-import edu.monash.merc.eddy.modc.sql.condition.SqlOrderBy;
-import edu.monash.merc.eddy.modc.sql.page.Pager;
 import edu.monash.merc.eddy.modc.web.conts.MConts;
 import edu.monash.merc.eddy.modc.web.form.LoginBean;
-import edu.monash.merc.eddy.modc.web.form.ManagedUserBean;
 import edu.monash.merc.eddy.modc.web.form.RegistrationBean;
 import edu.monash.merc.eddy.modc.web.form.ResetPasswordBean;
 import edu.monash.merc.eddy.modc.web.validation.MDValidator;
@@ -462,96 +458,6 @@ public class UserController extends BaseController {
             makeErrorAware();
             return "user/reset_password";
         }
-    }
-
-    @RequestMapping(value = "/list_users")
-    public String listUsers(Integer pageNo, Integer sizePerPage, String orderBy, String orderByType, HttpServletRequest request, Model model) {
-        if (pageNo == null || pageNo.intValue() == 0) {
-            pageNo = MConts.DEFAULT_START_PAGE_NO;
-        }
-        if (sizePerPage == null || sizePerPage.intValue() == 0) {
-            sizePerPage = (Integer) getFromSession(request, MConts.SIZE_PER_PAGE);
-            if (sizePerPage == null || sizePerPage == 0) {
-                sizePerPage = MConts.DEFAULT_SIZE_PER_PAGE;
-            }
-        }
-
-        //save sizePerPage into session
-        storeInSession(request, MConts.SIZE_PER_PAGE, sizePerPage);
-        if (orderBy == null) {
-            orderBy = (String) getFromSession(request, MConts.ORDER_BY);
-            if (orderBy == null) {
-                orderBy = "displayName";
-            }
-        }
-        //save orderBy into session
-        storeInSession(request, MConts.ORDER_BY, orderBy);
-        if (orderByType == null) {
-            orderByType = (String) getFromSession(request, MConts.ORDER_BY_TYPE);
-            if (orderByType == null) {
-                orderByType = OrderByType.ASC.order();
-            }
-        }
-        //save orderByType into session
-        storeInSession(request, MConts.ORDER_BY_TYPE, orderByType);
-
-
-        SqlOrderBy myOrders = genOrderBy(orderBy, orderByType);
-        //set the pagination params and links
-        model.addAttribute("sizePerPage", sizePerPage);
-        model.addAttribute("orderBy", orderBy);
-        model.addAttribute("orderByType", orderByType);
-        model.addAttribute("pageLink", "user/list_users.htm");
-        try {
-            Pager<User> paginationUsers = this.userService.getUsers(pageNo, sizePerPage, myOrders.orders());
-            if (paginationUsers == null) {
-                paginationUsers = new Pager<>();
-            }
-            //set the pagination users
-            model.addAttribute("paginationUsers", paginationUsers);
-        } catch (Exception ex) {
-            logger.error(ex);
-            actionSupport(request, model);
-            addActionError("user.list.users.error");
-            makeErrorAware();
-            return "user/list_users_error";
-        }
-        return "user/list_users";
-    }
-
-    @RequestMapping(value = "/view_user", method = RequestMethod.GET)
-    public String viewUser(@RequestParam("id") long id, HttpServletRequest request, Model model) {
-        actionSupport(request, model);
-        ManagedUserBean userBean = new ManagedUserBean();
-        model.addAttribute("userBean", userBean);
-        try {
-            User user = this.userService.getUserById(id);
-            if (user == null) {
-                addActionError("user.show.details.account.not.found");
-                makeErrorAware();
-                return "user/show_user_error";
-            }
-            userBean.setUser(user);
-            userBean.setProfile(user.getProfile());
-            userBean.setAvatar(user.getAvatar());
-            return "user/user_details";
-        } catch (Exception ex) {
-            logger.error(ex);
-            addActionError("user.show.details.check.user.error");
-            makeErrorAware();
-            return "user/show_user_error";
-        }
-    }
-
-    private SqlOrderBy genOrderBy(String orderBy, String orderByType) {
-        SqlOrderBy myOrderBy = new SqlOrderBy().asc("userType");
-        if (orderByType.equalsIgnoreCase(OrderByType.ASC.order())) {
-            myOrderBy.asc(orderBy);
-        } else {
-            myOrderBy.desc(orderBy);
-        }
-
-        return myOrderBy;
     }
 
     @RequestMapping(value = "user_logout")

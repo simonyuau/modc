@@ -25,7 +25,7 @@
     <div class="nav_menu">
         <ul>
             <li><a href="${base}/home.htm">Home</a></li>
-            <li><a href="#">Collections</a></li>
+            <!-- li><a href="#">Collections</a></li -->
         <#if authen_flag?? && authen_flag == 'authenticated'>
             <li><a href="${base}/doi/show_mint.htm">DOI</a></li>
             <#if (authen_user_type??&&(authen_user_type == 1 ||authen_user_type == 2))>

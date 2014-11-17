@@ -243,9 +243,6 @@ public class ServiceManageController extends BaseController {
                 addActionError("webservice.ws.app.not.found");
                 makeErrorAware();
                 return "service/update_ws_app_error";
-            }else{
-                System.out.println("========== found serviceapp id : " + foundServiceApp.getId());
-
             }
             foundServiceApp.setDescription(serviceApp.getDescription());
             foundServiceApp.setName(serviceApp.getName());
@@ -253,11 +250,9 @@ public class ServiceManageController extends BaseController {
             foundServiceApp.setLastModified(GregorianCalendar.getInstance().getTime());
 
             List<ServiceAuthIP> serviceAuthIPs = serviceAppBean.getServiceAuthIPs();
-            System.out.println("============ in action auth ip size : " + serviceAuthIPs.size());
             this.serviceAppService.updateServiceApp(foundServiceApp, serviceAuthIPs);
 
             serviceAppBean.setServiceApp(foundServiceApp);
-            System.out.println("======== finished updating");
             //addActionMessage("webservice.ws.app.update.success", new String[]{serviceApp.getName()});
             //makeMessageAware();
             return "service/ws_app";

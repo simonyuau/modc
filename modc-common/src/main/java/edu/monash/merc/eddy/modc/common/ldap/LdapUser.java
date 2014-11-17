@@ -66,7 +66,6 @@ public class LdapUser {
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 		String[] fullName = displayName.split(" ");
-		// System.out.println(" display name split length: " + fullName.length);
 		if (fullName != null && fullName.length == 2) {
 			this.lastName = fullName[1];
 			this.firstName = fullName[0];

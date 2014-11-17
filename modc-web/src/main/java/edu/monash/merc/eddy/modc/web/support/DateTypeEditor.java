@@ -32,7 +32,6 @@ public class DateTypeEditor extends PropertyEditorSupport {
 
     @Override
     public void setAsText(String text) throws IllegalArgumentException {
-        System.out.println("============== set as text : " + text);
         text = text.trim();
         if (!StringUtils.hasText(text)) {
             setValue(null);

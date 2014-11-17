@@ -17,11 +17,8 @@ public class HomeController extends BaseController {
 
     @RequestMapping(value = "/home")
     public String home() {
-        RequestAttributes requestAttributes =  RequestContextHolder.currentRequestAttributes();
-        HttpServletRequest request = ((ServletRequestAttributes)requestAttributes).getRequest();
-
-        System.out.println("============ user name : " + request.getSession().getAttribute(MConts.SE_AUTHEN_USER_NAME));
-
+//        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+//        HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
         return "home";
     }
 }

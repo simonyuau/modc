@@ -77,35 +77,25 @@ public class DOIServiceEndpoint {
     @ResponsePayload
     public MintDoiResponse mintDoi(@RequestPayload MintDoiRequest request) {
 
+        //get client request ip
         TransportContext context = TransportContextHolder.getTransportContext();
-        HttpServletConnection connection = (HttpServletConnection)context.getConnection();
+        HttpServletConnection connection = (HttpServletConnection) context.getConnection();
         HttpServletRequest httpServletRequest = connection.getHttpServletRequest();
         String ipAddress = MIPUtils.getRemoteAddr(httpServletRequest);
 
-        System.out.println("===========> Client IP address : " + ipAddress);
-
+        if (logger.isDebugEnabled()) {
+            logger.debug("=== client ip address : " + ipAddress);
+        }
         String serviceId = request.getServiceId();
         if (StringUtils.isBlank(serviceId)) {
             throw new DoiValidateException("The serviceId is invalid");
         }
 
+        //check the ws authentication
         ServiceApp serviceApp = serviceAppService.getServiceAppByUniqueIdAndIp(serviceId, ipAddress);
-
-        if(serviceApp == null){
+        if (serviceApp == null) {
             throw new DoiValidateException("This doi service is not authorized");
         }
-
-        System.out.println("==== publication year : " + request.getResource().getPublicationYear());
-        //TODO Call ANDS DOI Service
-
-
-//         String title = request.getResource().getTitles().getTitle().get(0).getValue();
-//         String creatorName = request.getResource().getCreators().getCreator().get(0).getCreatorName();
-//         String publisher = request.getResource().getPublisher();
-//         Date publicationYear = request.getResource().getPublicationYear();
-//         String url = request.getUrl();
-//         DoiResponse response = doiService.mintDoi(creatorName, title, publisher, publicationYear, url);
-        //return MintDoiResponse
 
         DResource dResource = request.getResource();
         String url = request.getUrl();
@@ -122,10 +112,27 @@ public class DOIServiceEndpoint {
     @ResponsePayload
     public UpdateDoiResponse updateDoi(@RequestPayload UpdateDoiRequest request) {
 
+        //get the request ws ip address
+        TransportContext context = TransportContextHolder.getTransportContext();
+        HttpServletConnection connection = (HttpServletConnection) context.getConnection();
+        HttpServletRequest httpServletRequest = connection.getHttpServletRequest();
+        String ipAddress = MIPUtils.getRemoteAddr(httpServletRequest);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("=== client ip address : " + ipAddress);
+        }
+
         String serviceId = request.getServiceId();
         if (StringUtils.isBlank(serviceId)) {
             throw new DoiValidateException("The serviceId is invalid");
         }
+
+        //check ws authentication
+        ServiceApp serviceApp = serviceAppService.getServiceAppByUniqueIdAndIp(serviceId, ipAddress);
+        if (serviceApp == null) {
+            throw new DoiValidateException("This doi service is not authorized");
+        }
+
         //check the doi for update
         String doi = request.getDoi();
         DResource dResource = request.getResource();

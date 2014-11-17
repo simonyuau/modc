@@ -43,6 +43,12 @@ public interface MConts {
 
     static String ORDER_BY_TYPE = "order_by_type";
 
+    static String SIZE_PER_PAGE_S = "size_per_page_s";
+
+    static String ORDER_BY_S = "order_by_s";
+
+    static String ORDER_BY_TYPE_S = "order_by_type_s";
+
     static String ACTIVATE = "activate";
 
     static String DEACTIVATE = "deactivate";

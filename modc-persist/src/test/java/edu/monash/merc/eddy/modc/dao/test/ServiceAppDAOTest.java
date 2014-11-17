@@ -34,7 +34,6 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import edu.monash.merc.eddy.modc.dao.ServiceAppDAO;
 import edu.monash.merc.eddy.modc.domain.ServiceApp;
-import edu.monash.merc.eddy.modc.domain.ServiceType;
 import edu.monash.merc.eddy.modc.sql.condition.SqlOrderBy;
 import edu.monash.merc.eddy.modc.sql.page.Pager;
 import org.junit.Test;
@@ -49,6 +48,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -79,9 +79,9 @@ public class ServiceAppDAOTest {
     @DatabaseSetup(value = "test-service.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-service.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetPagedServiceApps() {
-        SqlOrderBy myOrders = new SqlOrderBy().asc("name").desc("uniqueId");
 
-        Pager<ServiceApp> pagedServiceApps = this.serviceAppDAO.getPagedServiceApps(ServiceType.DOI.type(), 1, 12, myOrders.orders());
+        SqlOrderBy myOrders = new SqlOrderBy().asc("serviceType").desc("createdDate").asc("name");
+        Pager<ServiceApp> pagedServiceApps = this.serviceAppDAO.getPagedServiceApps(null, 2, 12, myOrders.orders());
 
         System.out.println("current page : " + pagedServiceApps.getPageNo() + " ===== total pages: " + pagedServiceApps.getNextPage() + " == total records: " + pagedServiceApps.getTotalSize());
         List<ServiceApp> projects = pagedServiceApps.getPageResults();
@@ -108,10 +108,46 @@ public class ServiceAppDAOTest {
         assertEquals("modctest1-01", serviceApp.getUniqueId());
     }
 
+
+    @Test
+    @DatabaseSetup(value = "test-service.xml", type = DatabaseOperation.CLEAN_INSERT)
+    @DatabaseTearDown(value = "test-service.xml", type = DatabaseOperation.UPDATE)
+    public void testUpdateServiceApp() {
+        ServiceApp serviceApp = this.serviceAppDAO.get(14);
+        assertEquals(14, serviceApp.getId());
+        serviceApp.setName("mercTest14");
+        serviceApp.setUniqueId("test14-01");
+        serviceApp.setPath("default");
+        serviceApp.setServiceType("doi");
+        serviceApp.setAutoPublish(false);
+        serviceApp.setCreatedDate(GregorianCalendar.getInstance().getTime());
+        serviceApp.setLastModified(GregorianCalendar.getInstance().getTime());
+        serviceApp.setDescription("This is updated desc");
+        this.serviceAppDAO.merge(serviceApp);
+        ServiceApp updatedServiceApp = this.serviceAppDAO.get(14);
+        assertEquals(14, updatedServiceApp.getId());
+        this.serviceAppDAO.delete(1);
+        this.serviceAppDAO.delete(2);
+        this.serviceAppDAO.delete(3);
+        this.serviceAppDAO.delete(4);
+        this.serviceAppDAO.delete(5);
+        this.serviceAppDAO.delete(6);
+        this.serviceAppDAO.delete(7);
+        this.serviceAppDAO.delete(8);
+        this.serviceAppDAO.delete(9);
+        this.serviceAppDAO.delete(10);
+        this.serviceAppDAO.delete(11);
+        this.serviceAppDAO.delete(12);
+        this.serviceAppDAO.delete(13);
+        this.serviceAppDAO.delete(14);
+        this.serviceAppDAO.delete(15);
+        this.serviceAppDAO.delete(16);
+    }
+
     @Test
     @DatabaseSetup(value = "test-service.xml", type = DatabaseOperation.CLEAN_INSERT)
     @DatabaseTearDown(value = "test-service.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testGetServiceAppByUniqueIdAndIp(){
+    public void testGetServiceAppByUniqueIdAndIp() {
         ServiceApp serviceApp = this.serviceAppDAO.getServiceAppByUniqueIdAndIp("modctest1-01", "192.168.1.28");
         assertNotNull(serviceApp);
         assertEquals(serviceApp.getId(), 16);

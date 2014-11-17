@@ -107,10 +107,10 @@
                                             <#if (authen_user_id != userResult.id) && (userResult.userType !=1)>
                                                 <a href="${base}/admin/manage_user.htm?id=${userResult.id?c}">Manage</a>
                                             <#else>
-                                                <a href="${base}/user/view_user.htm?id=${userResult.id?c}">View</a>
+                                                <a href="${base}/manage/view_user.htm?id=${userResult.id?c}">View</a>
                                             </#if>
                                         <#else>
-                                            <a href="${base}/user/view_user.htm?id=${userResult.id?c}">View</a>
+                                            <a href="${base}/manage/view_user.htm?id=${userResult.id?c}">View</a>
                                         </#if>
                                     </div>
                                 </td>

@@ -1,11 +1,12 @@
 package edu.monash.merc.eddy.modc.domain;
 
-import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Table;
 import java.util.Date;
 
@@ -13,12 +14,23 @@ import java.util.Date;
  * Created by simonyu on 4/08/2014.
  */
 @Entity
-@Table(name = "muser")
+@Table(name = "muser", indexes = {@Index(name = "idx__user_unique_id", columnList = "unique_id"), @Index(name = "idx_uid_hashcode", columnList = "uid_hashcode"),
+        @Index(name = "idx_first_name", columnList = "first_name"), @Index(name = "idx_last_name", columnList = "last_name"),
+        @Index(name = "idx_password", columnList = "password"), @Index(name = "idx_email", columnList = "email"),
+        @Index(name = "idx_activate_hash_code", columnList = "activate_hash_code"), @Index(name = "reset_password_code", columnList = "reset_password_code")})
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "freqRegion")
 public class User extends Domain {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "pk_generator")
+    @GenericGenerator(name = "pk_generator", strategy = "org.hibernate.id.enhanced.TableGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(name = "table_name", value = "pk_gen_tab"),
+                    @org.hibernate.annotations.Parameter(name = "value_column_name ", value = "pk_next_val"),
+                    @org.hibernate.annotations.Parameter(name = "segment_column_name", value = "pk_name"),
+                    @org.hibernate.annotations.Parameter(name = "segment_value", value = "muser_id"),
+                    @org.hibernate.annotations.Parameter(name = "increment_size  ", value = "5"),
+                    @org.hibernate.annotations.Parameter(name = "optimizer ", value = "hilo")
+            })
     @Column(name = "id", nullable = false)
     private long id;
 

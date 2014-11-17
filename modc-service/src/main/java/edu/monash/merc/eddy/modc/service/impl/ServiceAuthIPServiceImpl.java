@@ -26,12 +26,14 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.service;
+package edu.monash.merc.eddy.modc.service.impl;
 
-import edu.monash.merc.eddy.modc.domain.ServiceApp;
+import edu.monash.merc.eddy.modc.dao.ServiceAuthIPDAO;
 import edu.monash.merc.eddy.modc.domain.ServiceAuthIP;
-import edu.monash.merc.eddy.modc.sql.page.Pager;
-import org.hibernate.criterion.Order;
+import edu.monash.merc.eddy.modc.service.ServiceAuthIPService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -39,29 +41,46 @@ import java.util.List;
  * Monash University eResearch Center
  * <p/>
  * Created by simonyu - xiaoming.yu@monash.edu
- * Date: 4/09/2014
+ * Date: 3/11/14
  */
-public interface ServiceAppService {
+@Service
+@Transactional
+public class ServiceAuthIPServiceImpl implements ServiceAuthIPService {
 
-    void saveServiceApp(ServiceApp serviceApp);
+    @Autowired
+    private ServiceAuthIPDAO serviceAuthIPDao;
 
-    ServiceApp getServiceAppById(long id);
+    public void setServiceAuthIPDao(ServiceAuthIPDAO serviceAuthIPDao) {
+        this.serviceAuthIPDao = serviceAuthIPDao;
+    }
 
-    void updateServiceApp(ServiceApp serviceApp);
+    @Override
+    public void saveServiceAuthIP(ServiceAuthIP serviceAuthIP) {
+        this.serviceAuthIPDao.add(serviceAuthIP);
+    }
 
-    void updateServiceApp(ServiceApp serviceApp, List<ServiceAuthIP> authIPs);
+    @Override
+    public ServiceAuthIP getServiceAuthIPById(long id) {
+        return this.serviceAuthIPDao.get(id);
+    }
 
-    void deleteServiceApp(ServiceApp serviceApp);
+    @Override
+    public void updateServiceAuthIP(ServiceAuthIP serviceAuthIP) {
+        this.serviceAuthIPDao.update(serviceAuthIP);
+    }
 
-    void deleteServiceAppById(long serviceAppId);
+    @Override
+    public void deleteServiceAuthIP(ServiceAuthIP serviceAuthIP) {
+        this.serviceAuthIPDao.remove(serviceAuthIP);
+    }
 
-    ServiceApp getServiceAppByUniqueId(String uniqueId);
+    @Override
+    public void deleteServiceAuthIPById(long id) {
+        this.serviceAuthIPDao.delete(id);
+    }
 
-    ServiceApp getServiceAppByName(String name);
-
-    ServiceApp getServiceAppByUniqueIdAndIp(String uniqueId, String authIp);
-
-    List<ServiceApp> listServiceApps(String serviceType, Order[] orderParams);
-
-    Pager<ServiceApp> getPagedServiceApps(String serviceType, int startPageNo, int sizePerPage, Order[] orderParams);
+    @Override
+    public List<ServiceAuthIP> listAuthIPsByServiceAppId(long serviceAppId) {
+        return this.serviceAuthIPDao.listAuthIPsByServiceAppId(serviceAppId);
+    }
 }

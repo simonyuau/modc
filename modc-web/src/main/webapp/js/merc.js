@@ -109,6 +109,45 @@ function resortTitleTabIndex() {
     });
 }
 
+
+$(document).ready(function () {
+    $("#add_ip").click(function () {
+        var rowIndex = $("#add_ip_tab > tbody > tr").length;
+        var ipHtml = "<tr>";
+        ipHtml += "<td>";
+        ipHtml += "<div class='input_row_value_div'>";
+        ipHtml += "<input type='hidden' name='serviceAuthIPs[" + rowIndex + "].id' value ='0' id='authIpId'><input type='text' name='serviceAuthIPs[" + rowIndex + "].ipAddress' id='ipAddress'>";
+        ipHtml += "</div>";
+        ipHtml += "</td>";
+        ipHtml += "<td><img src='../images/delete.png' class='input_row_value_img' title='remove' id='remove_ip' /></td>";
+        ipHtml += "</tr>";
+        $('#add_ip_tab > tbody:last').append(ipHtml);
+    });
+});
+
+
+$(document).on('click', "#remove_ip", function (event) {
+    event.preventDefault();
+    var trRowId = $(this).closest('tr');
+    var trId = trRowId.attr('id');
+    trRowId.remove();
+    resortIpTabIndex();
+})
+
+function resortIpTabIndex() {
+    $('#add_ip_tab > tbody > tr').each(function () {
+        //ip
+        var index = $(this).index();
+        var ipId = $(this).find('#authIpId');
+        if (ipId != null) {
+            ipId.attr('name', 'serviceAuthIPs[' + index + '].id');
+        }
+        var ipAddress = $(this).find('#ipAddress');
+        if (ipAddress != null) {
+            ipAddress.attr('name', 'serviceAuthIPs[' + index + '].ipAddress');
+        }
+    });
+}
 //
 //$(document).ready(function () {
 //    alert("ready to start!");
@@ -155,3 +194,9 @@ $(document).ready(function () {
         window.location.href = $('.page_url').attr('href') + "&orderBy=" + $("#item_select_order").val() + "&orderByType=" + $("#item_select_otype").val();
     });
 });
+$(document).ready(function () {
+    $("#item_select_service_type").change(function () {
+        window.location.href = $('.page_url').attr('href') + "&serviceType=" + $("#item_select_service_type").val();
+    });
+});
+

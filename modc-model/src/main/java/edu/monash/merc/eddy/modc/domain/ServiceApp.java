@@ -28,12 +28,13 @@
 
 package edu.monash.merc.eddy.modc.domain;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
 
@@ -44,12 +45,22 @@ import java.util.List;
  * Date: 29/10/14
  */
 @Entity
-@Table(name = "service")
+@Table(name = "service", indexes = {@Index(name = "idx_sa_unique_id", columnList = "unique_id"), @Index(name = "idx_name", columnList = "name"),
+        @Index(name = "idx_path", columnList = "path"), @Index(name = "idx_description", columnList = "description"),
+        @Index(name = "idx_service_type", columnList = "service_type")})
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "freqRegion")
 public class ServiceApp extends Domain {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "pk_generator")
+    @GenericGenerator(name = "pk_generator", strategy = "org.hibernate.id.enhanced.TableGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(name = "table_name", value = "pk_gen_tab"),
+                    @org.hibernate.annotations.Parameter(name = "value_column_name ", value = "pk_next_val"),
+                    @org.hibernate.annotations.Parameter(name = "segment_column_name", value = "pk_name"),
+                    @org.hibernate.annotations.Parameter(name = "segment_value", value = "service_id"),
+                    @org.hibernate.annotations.Parameter(name = "increment_size  ", value = "5"),
+                    @org.hibernate.annotations.Parameter(name = "optimizer ", value = "hilo")
+            })
     @Column(name = "id", nullable = false)
     private long id;
 
@@ -68,10 +79,12 @@ public class ServiceApp extends Domain {
     @Column(name = "description")
     private String description;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Basic
     @Column(name = "created_date")
     private Date createdDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Basic
     @Column(name = "last_modified")
     private Date lastModified;
@@ -84,7 +97,8 @@ public class ServiceApp extends Domain {
     @Column(name = "auto_publish")
     private boolean autoPublish;
 
-    @OneToMany(mappedBy = "serviceApp")
+    @OneToMany(mappedBy = "serviceApp", targetEntity = ServiceAuthIP.class, fetch = FetchType.LAZY)
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
     private List<ServiceAuthIP> serviceAuthIPs;
 
     @OneToMany(mappedBy = "serviceApp", targetEntity = MCollection.class, fetch = FetchType.LAZY)

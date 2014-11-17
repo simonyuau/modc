@@ -510,6 +510,7 @@ public class UserController extends BaseController {
             //set the pagination users
             model.addAttribute("paginationUsers", paginationUsers);
         } catch (Exception ex) {
+            logger.error(ex);
             actionSupport(request, model);
             addActionError("user.list.users.error");
             makeErrorAware();

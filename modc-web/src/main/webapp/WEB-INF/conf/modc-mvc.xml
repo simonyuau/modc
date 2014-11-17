@@ -89,6 +89,7 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/admin/**"/>
+            <mvc:mapping path="/service/**"/>
             <mvc:mapping path="/doi/**"/>
             <bean class="edu.monash.merc.eddy.modc.web.security.SecurityInterceptor"/>
         </mvc:interceptor>

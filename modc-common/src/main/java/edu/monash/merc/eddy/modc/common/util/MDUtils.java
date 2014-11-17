@@ -38,6 +38,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.UUID;
 
 /**
  * Monash University eResearch Center
@@ -97,6 +98,11 @@ public class MDUtils {
         } catch (Exception ex) {
             throw new MException(ex);
         }
+    }
+
+    public static String uuid() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString();
     }
 
     public static Date getToday() {

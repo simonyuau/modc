@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 @DiscriminatorValue("group")
 public class MGroup extends MParty {
 
-    @Column (name = "name")
+    @Column(name = "name")
     private String name;
 
     public String getName() {

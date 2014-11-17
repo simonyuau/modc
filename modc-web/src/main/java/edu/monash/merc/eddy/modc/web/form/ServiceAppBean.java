@@ -26,42 +26,39 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.service;
+package edu.monash.merc.eddy.modc.web.form;
 
 import edu.monash.merc.eddy.modc.domain.ServiceApp;
 import edu.monash.merc.eddy.modc.domain.ServiceAuthIP;
-import edu.monash.merc.eddy.modc.sql.page.Pager;
-import org.hibernate.criterion.Order;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Monash University eResearch Center
  * <p/>
  * Created by simonyu - xiaoming.yu@monash.edu
- * Date: 4/09/2014
+ * Date: 7/11/14
  */
-public interface ServiceAppService {
+public class ServiceAppBean implements Serializable {
 
-    void saveServiceApp(ServiceApp serviceApp);
+    private ServiceApp serviceApp;
 
-    ServiceApp getServiceAppById(long id);
+    private List<ServiceAuthIP> serviceAuthIPs;
 
-    void updateServiceApp(ServiceApp serviceApp);
+    public ServiceApp getServiceApp() {
+        return serviceApp;
+    }
 
-    void updateServiceApp(ServiceApp serviceApp, List<ServiceAuthIP> authIPs);
+    public void setServiceApp(ServiceApp serviceApp) {
+        this.serviceApp = serviceApp;
+    }
 
-    void deleteServiceApp(ServiceApp serviceApp);
+    public List<ServiceAuthIP> getServiceAuthIPs() {
+        return serviceAuthIPs;
+    }
 
-    void deleteServiceAppById(long serviceAppId);
-
-    ServiceApp getServiceAppByUniqueId(String uniqueId);
-
-    ServiceApp getServiceAppByName(String name);
-
-    ServiceApp getServiceAppByUniqueIdAndIp(String uniqueId, String authIp);
-
-    List<ServiceApp> listServiceApps(String serviceType, Order[] orderParams);
-
-    Pager<ServiceApp> getPagedServiceApps(String serviceType, int startPageNo, int sizePerPage, Order[] orderParams);
+    public void setServiceAuthIPs(List<ServiceAuthIP> serviceAuthIPs) {
+        this.serviceAuthIPs = serviceAuthIPs;
+    }
 }

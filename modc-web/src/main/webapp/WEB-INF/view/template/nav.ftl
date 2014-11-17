@@ -28,7 +28,10 @@
             <li><a href="#">Collections</a></li>
         <#if authen_flag?? && authen_flag == 'authenticated'>
             <li><a href="${base}/doi/show_mint.htm">DOI</a></li>
-            <li><a href="${base}/user/list_users.htm">Users</a></li>
+            <#if (authen_user_type??&&(authen_user_type == 1 ||authen_user_type == 2))>
+                <li><a href="${base}/service/ws_app_list.htm">Webservice App</a></li>
+            </#if>
+            <li><a href="${base}/manage/list_users.htm">Users</a></li>
         </#if>
             <li><a href="#">About Us</a></li>
         </ul>

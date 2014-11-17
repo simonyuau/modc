@@ -30,9 +30,17 @@ package edu.monash.merc.eddy.modc.service.impl;
 
 import edu.monash.merc.eddy.modc.dao.ServiceAppDAO;
 import edu.monash.merc.eddy.modc.domain.ServiceApp;
+import edu.monash.merc.eddy.modc.domain.ServiceAuthIP;
 import edu.monash.merc.eddy.modc.service.ServiceAppService;
+import edu.monash.merc.eddy.modc.service.ServiceAuthIPService;
+import edu.monash.merc.eddy.modc.sql.page.Pager;
+import org.hibernate.criterion.Order;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Monash University eResearch Center
@@ -44,10 +52,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ServiceAppServiceImpl implements ServiceAppService {
 
+    @Autowired
     private ServiceAppDAO serviceAppDao;
+
+    @Autowired
+    private ServiceAuthIPService serviceAuthIPService;
 
     public void setServiceAppDao(ServiceAppDAO serviceAppDao) {
         this.serviceAppDao = serviceAppDao;
+    }
+
+    public void setServiceAuthIPService(ServiceAuthIPService serviceAuthIPService) {
+        this.serviceAuthIPService = serviceAuthIPService;
     }
 
     @Override
@@ -63,6 +79,43 @@ public class ServiceAppServiceImpl implements ServiceAppService {
     @Override
     public void updateServiceApp(ServiceApp serviceApp) {
         this.serviceAppDao.update(serviceApp);
+    }
+
+    @Override
+    public void updateServiceApp(ServiceApp serviceApp, List<ServiceAuthIP> authIPs) {
+        this.updateServiceApp(serviceApp);
+        System.out.println("============ finished to update serviceApp");
+        List<ServiceAuthIP> oldAuthIps = this.serviceAuthIPService.listAuthIPsByServiceAppId(serviceApp.getId());
+
+        System.out.println("============ existedAuthIps size : " + oldAuthIps.size());
+        updateAuthIps(serviceApp, oldAuthIps, authIPs);
+    }
+
+    private void updateAuthIps(ServiceApp serviceApp, List<ServiceAuthIP> oldAuthIps, List<ServiceAuthIP> updatedAuthIps) {
+
+        if (updatedAuthIps != null && updatedAuthIps.size() > 0) {
+            for (ServiceAuthIP authIP : updatedAuthIps) {
+                long id = authIP.getId();
+                System.out.println("==== updating auth ip id: " + id + ", ip address : " + authIP.getIpAddress());
+                if (id <= 0) {
+                    authIP.setServiceApp(serviceApp);
+                    this.serviceAuthIPService.saveServiceAuthIP(authIP);
+                } else {
+                    if (oldAuthIps.contains(authIP)) {
+                        System.out.println("==== to be updated  ip : " + authIP.getIpAddress());
+                        oldAuthIps.remove(authIP);
+                    }
+                }
+            }
+        }
+
+        if (oldAuthIps != null && oldAuthIps.size() > 0) {
+            for (ServiceAuthIP deleteIp : oldAuthIps) {
+                System.out.println("==== to be delete  ip : " + deleteIp.getIpAddress());
+                this.serviceAuthIPService.deleteServiceAuthIP(deleteIp);
+            }
+        }
+
     }
 
     @Override
@@ -88,5 +141,15 @@ public class ServiceAppServiceImpl implements ServiceAppService {
     @Override
     public ServiceApp getServiceAppByUniqueIdAndIp(String uniqueId, String authIp) {
         return this.serviceAppDao.getServiceAppByUniqueIdAndIp(uniqueId, authIp);
+    }
+
+    @Override
+    public List<ServiceApp> listServiceApps(String serviceType, Order[] orderParams) {
+        return this.serviceAppDao.listServiceApps(serviceType, orderParams);
+    }
+
+    @Override
+    public Pager<ServiceApp> getPagedServiceApps(String serviceType, int startPageNo, int sizePerPage, Order[] orderParams) {
+        return this.serviceAppDao.getPagedServiceApps(serviceType, startPageNo, sizePerPage, orderParams);
     }
 }

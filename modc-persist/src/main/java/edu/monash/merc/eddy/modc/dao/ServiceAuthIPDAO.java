@@ -28,15 +28,11 @@
 
 package edu.monash.merc.eddy.modc.dao;
 
-import edu.monash.merc.eddy.modc.domain.MProject;
-import edu.monash.merc.eddy.modc.repository.MPartyRepository;
-import edu.monash.merc.eddy.modc.repository.MProjectRepository;
-import edu.monash.merc.eddy.modc.sql.page.Pager;
+import edu.monash.merc.eddy.modc.domain.ServiceAuthIP;
+import edu.monash.merc.eddy.modc.repository.ServiceAuthIPRepository;
 import edu.monash.merc.eddy.modc.support.QueryHelper;
-import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.criterion.Order;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
@@ -44,45 +40,20 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by simonyu on 27/08/2014.
+ * Monash University eResearch Center
+ * <p/>
+ * Created by simonyu - xiaoming.yu@monash.edu
+ * Date: 3/11/14
  */
 @Scope("prototype")
 @Repository
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "fixedRegion")
-public class MProjectDAO extends HibernateGenericDAO<MProject> implements MProjectRepository {
+public class ServiceAuthIPDAO extends HibernateGenericDAO<ServiceAuthIP> implements ServiceAuthIPRepository {
 
     @Override
-    public MProject getByUniqueId(String uniqueId) {
-        String hql = "FROM " + this.persistClass.getSimpleName() + " AS p WHERE p.uniqueId =:uniqueId";
-        Map<String, Object> namedParams = QueryHelper.createNamedParam("uniqueId", uniqueId);
-        return this.find(hql, namedParams);
-    }
-
-    @Override
-    public MProject getByProjectName(String projectName) {
-        String hql = "FROM " + this.persistClass.getSimpleName() + " AS p WHERE lower(p.name) =:name";
-        Map<String, Object> namedParams = QueryHelper.createNamedParam("name", StringUtils.lowerCase(projectName));
-        return this.find(hql, namedParams);
-    }
-
-    @Override
-    public List<MProject> getProjectsByUser(long userId, Order[] orderParams) {
-        String hql = "FROM " + this.persistClass.getSimpleName() + " AS p WHERE p.owner.id =:id";
-
-        //create named params
-        Map<String, Object> namedParams = QueryHelper.createNamedParam("id", userId);
-        //set order by if any
-        hql = QueryHelper.setOrderByParams(hql, "p", orderParams);
-        return this.list(hql, namedParams);
-    }
-
-    @Override
-    public Pager<MProject> getPagedProjectsByUser(long userId, int startPageNo, int sizePerPage, Order[] orderParams) {
-        String hql = "FROM " + this.persistClass.getSimpleName() + " AS p WHERE p.owner.id= :id";
-        //create named params
-        Map<String, Object> namedParams = QueryHelper.createNamedParam("id", userId);
-        //set order by if any
-        hql = QueryHelper.setOrderByParams(hql, "p", orderParams);
-        return this.find(hql, namedParams, startPageNo, sizePerPage);
+    public List<ServiceAuthIP> listAuthIPsByServiceAppId(long serviceAppId) {
+        String hql = "FROM " + this.persistClass.getSimpleName() + " AS sai WHERE sai.serviceApp.id = :serviceAppId";
+        Map<String, Object> namedParam = QueryHelper.createNamedParam("serviceAppId", serviceAppId);
+        return this.list(hql, namedParam);
     }
 }

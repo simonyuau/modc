@@ -30,6 +30,8 @@ package edu.monash.merc.eddy.modc.web.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.apache.commons.validator.routines.InetAddressValidator;
+import org.apache.commons.validator.routines.UrlValidator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,6 +56,16 @@ public class MDValidator {
     public static boolean validateEmail(String email) {
         EmailValidator emailValidator = EmailValidator.getInstance();
         return emailValidator.isValid(email);
+    }
+
+    public static boolean validateIp(String ipAddress) {
+        InetAddressValidator ipValidator = InetAddressValidator.getInstance();
+        return ipValidator.isValid(ipAddress);
+    }
+
+    public static boolean validateURL(String url){
+        UrlValidator urlValidator = UrlValidator.getInstance();
+        return urlValidator.isValid(url);
     }
 
     public static boolean validateName(String name, int maxLen) {

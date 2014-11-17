@@ -32,6 +32,7 @@ import edu.monash.merc.eddy.modc.common.util.MDUtils;
 import edu.monash.merc.eddy.modc.doi.DoiResponse;
 import edu.monash.merc.eddy.modc.doi.HttpDOIService;
 import edu.monash.merc.eddy.modc.domain.doi.*;
+import edu.monash.merc.eddy.modc.web.validation.MDValidator;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -178,6 +179,10 @@ public class DoiController extends BaseController {
             String url = doiResource.getUrl();
             if (StringUtils.isBlank(url)) {
                 addActionError("doi.param.url.required");
+            }else {
+                if(!MDValidator.validateURL(url)){
+                    addActionError("doi.param.url.invalid");
+                }
             }
         }
 

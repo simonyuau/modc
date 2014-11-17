@@ -78,8 +78,13 @@ public class ServiceAppDAO extends HibernateGenericDAO<ServiceApp> implements Se
 
     @Override
     public Pager<ServiceApp> getPagedServiceApps(String serviceType, int startPageNo, int sizePerPage, Order[] orderParams) {
+        Map<String, Object> namedParam = null;
         String hql = "FROM " + this.persistClass.getSimpleName() + " AS sa WHERE sa.serviceType = :serviceType";
-        Map<String, Object> namedParam = QueryHelper.createNamedParam("serviceType", serviceType);
+        if(StringUtils.isBlank(serviceType)){
+            hql = "FROM " + this.persistClass.getSimpleName() + " AS sa";
+        }else{
+            namedParam = QueryHelper.createNamedParam("serviceType", serviceType);
+        }
         QueryHelper.setOrderByParams(hql, "sa", orderParams);
         return this.find(hql, namedParam, startPageNo, sizePerPage);
     }

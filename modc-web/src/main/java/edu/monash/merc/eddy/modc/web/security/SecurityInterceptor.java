@@ -87,14 +87,13 @@ public class SecurityInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        if (StringUtils.equalsIgnoreCase(actionPath, "/admin")) {
+        if (StringUtils.equalsIgnoreCase(actionPath, "/admin") || StringUtils.equalsIgnoreCase(actionPath, "/service")) {
             int userType = (Integer) request.getSession().getAttribute(MConts.SE_USER_TYPE);
             //check the user permission. it's super admin 1 or admin 2
             if (userType != 1 && userType != 2) {
                 response.sendRedirect(request.getContextPath() + "/perm/perm_denied.htm");
                 return true;
             }
-
         }
 
         return true;

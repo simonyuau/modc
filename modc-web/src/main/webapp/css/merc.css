@@ -205,24 +205,19 @@ input {
 .site_top_left {
     float: left;
     margin-left: 180px;
+    height: 70px;
     display: inline-block;
-    height: 95px;
 }
 
 .site_top_right {
     float: right;
     margin-right: 180px;
+    height: 70px;
     display: inline-block;
-    height: 95px;
-}
-
-.right_logo {
-    display: inline-block;
-    margin-right: 20px;
 }
 
 .user_login {
-    margin-top: 60px;
+    margin-top: 35px;
     display: inline-block;
     margin-right: 100px;
 }
@@ -233,7 +228,6 @@ input {
     height: 25px;
     line-height: 25px;
     display: block;
-    font-weight: bold;
     text-align: center;
     color: #245c96;
     text-decoration: none;
@@ -737,6 +731,16 @@ input {
     border-top: solid 1px #ffffff;
     border-right: solid 1px #ffffff;
     border-bottom: solid 1px #C2C9D7;
+}
+.dinput_title_section2 {
+    font-weight: bold;
+    color: #726e4c;
+    height: 25px;
+    line-height: 25px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .dinput_bottom_section {

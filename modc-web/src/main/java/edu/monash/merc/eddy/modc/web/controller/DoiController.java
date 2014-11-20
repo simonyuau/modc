@@ -84,30 +84,6 @@ public class DoiController extends BaseController {
 
     @RequestMapping(value = "/mint")
     public String mint(@ModelAttribute("doiResource") DoiResource doiResource, HttpServletRequest request, Model model) {
-
-//        //TODO: remove the following debug
-//        System.out.println("========= url : " + doiResource.getUrl());
-//        List<DoiCreator> creators = doiResource.getDoiCreators();
-//        if (creators != null && creators.size() >= 0) {
-//            for (DoiCreator creator : creators) {
-//                System.out.println("====== creatorName: " + creator.getCreatorName());
-//                System.out.println("=========> name identifier : " + creator.getNameIdentifier().getIdentifier());
-//                System.out.println("=========> name identifier scheme: " + creator.getNameIdentifier().getNameIdentifierScheme());
-//
-//            }
-//        }
-//
-//        List<DoiTitle> titles = doiResource.getTitles();
-//        if (titles != null && titles.size() >= 0) {
-//            for (DoiTitle title : titles) {
-//                System.out.println("======= title : " + title.getTitle());
-//                System.out.println("========= title type : " + title.getTitleType());
-//            }
-//        }
-//        System.out.println(" ==== publisher : " + doiResource.getPublisher().getPublisher());
-//
-//        System.out.println(" ==== publication year : " + doiResource.getPublicationYear());
-
         try {
             //add action support
             actionSupport(request, model);
@@ -120,7 +96,7 @@ public class DoiController extends BaseController {
                 return "doi/doi_mint";
             }
 
-            DoiResponse doiResponse =  doiService.mintDoi(doiResource);
+            DoiResponse doiResponse = doiService.mintDoi(doiResource);
             model.addAttribute("doiResponse", doiResponse);
             String responseType = doiResponse.getType();
             if (StringUtils.equalsIgnoreCase(responseType, "success")) {
@@ -148,27 +124,6 @@ public class DoiController extends BaseController {
         }
     }
 
-    private DoiResponse fakeSuccessResponse() {
-        DoiResponse res = new DoiResponse();
-        res.setType("success");
-        res.setResponseCode("MT001");
-        res.setDoi("10.5072/20/54323BDC1BDCA");
-        res.setUrl("https://platforms.monash.edu/eresearch/");
-        res.setMessage("DOI 10.5072/20/54323BDC1BDCA was successfully minted.");
-        return res;
-    }
-
-    private DoiResponse fakeFailureResponse() {
-        DoiResponse res = new DoiResponse();
-        res.setType("failure");
-        res.setResponseCode("MT010");
-        res.setDoi("10.5072/20/543348AC9A204");
-        res.setUrl("http://ozflux.its.monash.edu.au");
-        res.setMessage("There has been an unexpected error processing your doi request. For more information please contact services@ands.org.au.");
-        res.setVerboseMessage("[url] domain of URL is not allowed</verbosemessage>");
-        return res;
-    }
-
     private void validate(DoiResource doiResource, boolean isMinting) {
         if (doiResource == null) {
             addActionError("doi.param.empty");
@@ -179,8 +134,8 @@ public class DoiController extends BaseController {
             String url = doiResource.getUrl();
             if (StringUtils.isBlank(url)) {
                 addActionError("doi.param.url.required");
-            }else {
-                if(!MDValidator.validateURL(url)){
+            } else {
+                if (!MDValidator.validateURL(url)) {
                     addActionError("doi.param.url.invalid");
                 }
             }

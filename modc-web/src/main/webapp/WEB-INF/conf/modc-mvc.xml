@@ -61,7 +61,7 @@
                 <prop key="time_format">HH:mm:ss</prop>
                 <prop key="number_format">0.######</prop>
                 <prop key="whitespace_stripping">true</prop>
-                <prop key="auto_import">/WEB-INF/ftl/spring.ftl as s, /WEB-INF/FTL/md.ftl as md</prop>
+                <prop key="auto_import">/WEB-INF/ftl/spring.ftl as s, /WEB-INF/ftl/md.ftl as md</prop>
                 <prop key="strict_syntax">true</prop>
             </props>
         </property>

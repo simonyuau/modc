@@ -25,7 +25,7 @@
             <div class="left_display_inner">
             <#include "../template/action_message.ftl" />
 
-                <div class="dinput_title_section">
+                <div class="dinput_title_section2">
                     Minting DOI Details:
                 </div>
                 <div class="content_display_div">
@@ -80,7 +80,7 @@
                 </#if>
                 </div>
                 <div style="clear:both"></div>
-                <div class="dinput_bottom_section">
+                <div class="dinput_title_section2">
                     &nbsp;
                 </div>
             </div>

@@ -120,7 +120,14 @@ public class HttpDOIService {
             if (logger.isDebugEnabled()) {
                 logger.debug("The minting Doi response : " + result.toString());
             }
-            return DoiResponseParser.parseDOIXML(result.toString());
+            DoiResponse doiResponse = DoiResponseParser.parseDOIXML(result.toString());
+
+            String respType = doiResponse.getType();
+
+            if (StringUtils.equalsIgnoreCase(respType, "success")) {
+                logger.info("The mint doi : " + doiResponse.getDoi());
+            }
+            return doiResponse;
 
         } catch (Exception ex) {
             logger.error(ex.getMessage());

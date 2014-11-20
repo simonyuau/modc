@@ -4,7 +4,7 @@
 
     <div class="site_top_left">
         <div class="menu_logo">
-            <a href="http://monash.edu/eresearch" target="_blank"><img src="${base}/images/logo/logo_merc.png"/></a>
+            <a href="http://monash.edu.au/library" target="_blank"><img src="${base}/images/logo/logo_monash_library.png"/></a>
         </div>
     </div>
     <div class="site_top_right">
@@ -33,7 +33,7 @@
             </#if>
             <li><a href="${base}/manage/list_users.htm">Users</a></li>
         </#if>
-            <li><a href="#">About Us</a></li>
+            <li><a href="${base}/site/about_us.htm">About Us</a></li>
         </ul>
     </div>
 </div>

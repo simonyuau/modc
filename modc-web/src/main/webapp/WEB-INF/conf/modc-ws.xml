@@ -138,6 +138,43 @@
         <property name="targetNamespace" value="http://merc.monash.edu/ws/schema/doi"/>
     </bean>
 
+    <!-- define DeactivateDoiService endpoint -->
+    <bean id="DeactivateDoiService" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schemaCollection">
+            <bean class="org.springframework.xml.xsd.commons.CommonsXsdSchemaCollection">
+                <property name="inline" value="true"/>
+                <property name="xsds">
+                    <list>
+                        <value>classpath:/xsd/DeactivateDoiService.xsd</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="portTypeName" value="DeactivateDoiService"/>
+        <property name="serviceName" value="DeactivateDoiService"/>
+        <property name="locationUri" value="/ws"/>
+        <property name="targetNamespace" value="http://merc.monash.edu/ws/schema/doi"/>
+    </bean>
+
+    <!-- define ActivateDoiService endpoint -->
+    <bean id="ActivateDoiService" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schemaCollection">
+            <bean class="org.springframework.xml.xsd.commons.CommonsXsdSchemaCollection">
+                <property name="inline" value="true"/>
+                <property name="xsds">
+                    <list>
+                        <value>classpath:/xsd/ActivateDoiService.xsd</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="portTypeName" value="ActivateDoiService"/>
+        <property name="serviceName" value="ActivateDoiService"/>
+        <property name="locationUri" value="/ws"/>
+        <property name="targetNamespace" value="http://merc.monash.edu/ws/schema/doi"/>
+    </bean>
+
+
     <!-- define service endpoint -->
     <bean id="MDService" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
         <property name="schemaCollection">

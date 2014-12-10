@@ -2,6 +2,7 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:doi="http://merc.monash.edu/ws/schema/doi"
         targetNamespace="http://merc.monash.edu/ws/schema/doi" elementFormDefault="qualified" attributeFormDefault="qualified">
     <include schemaLocation="Resource.xsd"/>
+    <include schemaLocation="DoiCommon.xsd"/>
     <element name="MintDoiRequest">
         <annotation>
             <documentation>MintDoiRequest for minting a doi.</documentation>

@@ -94,6 +94,7 @@ public class DOIServiceEndpoint {
         //check the ws authentication
         ServiceApp serviceApp = serviceAppService.getServiceAppByUniqueIdAndIp(serviceId, ipAddress);
         if (serviceApp == null) {
+            logger.error("Unauthorized ip address : " + ipAddress + " - id : " + serviceId);
             throw new DoiValidateException("This doi service is not authorized");
         }
 
@@ -130,6 +131,7 @@ public class DOIServiceEndpoint {
         //check ws authentication
         ServiceApp serviceApp = serviceAppService.getServiceAppByUniqueIdAndIp(serviceId, ipAddress);
         if (serviceApp == null) {
+            logger.error("Unauthorized ip address : " + ipAddress + " - id : " + serviceId);
             throw new DoiValidateException("This doi service is not authorized");
         }
 
@@ -144,6 +146,75 @@ public class DOIServiceEndpoint {
         //return UpdateDoiResponse
         return generateUpdateResponse(response, request.getServiceId());
     }
+
+    @PayloadRoot(localPart = "ActivateDoiRequest", namespace = SERVICE_NS)
+    @ResponsePayload
+    public ActivateDoiResponse activateDoi(@RequestPayload ActivateDoiRequest request) {
+
+        //get the request ws ip address
+        TransportContext context = TransportContextHolder.getTransportContext();
+        HttpServletConnection connection = (HttpServletConnection) context.getConnection();
+        HttpServletRequest httpServletRequest = connection.getHttpServletRequest();
+        String ipAddress = MIPUtils.getRemoteAddr(httpServletRequest);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("=== client ip address : " + ipAddress);
+        }
+
+        String serviceId = request.getServiceId();
+        if (StringUtils.isBlank(serviceId)) {
+            throw new DoiValidateException("The serviceId is invalid");
+        }
+
+        //check ws authentication
+        ServiceApp serviceApp = serviceAppService.getServiceAppByUniqueIdAndIp(serviceId, ipAddress);
+        if (serviceApp == null) {
+            logger.error("Unauthorized ip address : " + ipAddress + " - id : " + serviceId);
+            throw new DoiValidateException("This doi service is not authorized");
+        }
+
+        //check the doi for update
+        String doi = request.getDoi();
+        //call doi activate
+        DoiResponse response = doiService.activateDoi(doi);
+        //return ActivateDoiResponse
+        return generateActivateResponse(response, serviceId);
+    }
+
+    @PayloadRoot(localPart = "DeactivateDoiRequest", namespace = SERVICE_NS)
+    @ResponsePayload
+    public DeactivateDoiResponse deactivateDoi(@RequestPayload DeactivateDoiRequest request) {
+
+        //get the request ws ip address
+        TransportContext context = TransportContextHolder.getTransportContext();
+        HttpServletConnection connection = (HttpServletConnection) context.getConnection();
+        HttpServletRequest httpServletRequest = connection.getHttpServletRequest();
+        String ipAddress = MIPUtils.getRemoteAddr(httpServletRequest);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("=== client ip address : " + ipAddress);
+        }
+
+        String serviceId = request.getServiceId();
+        if (StringUtils.isBlank(serviceId)) {
+            throw new DoiValidateException("The serviceId is invalid");
+        }
+
+        //check ws authentication
+        ServiceApp serviceApp = serviceAppService.getServiceAppByUniqueIdAndIp(serviceId, ipAddress);
+        if (serviceApp == null) {
+            logger.error("Unauthorized ip address : " + ipAddress + " - id : " + serviceId);
+            throw new DoiValidateException("This doi service is not authorized");
+        }
+
+        //check the doi for update
+        String doi = request.getDoi();
+        //call doi activate
+        DoiResponse response = doiService.deactivateDoi(doi);
+        //return DeactivateDoiResponse
+        return generateDeactivateResponse(response, serviceId);
+    }
+
 
     private DoiResource convertToDoiResource(String doi, DResource dResource, String url, boolean isMint) {
         DoiResource doiResource = new DoiResource();
@@ -629,5 +700,29 @@ public class DOIServiceEndpoint {
         updateDoiResponse.setMessage(response.getMessage());
         updateDoiResponse.setVerbosemessage(response.getVerboseMessage());
         return updateDoiResponse;
+    }
+
+    private ActivateDoiResponse generateActivateResponse(DoiResponse response, String serviceId) {
+        ActivateDoiResponse activateDoiResponse = JAXB_OBJECT_FACTORY.createActivateDoiResponse();
+        activateDoiResponse.setResponsecode(DResponseCode.fromValue(response.getResponseCode()));
+        activateDoiResponse.setType(DResponseTypeAtt.fromValue(response.getType()));
+        activateDoiResponse.setServiceId(serviceId);
+        activateDoiResponse.setDoi(response.getDoi());
+        activateDoiResponse.setUrl(response.getUrl());
+        activateDoiResponse.setMessage(response.getMessage());
+        activateDoiResponse.setVerbosemessage(response.getVerboseMessage());
+        return activateDoiResponse;
+    }
+
+    private DeactivateDoiResponse generateDeactivateResponse(DoiResponse response, String serviceId) {
+        DeactivateDoiResponse deactivateDoiResponse = JAXB_OBJECT_FACTORY.createDeactivateDoiResponse();
+        deactivateDoiResponse.setResponsecode(DResponseCode.fromValue(response.getResponseCode()));
+        deactivateDoiResponse.setType(DResponseTypeAtt.fromValue(response.getType()));
+        deactivateDoiResponse.setServiceId(serviceId);
+        deactivateDoiResponse.setDoi(response.getDoi());
+        deactivateDoiResponse.setUrl(response.getUrl());
+        deactivateDoiResponse.setMessage(response.getMessage());
+        deactivateDoiResponse.setVerbosemessage(response.getVerboseMessage());
+        return deactivateDoiResponse;
     }
 }

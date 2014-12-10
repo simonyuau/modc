@@ -59,6 +59,8 @@
         <property name="appId" value="${app.id}"/>
         <property name="doiMintSuffix" value="${doi.mint.suffix}"/>
         <property name="doiUpdateSuffix" value="${doi.update.suffix}"/>
+        <property name="doiActivateSuffix" value="${doi.activate.suffix}"/>
+        <property name="doiDeactivateSuffix" value="${doi.deactivate.suffix}"/>
         <property name="doiTemplate" value="${doi.metadata..template.file}"/>
         <property name="maxTotalConnections" value="${max.total.connections}"/>
         <property name="maxPerRouteConnections" value="${max.per.route.connections}"/>

@@ -46,6 +46,30 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DeactivateDoiRequest }
+     * 
+     */
+    public DeactivateDoiRequest createDeactivateDoiRequest() {
+        return new DeactivateDoiRequest();
+    }
+
+    /**
+     * Create an instance of {@link ActivateDoiRequest }
+     * 
+     */
+    public ActivateDoiRequest createActivateDoiRequest() {
+        return new ActivateDoiRequest();
+    }
+
+    /**
+     * Create an instance of {@link DeactivateDoiResponse }
+     * 
+     */
+    public DeactivateDoiResponse createDeactivateDoiResponse() {
+        return new DeactivateDoiResponse();
+    }
+
+    /**
      * Create an instance of {@link MintDoiResponse }
      * 
      */
@@ -67,6 +91,14 @@ public class ObjectFactory {
      */
     public UpdateDoiResponse createUpdateDoiResponse() {
         return new UpdateDoiResponse();
+    }
+
+    /**
+     * Create an instance of {@link ActivateDoiResponse }
+     * 
+     */
+    public ActivateDoiResponse createActivateDoiResponse() {
+        return new ActivateDoiResponse();
     }
 
     /**

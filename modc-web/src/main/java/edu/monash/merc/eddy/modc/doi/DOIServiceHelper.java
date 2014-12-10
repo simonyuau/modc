@@ -52,6 +52,10 @@ public class DOIServiceHelper {
 
     private String doiUpdateSuffix;
 
+    private String doiActivateSuffix;
+
+    private String doiDeactivateSuffix;
+
     private String doiTemplate;
 
     private int maxTotalConnections;
@@ -69,6 +73,10 @@ public class DOIServiceHelper {
     private static final String MINT_SUFFIX = "mint.xml";
 
     private static final String UPDATE_SUFFIX = "update.xml";
+
+    private static final String ACTIVATE_SUFFIX = "activate.xml";
+
+    private static final String DEACTIVATE_SUFFIX = "deactivate.xml";
 
     private static final String DOI_METADATA_TEMPLATE = "doi.ftl";
 
@@ -125,6 +133,14 @@ public class DOIServiceHelper {
 
         if (StringUtils.isBlank(doiUpdateSuffix)) {
             doiUpdateSuffix = UPDATE_SUFFIX;
+        }
+
+        if (StringUtils.isBlank(doiActivateSuffix)) {
+            doiActivateSuffix = ACTIVATE_SUFFIX;
+        }
+
+        if (StringUtils.isBlank(doiDeactivateSuffix)) {
+            doiDeactivateSuffix = DEACTIVATE_SUFFIX;
         }
 
         if (StringUtils.isBlank(appId)) {
@@ -188,6 +204,22 @@ public class DOIServiceHelper {
 
     public void setDoiUpdateSuffix(String doiUpdateSuffix) {
         this.doiUpdateSuffix = doiUpdateSuffix;
+    }
+
+    public String getDoiDeactivateSuffix() {
+        return doiDeactivateSuffix;
+    }
+
+    public void setDoiDeactivateSuffix(String doiDeactivateSuffix) {
+        this.doiDeactivateSuffix = doiDeactivateSuffix;
+    }
+
+    public String getDoiActivateSuffix() {
+        return doiActivateSuffix;
+    }
+
+    public void setDoiActivateSuffix(String doiActivateSuffix) {
+        this.doiActivateSuffix = doiActivateSuffix;
     }
 
     public String getDoiTemplate() {

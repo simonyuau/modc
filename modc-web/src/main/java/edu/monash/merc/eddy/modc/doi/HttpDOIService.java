@@ -33,6 +33,7 @@ import edu.monash.merc.eddy.modc.domain.doi.*;
 import edu.monash.merc.eddy.modc.ws.exception.DoiServiceException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -195,6 +196,88 @@ public class HttpDOIService {
                 logger.debug("The updating Doi response : " + result.toString());
             }
             return DoiResponseParser.parseDOIXML(result.toString());
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+            throw new DoiServiceException(ex);
+        } finally {
+            //close the client if client not null;
+            if (client != null) {
+                this.doiServiceHelper.close(client);
+            }
+        }
+    }
+
+    public DoiResponse deactivateDoi(String doi) {
+        CloseableHttpClient client = null;
+        try {
+            String doiServicePoint = this.doiServiceHelper.getDoiServicePoint();
+            String doiVersion = this.doiServiceHelper.getDoiVersion();
+            String doiDeactivateSuffix = this.doiServiceHelper.getDoiDeactivateSuffix();
+            String appId = this.doiServiceHelper.getAppId();
+
+            String deactivateDoiUrl = doiServicePoint + "/" + doiVersion + "/" + doiDeactivateSuffix + "/?app_id=" + appId + "&doi=" + doi;
+
+            //create a client
+            client = this.doiServiceHelper.createClient();
+
+            HttpGet get = new HttpGet(deactivateDoiUrl);
+
+            HttpResponse httpResponse = client.execute(get);
+
+            BufferedReader rd = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
+
+            StringBuffer result = new StringBuffer();
+            String line = "";
+            while ((line = rd.readLine()) != null) {
+                result.append(line);
+            }
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("The deactivate doi response : " + result.toString());
+            }
+            return DoiResponseParser.parseDOIXML(result.toString());
+
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+            throw new DoiServiceException(ex);
+        } finally {
+            //close the client if client not null;
+            if (client != null) {
+                this.doiServiceHelper.close(client);
+            }
+        }
+    }
+
+    public DoiResponse activateDoi(String doi) {
+        CloseableHttpClient client = null;
+        try {
+            String doiServicePoint = this.doiServiceHelper.getDoiServicePoint();
+            String doiVersion = this.doiServiceHelper.getDoiVersion();
+            String doiActivateSuffix = this.doiServiceHelper.getDoiActivateSuffix();
+            String appId = this.doiServiceHelper.getAppId();
+
+            String activateDoiUrl = doiServicePoint + "/" + doiVersion + "/" + doiActivateSuffix + "/?app_id=" + appId + "&doi=" + doi;
+
+            //create a client
+            client = this.doiServiceHelper.createClient();
+
+            HttpGet get = new HttpGet(activateDoiUrl);
+
+            HttpResponse httpResponse = client.execute(get);
+
+            BufferedReader rd = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
+
+            StringBuffer result = new StringBuffer();
+            String line = "";
+            while ((line = rd.readLine()) != null) {
+                result.append(line);
+            }
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("The activate doi response : " + result.toString());
+            }
+            return DoiResponseParser.parseDOIXML(result.toString());
+
         } catch (Exception ex) {
             logger.error(ex.getMessage());
             throw new DoiServiceException(ex);

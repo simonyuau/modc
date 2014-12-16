@@ -29,12 +29,9 @@
 package edu.monash.merc.eddy.modc.ws.endpoint;
 
 import edu.monash.merc.eddy.modc.common.util.MDUtils;
-import edu.monash.merc.eddy.modc.common.util.MIPUtils;
 import edu.monash.merc.eddy.modc.doi.DoiResponse;
 import edu.monash.merc.eddy.modc.doi.HttpDOIService;
-import edu.monash.merc.eddy.modc.domain.ServiceApp;
 import edu.monash.merc.eddy.modc.domain.doi.*;
-import edu.monash.merc.eddy.modc.service.ServiceAppService;
 import edu.monash.merc.eddy.modc.ws.exception.DoiValidateException;
 import edu.monash.merc.eddy.modc.ws.model.*;
 import org.apache.commons.lang.StringUtils;
@@ -46,11 +43,7 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
-import org.springframework.ws.transport.context.TransportContext;
-import org.springframework.ws.transport.context.TransportContextHolder;
-import org.springframework.ws.transport.http.HttpServletConnection;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -70,33 +63,33 @@ public class DOIServiceEndpoint {
     @Autowired
     private HttpDOIService doiService;
 
-    @Autowired
-    private ServiceAppService serviceAppService;
+//    @Autowired
+//    private ServiceAppService serviceAppService;
 
     @PayloadRoot(localPart = "MintDoiRequest", namespace = SERVICE_NS)
     @ResponsePayload
     public MintDoiResponse mintDoi(@RequestPayload MintDoiRequest request) {
 
         //get client request ip
-        TransportContext context = TransportContextHolder.getTransportContext();
-        HttpServletConnection connection = (HttpServletConnection) context.getConnection();
-        HttpServletRequest httpServletRequest = connection.getHttpServletRequest();
-        String ipAddress = MIPUtils.getRemoteAddr(httpServletRequest);
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("=== client ip address : " + ipAddress);
-        }
+//        TransportContext context = TransportContextHolder.getTransportContext();
+//        HttpServletConnection connection = (HttpServletConnection) context.getConnection();
+//        HttpServletRequest httpServletRequest = connection.getHttpServletRequest();
+//        String ipAddress = MIPUtils.getRemoteAddr(httpServletRequest);
+//
+//        if (logger.isDebugEnabled()) {
+//            logger.debug("=== client ip address : " + ipAddress);
+//        }
         String serviceId = request.getServiceId();
         if (StringUtils.isBlank(serviceId)) {
             throw new DoiValidateException("The serviceId is invalid");
         }
-
-        //check the ws authentication
-        ServiceApp serviceApp = serviceAppService.getServiceAppByUniqueIdAndIp(serviceId, ipAddress);
-        if (serviceApp == null) {
-            logger.error("Unauthorized ip address : " + ipAddress + " - id : " + serviceId);
-            throw new DoiValidateException("This doi service is not authorized");
-        }
+//
+//        //check the ws authentication
+//        ServiceApp serviceApp = serviceAppService.getServiceAppByUniqueIdAndIp(serviceId, ipAddress);
+//        if (serviceApp == null) {
+//            logger.error("Unauthorized ip address : " + ipAddress + " - id : " + serviceId);
+//            throw new DoiValidateException("This doi service is not authorized");
+//        }
 
         DResource dResource = request.getResource();
         String url = request.getUrl();
@@ -106,33 +99,15 @@ public class DOIServiceEndpoint {
         //call doi minting
         DoiResponse response = doiService.mintDoi(doiResource);
         //return MintDoiResponse
-        return generateMintResponse(response, request.getServiceId());
+        return generateMintResponse(response, serviceId);
     }
 
     @PayloadRoot(localPart = "UpdateDoiRequest", namespace = SERVICE_NS)
     @ResponsePayload
     public UpdateDoiResponse updateDoi(@RequestPayload UpdateDoiRequest request) {
-
-        //get the request ws ip address
-        TransportContext context = TransportContextHolder.getTransportContext();
-        HttpServletConnection connection = (HttpServletConnection) context.getConnection();
-        HttpServletRequest httpServletRequest = connection.getHttpServletRequest();
-        String ipAddress = MIPUtils.getRemoteAddr(httpServletRequest);
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("=== client ip address : " + ipAddress);
-        }
-
         String serviceId = request.getServiceId();
         if (StringUtils.isBlank(serviceId)) {
             throw new DoiValidateException("The serviceId is invalid");
-        }
-
-        //check ws authentication
-        ServiceApp serviceApp = serviceAppService.getServiceAppByUniqueIdAndIp(serviceId, ipAddress);
-        if (serviceApp == null) {
-            logger.error("Unauthorized ip address : " + ipAddress + " - id : " + serviceId);
-            throw new DoiValidateException("This doi service is not authorized");
         }
 
         //check the doi for update
@@ -144,35 +119,16 @@ public class DOIServiceEndpoint {
         //call doi updating
         DoiResponse response = doiService.updateDoi(doiResource);
         //return UpdateDoiResponse
-        return generateUpdateResponse(response, request.getServiceId());
+        return generateUpdateResponse(response, serviceId);
     }
 
     @PayloadRoot(localPart = "ActivateDoiRequest", namespace = SERVICE_NS)
     @ResponsePayload
     public ActivateDoiResponse activateDoi(@RequestPayload ActivateDoiRequest request) {
-
-        //get the request ws ip address
-        TransportContext context = TransportContextHolder.getTransportContext();
-        HttpServletConnection connection = (HttpServletConnection) context.getConnection();
-        HttpServletRequest httpServletRequest = connection.getHttpServletRequest();
-        String ipAddress = MIPUtils.getRemoteAddr(httpServletRequest);
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("=== client ip address : " + ipAddress);
-        }
-
         String serviceId = request.getServiceId();
         if (StringUtils.isBlank(serviceId)) {
             throw new DoiValidateException("The serviceId is invalid");
         }
-
-        //check ws authentication
-        ServiceApp serviceApp = serviceAppService.getServiceAppByUniqueIdAndIp(serviceId, ipAddress);
-        if (serviceApp == null) {
-            logger.error("Unauthorized ip address : " + ipAddress + " - id : " + serviceId);
-            throw new DoiValidateException("This doi service is not authorized");
-        }
-
         //check the doi for update
         String doi = request.getDoi();
         //call doi activate
@@ -184,30 +140,12 @@ public class DOIServiceEndpoint {
     @PayloadRoot(localPart = "DeactivateDoiRequest", namespace = SERVICE_NS)
     @ResponsePayload
     public DeactivateDoiResponse deactivateDoi(@RequestPayload DeactivateDoiRequest request) {
-
-        //get the request ws ip address
-        TransportContext context = TransportContextHolder.getTransportContext();
-        HttpServletConnection connection = (HttpServletConnection) context.getConnection();
-        HttpServletRequest httpServletRequest = connection.getHttpServletRequest();
-        String ipAddress = MIPUtils.getRemoteAddr(httpServletRequest);
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("=== client ip address : " + ipAddress);
-        }
-
         String serviceId = request.getServiceId();
         if (StringUtils.isBlank(serviceId)) {
             throw new DoiValidateException("The serviceId is invalid");
         }
 
-        //check ws authentication
-        ServiceApp serviceApp = serviceAppService.getServiceAppByUniqueIdAndIp(serviceId, ipAddress);
-        if (serviceApp == null) {
-            logger.error("Unauthorized ip address : " + ipAddress + " - id : " + serviceId);
-            throw new DoiValidateException("This doi service is not authorized");
-        }
-
-        //check the doi for update
+        //check the doi
         String doi = request.getDoi();
         //call doi activate
         DoiResponse response = doiService.deactivateDoi(doi);

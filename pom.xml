@@ -25,10 +25,18 @@
         <!-- springframework -->
         <springframework.version>4.0.6.RELEASE</springframework.version>
 
+        <!-- spring-security -->
+        <spring-security.version>3.2.4.RELEASE</spring-security.version>
+
         <!-- spring web service -->
         <spring-ws.version>2.2.0.RELEASE</spring-ws.version>
 
+        <!-- Apache WSS4J  wss4j -->
+        <wss4j.version>1.6.17</wss4j.version>
+
         <wsdl4j.version>1.6.3</wsdl4j.version>
+
+        <xws-security.version>3.0</xws-security.version>
 
         <!-- xmlschema-core -->
         <xmlschema-core.version>2.1.0</xmlschema-core.version>
@@ -235,11 +243,49 @@
                 <version>${springframework.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-expression</artifactId>
+                <version>${springframework.version}</version>
+            </dependency>
+
+            <!-- spring security -->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-core</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+
             <!-- Spring web service -->
             <dependency>
                 <groupId>org.springframework.ws</groupId>
                 <artifactId>spring-ws-core</artifactId>
                 <version>${spring-ws.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.ws</groupId>
+                <artifactId>spring-ws-security</artifactId>
+                <version>${spring-ws.version}</version>
+            </dependency>
+
+            <!-- apache ws security -->
+            <dependency>
+                <groupId>org.apache.ws.security</groupId>
+                <artifactId>wss4j</artifactId>
+                <version>${wss4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sun.xml.wss</groupId>
+                <artifactId>xws-security</artifactId>
+                <version>${xws-security.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.xml.crypto</groupId>
+                        <artifactId>xmldsig</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>

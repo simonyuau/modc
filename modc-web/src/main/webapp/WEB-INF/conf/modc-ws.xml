@@ -55,6 +55,27 @@
         <property name="xsd" value="classpath:/xsd/UpdateDoiService.xsd"/>
     </bean>
 
+    <sws:interceptors>
+        <ref bean="wss4jSecurityInterceptor"/>
+    </sws:interceptors>
+
+    <!-- Register Wss4jSecurityInterceptor in the server-side application
+     set the validation action to UsernameToken, and configure the callbackHandler -->
+    <bean id="wss4jSecurityInterceptor" class="org.springframework.ws.soap.security.wss4j.Wss4jSecurityInterceptor">
+        <property name="validationCallbackHandler" ref="springSecurityHandler"/>
+        <property name="validationActions" value="UsernameToken"/>
+    </bean>
+
+    <!-- using xws security interceptor -->
+    <!-- bean id="xwsSecurityInterceptor" class="org.springframework.ws.soap.security.xwss.XwsSecurityInterceptor">
+        <property name="policyConfiguration" value="/WEB-INF/conf/securityPolicy.xml"/>
+        <property name="callbackHandlers">
+            <list>
+                <ref bean="springSecurityHandler"/>
+            </list>
+        </property>
+    </bean -->
+
     <!-- loggingInterceptor -->
     <bean id="loggingInterceptor" class="org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor"/>
 
@@ -65,12 +86,26 @@
         <property name="validateResponse" value="true"/>
     </bean>
 
+
+     <!-- Authenticating of a web service call using Spring Security to authenticate  user-name token with a digested password -->
+    <bean id="springSecurityHandler" class="org.springframework.ws.soap.security.wss4j.callback.SpringSecurityPasswordValidationCallbackHandler">
+        <property name="userDetailsService" ref="userDetailsService"/>
+    </bean>
+
+    <!-- xwss callback handler -->
+    <!-- bean id="springSecurityHandler" class="org.springframework.ws.soap.security.xwss.callback.SpringDigestPasswordValidationCallbackHandler">
+        <property name="userDetailsService" ref="userDetailsService"/>
+    </bean -->
+
+    <bean id="userDetailsService" class="edu.monash.merc.eddy.modc.service.ws.WSUserDetailService"/>
+
     <!-- Detects @PayloadRoot annotations on @Endpoint bean methods. -->
     <bean name="endpointMapping" class="org.springframework.ws.server.endpoint.mapping.PayloadRootAnnotationMethodEndpointMapping">
         <property name="interceptors">
-        <list>
-            <ref bean="loggingInterceptor" />
-        </list>
+            <list>
+                <ref bean="loggingInterceptor" />
+                <ref bean="wss4jSecurityInterceptor" />
+            </list>
         </property>
     </bean>
 

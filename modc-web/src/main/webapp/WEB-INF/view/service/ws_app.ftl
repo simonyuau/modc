@@ -29,59 +29,44 @@
                 <div class="input_row_section">
                     <div class="input_row_left_part">App Name:</div>
                     <div class="input_row_right_part">
-                    ${serviceAppBean.serviceApp.name}
+                    ${serviceApp.name}
                     </div>
                 </div>
                 <div style="clear:both"></div>
 
-                <!-- creators -->
+                <!-- app id -->
                 <div class="input_row_section">
                     <div class="input_row_left_part">App Id:</div>
                     <div class="input_row_right_part">
-                    ${serviceAppBean.serviceApp.uniqueId}
+                    ${serviceApp.uniqueId}
                     </div>
                 </div>
 
-                <!-- creators -->
+                <!-- app id -->
+                <div class="input_row_section">
+                    <div class="input_row_left_part">App Password:</div>
+                    <div class="input_row_right_part">
+                    <#if serviceApp.authCode??>
+                        ${serviceApp.authCode}
+                    <#else>
+                        &nbsp;
+                    </#if>
+
+                    </div>
+                </div>
+
+                <!-- type -->
                 <div class="input_row_section">
                     <div class="input_row_left_part">Service Type:</div>
                     <div class="input_row_right_part">
-                    ${serviceAppBean.serviceApp.serviceType}
+                    ${serviceApp.serviceType}
                     </div>
                 </div>
 
                 <div class="input_row_section">
                     <div class="input_row_left_part">App Description:</div>
                     <div class="input_row_right_part">
-                    ${serviceAppBean.serviceApp.description}
-                    </div>
-                </div>
-
-                <div class="input_row_section">
-                    <div class="input_row_left_part">Authorized IPs:</div>
-                    <div class="input_row_right_part">
-                        <table class="add_ip_tab" id="add_ip_tab" border="0">
-                            <thead>
-                            <tr>
-                                <th width="50%">IP Address</th>
-                                <th width="50%">&nbsp;</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <#if (serviceAppBean.serviceAuthIPs?? && serviceAppBean.serviceAuthIPs?size > 0)>
-                                    <#list serviceAppBean.serviceAuthIPs as sai>
-                                    <tr>
-                                        <td>
-                                            <div class="input_row_value_div">
-                                                ${sai.ipAddress}
-                                            </div>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    </#list>
-                                </#if>
-                            </tbody>
-                        </table>
+                    ${serviceApp.description}
                     </div>
                 </div>
 
@@ -90,10 +75,10 @@
                     <div class="input_row_left_part">&nbsp;</div>
                     <div class="input_row_right_part">
                         <div class="data_action_link">
-                            <a href="${base}/service/update_ws_app.htm?id=${serviceAppBean.serviceApp.id?c}"> Update </a>
+                            <a href="${base}/service/update_ws_app.htm?id=${serviceApp.id?c}"> Update </a>
                         </div>
                         <div class="data_action_link">
-                            <a href="${base}/service/delete_ws_app.htm?id=${serviceAppBean.serviceApp.id?c}"> Delete </a>
+                            <a href="${base}/service/delete_ws_app.htm?id=${serviceApp.id?c}"> Delete </a>
                         </div>
                     </div>
                 </div>

@@ -49,6 +49,4 @@ public interface ServiceAppRepository {
     List<ServiceApp> listServiceApps(String serviceType, Order[] orderParams);
 
     Pager<ServiceApp> getPagedServiceApps(String serviceType, int startPageNo, int sizePerPage, Order[] orderParams);
-
-    ServiceApp getServiceAppByUniqueIdAndIp(String uniqueId, String authIp);
 }

@@ -28,6 +28,10 @@
 
 package edu.monash.merc.eddy.modc.service.ws;
 
+import edu.monash.merc.eddy.modc.domain.ServiceApp;
+import edu.monash.merc.eddy.modc.service.ServiceAppService;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -41,13 +45,20 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  */
 public class WSUserDetailService implements UserDetailsService {
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return getWSUserDetailFromDao(username);
-    }
+    @Autowired
+    private ServiceAppService serviceAppService;
 
-    private WSUserDetail getWSUserDetailFromDao(String username) {
-        WSUserDetail wsUserDetail = new WSUserDetail(username, "pass", true, true, true, true);
+    private Logger logger = Logger.getLogger(this.getClass().getName());
+
+    @Override
+    public UserDetails loadUserByUsername(String serviceId) throws UsernameNotFoundException {
+        ServiceApp serviceApp = this.serviceAppService.getServiceAppByUniqueId(serviceId);
+        if (serviceApp == null) {
+            logger.error("Service App not found : " + serviceId);
+            throw new UsernameNotFoundException("Service App not found");
+        }
+        String authCode = serviceApp.getAuthCode();
+        WSUserDetail wsUserDetail = new WSUserDetail(serviceId, authCode, true, true, true, true);
         wsUserDetail.getAuthorities().add(new SimpleGrantedAuthority("ROLE_GENERAL_OPERATOR"));
         return wsUserDetail;
     }

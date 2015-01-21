@@ -24,11 +24,11 @@
             <div style="clear:both"></div>
             <div class="left_display_inner">
             <#include "../template/action_message.ftl" />
-            <@sf.form action="new_ws_app.htm" commandName="serviceAppBean" method="post">
+            <@sf.form action="new_ws_app.htm" commandName="serviceApp" method="post">
                 <div class="input_row_section">
                     <div class="input_row_left_part">App Name:</div>
                     <div class="input_row_right_part">
-                        <@sf.input path="serviceApp.name" /> <span class="red_span"> *</span>
+                        <@sf.input path="name" /> <span class="red_span"> *</span>
                     </div>
                     <div style="clear:both"></div>
                     <div class="input_row_comments">
@@ -37,20 +37,32 @@
                 </div>
                 <div style="clear:both"></div>
 
-                <!-- creators -->
+                <!-- service app id -->
                 <div class="input_row_section">
                     <div class="input_row_left_part">App Id:</div>
                     <div class="input_row_right_part">
-                        <@sf.hidden path="serviceApp.uniqueId" />
-                    ${serviceAppBean.serviceApp.uniqueId}
+                        <@sf.hidden path="uniqueId" />
+                    ${serviceApp.uniqueId}
                     </div>
                 </div>
 
-                <!-- creators -->
+                <!-- service app id -->
+                <div class="input_row_section">
+                    <div class="input_row_left_part">App Password:</div>
+                    <div class="input_row_right_part">
+                        <@sf.input path="authCode" id="auth_code"/> <span class="red_span"> *</span> <div class="input_button_style3" id="app_pwd"> Generate password </div>
+                    </div>
+                    <div style="clear:both"></div>
+                    <div class="input_row_comments">
+                        <@s.message "webservice.app.password.comment" />
+                    </div>
+                </div>
+
+                <!-- service type  -->
                 <div class="input_row_section">
                     <div class="input_row_left_part">Service Type:</div>
                     <div class="input_row_right_part">
-                        <@sf.select path="serviceApp.serviceType" class="input_select_small">
+                        <@sf.select path="serviceType" class="input_select_small">
                             <@sf.option value="none"> --- Select --- </@sf.option>
                             <@sf.option value="doi">doi</@sf.option>
                             <@sf.option value="md">metadata</@sf.option>
@@ -65,64 +77,13 @@
                 <div class="input_row_section">
                     <div class="input_row_left_part">App Description:</div>
                     <div class="input_row_right_part">
-                        <@sf.textarea path="serviceApp.description" cssStyle="width: 400px; height: 80px;" cssClass="input_textarea" /> <span class="red_span"> *</span>
+                        <@sf.textarea path="description" cssStyle="width: 400px; height: 80px;" cssClass="input_textarea" /> <span class="red_span"> *</span>
                     </div>
                     <div style="clear:both"></div>
                     <div class="input_row_comments">
                         <@s.message "webservice.app.desc.comment" />
                     </div>
                 </div>
-
-                <div class="dinput_row_section">
-                    <div class="dfield_left_part">Authorized IPs:</div>
-                    <div class="dfield_right_part">
-                        Add IP <img class="dfield_img" src="${base}/images/add.png" border="0" id="add_ip"/>
-                    </div>
-                    <div style="clear:both"></div>
-                    <div class="dfield_comments">
-                        <@s.message "webservice.app.ip.comment" />
-                    </div>
-                </div>
-                <div class="input_row_section">
-                    <div class="input_row_left_part">&nbsp;</div>
-                    <div class="input_row_right_part">
-                        <table class="add_ip_tab" id="add_ip_tab" border="0">
-                            <thead>
-                                <tr>
-                                    <th width="50%">IP Address</th>
-                                    <th width="50%">&nbsp;</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <#if (serviceAppBean.serviceAuthIPs?? && serviceAppBean.serviceAuthIPs?size > 0)>
-                                    <#list serviceAppBean.serviceAuthIPs as sai>
-                                    <tr>
-                                        <td>
-                                            <div class="input_row_value_div">
-                                                 <@sf.hidden path="serviceAuthIPs[${sai_index}].id" id="authIpId" />
-                                                 <@sf.input path="serviceAuthIPs[${sai_index}].ipAddress" id="ipAddress" />
-                                            </div>
-                                        </td>
-                                        <td width="50"><img class="input_row_value_img" src="${base}/images/delete.png" title='remove' id="remove_ip"/></td>
-                                    </tr>
-                                    </#list>
-                                <#else>
-                                <tr>
-                                    <td>
-                                        <div class="input_row_value_div">
-                                            <@sf.hidden path="serviceAuthIPs[0].id" id="authIpId" />
-                                            <@sf.input path="serviceAuthIPs[0].ipAddress" id="ipAddress" />
-                                        </div>
-                                    </td>
-                                    <td><img class="input_row_value_img" src="${base}/images/delete.png" title='remove' id="remove_ip"/></td>
-                                </tr>
-                                </#if>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div style="clear:both"></div>
-
                 <div style="clear:both"></div>
                 <div class="input_row_section">
                     <div class="input_row_left_part">&nbsp;</div>

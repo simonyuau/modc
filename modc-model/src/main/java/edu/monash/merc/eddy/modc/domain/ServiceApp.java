@@ -46,8 +46,8 @@ import java.util.List;
  */
 @Entity
 @Table(name = "service", indexes = {@Index(name = "idx_sa_unique_id", columnList = "unique_id"), @Index(name = "idx_name", columnList = "name"),
-        @Index(name = "idx_path", columnList = "path"), @Index(name = "idx_description", columnList = "description"),
-        @Index(name = "idx_service_type", columnList = "service_type")})
+        @Index(name = "idx_auth_code", columnList = "auth_code"), @Index(name = "idx_path", columnList = "path"),
+        @Index(name = "idx_description", columnList = "description"), @Index(name = "idx_service_type", columnList = "service_type")})
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "freqRegion")
 public class ServiceApp extends Domain {
     @Id
@@ -66,6 +66,10 @@ public class ServiceApp extends Domain {
 
     @Column(name = "unique_id", length = 200)
     private String uniqueId;
+
+    @Basic
+    @Column(name = "auth_code")
+    private String authCode;
 
     @Basic
     @Column(name = "name")
@@ -97,10 +101,6 @@ public class ServiceApp extends Domain {
     @Column(name = "auto_publish")
     private boolean autoPublish;
 
-    @OneToMany(mappedBy = "serviceApp", targetEntity = ServiceAuthIP.class, fetch = FetchType.LAZY)
-    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
-    private List<ServiceAuthIP> serviceAuthIPs;
-
     @OneToMany(mappedBy = "serviceApp", targetEntity = MCollection.class, fetch = FetchType.LAZY)
     @Cascade({CascadeType.DELETE})
     private List<MCollection> collections;
@@ -119,6 +119,14 @@ public class ServiceApp extends Domain {
 
     public void setUniqueId(String uniqueId) {
         this.uniqueId = uniqueId;
+    }
+
+    public String getAuthCode() {
+        return authCode;
+    }
+
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
     }
 
     public String getName() {
@@ -175,14 +183,6 @@ public class ServiceApp extends Domain {
 
     public void setAutoPublish(boolean autoPublish) {
         this.autoPublish = autoPublish;
-    }
-
-    public List<ServiceAuthIP> getServiceAuthIPs() {
-        return serviceAuthIPs;
-    }
-
-    public void setServiceAuthIPs(List<ServiceAuthIP> serviceAuthIPs) {
-        this.serviceAuthIPs = serviceAuthIPs;
     }
 
     public List<MCollection> getCollections() {

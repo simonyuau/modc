@@ -17,11 +17,4 @@
     <service id="14" name="mercTest14" unique_id="test14-01" service_type = "doi" description="this is a description" auto_publish="true"/>
     <service id="15" name="mercTest15" unique_id="test15-01" service_type = "md" description="this is a description" auto_publish="true"/>
     <service id="16" name="modcTest16" unique_id="modctest1-01" service_type = "md" description="this is a modc test16 service" auto_publish="true"/>
-
-    <service_auth_ip id="1" ip_address = "192.168.1.24" service_app_id = "1"/>
-    <service_auth_ip id="2" ip_address = "192.168.1.23" service_app_id = "1"/>
-    <service_auth_ip id="3" ip_address = "127.0.0.1" service_app_id = "14"/>
-    <service_auth_ip id="4" ip_address = "192.168.1.28" service_app_id = "14"/>
-    <service_auth_ip id="5" ip_address = "127.0.0.1" service_app_id = "16"/>
-    <service_auth_ip id="6" ip_address = "192.168.1.28" service_app_id = "16"/>
 </dataset>

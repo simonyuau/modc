@@ -29,26 +29,21 @@
 package edu.monash.merc.eddy.modc.web.controller;
 
 import edu.monash.merc.eddy.modc.common.util.MDUtils;
+import edu.monash.merc.eddy.modc.common.util.RandomPwdGenerator;
 import edu.monash.merc.eddy.modc.domain.ServiceApp;
 import edu.monash.merc.eddy.modc.domain.ServiceAuthIP;
 import edu.monash.merc.eddy.modc.service.ServiceAppService;
-import edu.monash.merc.eddy.modc.service.ServiceAuthIPService;
 import edu.monash.merc.eddy.modc.sql.condition.SqlOrderBy;
 import edu.monash.merc.eddy.modc.sql.page.Pager;
 import edu.monash.merc.eddy.modc.web.conts.MConts;
-import edu.monash.merc.eddy.modc.web.form.ServiceAppBean;
-import edu.monash.merc.eddy.modc.web.validation.MDValidator;
+import edu.monash.merc.eddy.modc.web.form.AppPassword;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -66,15 +61,8 @@ public class ServiceManageController extends BaseController {
     @Autowired
     private ServiceAppService serviceAppService;
 
-    @Autowired
-    private ServiceAuthIPService serviceAuthIPService;
-
     public void setServiceAppService(ServiceAppService serviceAppService) {
         this.serviceAppService = serviceAppService;
-    }
-
-    public void setServiceAuthIPService(ServiceAuthIPService serviceAuthIPService) {
-        this.serviceAuthIPService = serviceAuthIPService;
     }
 
     @RequestMapping("/ws_app_list")
@@ -114,24 +102,22 @@ public class ServiceManageController extends BaseController {
 
     @RequestMapping(value = "/new_ws_app", method = RequestMethod.GET)
     public String wsApp(Model model) {
-        ServiceAppBean serviceAppBean = new ServiceAppBean();
         ServiceApp serviceApp = new ServiceApp();
         String appId = MDUtils.uuid();
         serviceApp.setUniqueId(appId);
-        serviceAppBean.setServiceApp(serviceApp);
-
-        model.addAttribute("serviceAppBean", serviceAppBean);
-
+        String authCode = genAuthCode();
+        serviceApp.setAuthCode(authCode);
+        model.addAttribute("serviceApp", serviceApp);
         return "service/new_ws_app";
     }
 
     @RequestMapping(value = "/new_ws_app", method = RequestMethod.POST)
-    public String wsApp(@ModelAttribute("serviceAppBean") ServiceAppBean serviceAppBean, HttpServletRequest request, Model model) {
+    public String wsApp(@ModelAttribute("serviceApp") ServiceApp serviceApp, HttpServletRequest request, Model model) {
         try {
             //add action support
             actionSupport(request, model);
             //validate the request
-            validateWSApp(serviceAppBean, true);
+            validateWSApp(serviceApp, true);
 
             if (hasActionErrors()) {
                 logger.error("Validation failed in webservice app creation");
@@ -139,39 +125,25 @@ public class ServiceManageController extends BaseController {
                 return "service/new_ws_app";
             }
 
-            ServiceApp serviceApp = serviceAppBean.getServiceApp();
-            List<ServiceAuthIP> authIPs = serviceAppBean.getServiceAuthIPs();
             Date createdDate = GregorianCalendar.getInstance().getTime();
 
             serviceApp.setCreatedDate(createdDate);
             serviceApp.setLastModified(createdDate);
             serviceApp.setPath("default");
-            authIPs = setServiceAppForAuthIp(serviceApp, authIPs);
-            serviceApp.setServiceAuthIPs(authIPs);
             this.serviceAppService.saveServiceApp(serviceApp);
         } catch (Exception ex) {
             logger.error(ex);
-            addActionError("webservice.add.app.error");
+            addActionError("webservice.ws.app.add.error");
             makeErrorAware();
             return "service/new_ws_app";
         }
         return "service/ws_app";
     }
 
-    private List<ServiceAuthIP> setServiceAppForAuthIp(ServiceApp serviceApp, List<ServiceAuthIP> serviceAuthIPs) {
-        for (ServiceAuthIP authIP : serviceAuthIPs) {
-            authIP.setServiceApp(serviceApp);
-        }
-        return serviceAuthIPs;
-    }
-
-
     @RequestMapping(value = "/ws_app", method = RequestMethod.GET)
     public String wsApp(@RequestParam("id") long id, HttpServletRequest request, Model model) {
         //add action support
         actionSupport(request, model);
-        ServiceAppBean serviceAppBean = new ServiceAppBean();
-        model.addAttribute("serviceAppBean", serviceAppBean);
         try {
             ServiceApp serviceApp = this.serviceAppService.getServiceAppById(id);
             if (serviceApp == null) {
@@ -179,13 +151,9 @@ public class ServiceManageController extends BaseController {
                 makeErrorAware();
                 return "service/ws_app_error";
             } else {
-                serviceAppBean.setServiceApp(serviceApp);
+                model.addAttribute("serviceApp", serviceApp);
             }
-            List<ServiceAuthIP> serviceAuthIPs = this.serviceAuthIPService.listAuthIPsByServiceAppId(id);
-            if (serviceAuthIPs == null) {
-                serviceAuthIPs = new ArrayList<>();
-            }
-            serviceAppBean.setServiceAuthIPs(serviceAuthIPs);
+
         } catch (Exception ex) {
             logger.error(ex);
             addActionError("webservice.ws.app.details.error");
@@ -199,8 +167,6 @@ public class ServiceManageController extends BaseController {
     public String updateWsApp(@RequestParam("id") long id, HttpServletRequest request, Model model) {
         //add action support
         actionSupport(request, model);
-        ServiceAppBean serviceAppBean = new ServiceAppBean();
-        model.addAttribute("serviceAppBean", serviceAppBean);
         try {
             ServiceApp serviceApp = this.serviceAppService.getServiceAppById(id);
             if (serviceApp == null) {
@@ -208,13 +174,9 @@ public class ServiceManageController extends BaseController {
                 makeErrorAware();
                 return "service/update_ws_app_error";
             } else {
-                serviceAppBean.setServiceApp(serviceApp);
+                model.addAttribute("serviceApp", serviceApp);
             }
-            List<ServiceAuthIP> serviceAuthIPs = this.serviceAuthIPService.listAuthIPsByServiceAppId(id);
-            if (serviceAuthIPs == null) {
-                serviceAuthIPs = new ArrayList<>();
-            }
-            serviceAppBean.setServiceAuthIPs(serviceAuthIPs);
+
         } catch (Exception ex) {
             logger.error(ex);
             addActionError("webservice.ws.app.details.error");
@@ -225,19 +187,17 @@ public class ServiceManageController extends BaseController {
     }
 
     @RequestMapping(value = "/update_ws_app", method = RequestMethod.POST)
-    public String updateWsApp(@ModelAttribute("serviceAppBean") ServiceAppBean serviceAppBean, HttpServletRequest request, Model model) {
+    public String updateWsApp(@ModelAttribute("serviceApp") ServiceApp serviceApp, HttpServletRequest request, Model model) {
         try {
             //add action support
             actionSupport(request, model);
             //validate the request
-            validateWSApp(serviceAppBean, false);
+            validateWSApp(serviceApp, false);
             if (hasActionErrors()) {
                 logger.error("Validation failed in updating webservice app");
                 makeErrorAware();
                 return "service/update_ws_app";
             }
-
-            ServiceApp serviceApp = serviceAppBean.getServiceApp();
             ServiceApp foundServiceApp = this.serviceAppService.getServiceAppById(serviceApp.getId());
             if (foundServiceApp == null) {
                 addActionError("webservice.ws.app.not.found");
@@ -246,15 +206,12 @@ public class ServiceManageController extends BaseController {
             }
             foundServiceApp.setDescription(serviceApp.getDescription());
             foundServiceApp.setName(serviceApp.getName());
+            foundServiceApp.setAuthCode(serviceApp.getAuthCode());
             foundServiceApp.setServiceType(serviceApp.getServiceType());
             foundServiceApp.setLastModified(GregorianCalendar.getInstance().getTime());
 
-            List<ServiceAuthIP> serviceAuthIPs = serviceAppBean.getServiceAuthIPs();
-            this.serviceAppService.updateServiceApp(foundServiceApp, serviceAuthIPs);
-
-            serviceAppBean.setServiceApp(foundServiceApp);
-            //addActionMessage("webservice.ws.app.update.success", new String[]{serviceApp.getName()});
-            //makeMessageAware();
+            this.serviceAppService.updateServiceApp(foundServiceApp);
+            serviceApp = foundServiceApp;
             return "service/ws_app";
         } catch (Exception ex) {
             logger.error(ex);
@@ -288,14 +245,24 @@ public class ServiceManageController extends BaseController {
         }
     }
 
-    private void validateWSApp(ServiceAppBean serviceAppBean, boolean isCreated) {
+    @RequestMapping(value = "/gen_pwd", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    AppPassword genPassword() {
+        String authCode = genAuthCode();
+        return new AppPassword(authCode);
+    }
 
-        if (serviceAppBean == null) {
-            addActionError("webservice.ws.app.empty.param");
-            return;
-        }
+    private String genAuthCode() {
+        int noOfCAPSAlpha = 1;
+        int noOfDigits = 2;
+        int noOfSplChars = 1;
+        int minLen = 8;
+        int maxLen = 12;
+        return RandomPwdGenerator.genPwd(minLen, maxLen, noOfCAPSAlpha, noOfDigits, noOfSplChars);
+    }
 
-        ServiceApp serviceApp = serviceAppBean.getServiceApp();
+    private void validateWSApp(ServiceApp serviceApp, boolean isCreated) {
 
         if (serviceApp == null) {
             addActionError("webservice.ws.app.empty.param");
@@ -319,6 +286,16 @@ public class ServiceManageController extends BaseController {
             }
         }
 
+        String authCode = serviceApp.getAuthCode();
+        if (StringUtils.isBlank(authCode)) {
+            addActionError("webservice.ws.app.password.empty");
+        } else {
+            int len = authCode.length();
+            if (len < 8 || len > 12) {
+                addActionError("webservice.ws.app.password.length");
+            }
+        }
+
         String serviceType = serviceApp.getServiceType();
         if (StringUtils.isBlank(serviceType) || StringUtils.equalsIgnoreCase("none", serviceType)) {
             addActionError("webservice.ws.app.service.type.empty");
@@ -328,58 +305,5 @@ public class ServiceManageController extends BaseController {
         if (StringUtils.isBlank(desc)) {
             addActionError("webservice.ws.app.desc.empty");
         }
-
-        List<ServiceAuthIP> serviceAuthIPs = serviceAppBean.getServiceAuthIPs();
-        if (serviceAuthIPs == null || serviceAuthIPs.size() == 0) {
-            addActionError("webservice.ws.app.ip.required");
-        } else {
-            if (findDuplicate(serviceAuthIPs)) {
-                addActionError("webservice.ws.app.ip.duplicated");
-            }
-            if (findEmptyIP(serviceAuthIPs)) {
-                addActionError("webservice.ws.app.ip.empty");
-            }
-            if (!validIps(serviceAuthIPs)) {
-                addActionError("webservice.ws.app.ip.invalid");
-            }
-        }
     }
-
-
-    private boolean findDuplicate(List<ServiceAuthIP> serviceAuthIPs) {
-        List<String> uniqueList = new ArrayList<>();
-        for (ServiceAuthIP saIp : serviceAuthIPs) {
-            String ip = saIp.getIpAddress();
-            if (StringUtils.isNotBlank(ip)) {
-                if (!uniqueList.contains(ip)) {
-                    uniqueList.add(ip);
-                } else {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean findEmptyIP(List<ServiceAuthIP> serviceAuthIPs) {
-        for (ServiceAuthIP saIp : serviceAuthIPs) {
-            String ip = saIp.getIpAddress();
-            if (StringUtils.isBlank(ip)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean validIps(List<ServiceAuthIP> serviceAuthIPs) {
-        for (ServiceAuthIP saIp : serviceAuthIPs) {
-            String ip = saIp.getIpAddress();
-            if (!MDValidator.validateIp(ip)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
 }

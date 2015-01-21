@@ -87,6 +87,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID"
         <servlet-name>modc</servlet-name>
         <url-pattern>*.action</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>modc</servlet-name>
+        <url-pattern>*.json</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>modc</servlet-name>
+        <url-pattern>*.xml</url-pattern>
+    </servlet-mapping>
 
     <!-- Web Service MessageDispatcherServlet-->
     <servlet>

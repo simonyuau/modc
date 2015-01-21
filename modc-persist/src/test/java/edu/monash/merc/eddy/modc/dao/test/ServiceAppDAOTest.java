@@ -144,12 +144,4 @@ public class ServiceAppDAOTest {
         this.serviceAppDAO.delete(16);
     }
 
-    @Test
-    @DatabaseSetup(value = "test-service.xml", type = DatabaseOperation.CLEAN_INSERT)
-    @DatabaseTearDown(value = "test-service.xml", type = DatabaseOperation.DELETE_ALL)
-    public void testGetServiceAppByUniqueIdAndIp() {
-        ServiceApp serviceApp = this.serviceAppDAO.getServiceAppByUniqueIdAndIp("modctest1-01", "192.168.1.28");
-        assertNotNull(serviceApp);
-        assertEquals(serviceApp.getId(), 16);
-    }
 }

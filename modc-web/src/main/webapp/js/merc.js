@@ -109,7 +109,7 @@ function resortTitleTabIndex() {
     });
 }
 
-
+//IP table, no longer need it
 $(document).ready(function () {
     $("#add_ip").click(function () {
         var rowIndex = $("#add_ip_tab > tbody > tr").length;
@@ -125,7 +125,7 @@ $(document).ready(function () {
     });
 });
 
-
+//IP table, no longer need it
 $(document).on('click', "#remove_ip", function (event) {
     event.preventDefault();
     var trRowId = $(this).closest('tr');
@@ -134,6 +134,8 @@ $(document).on('click', "#remove_ip", function (event) {
     resortIpTabIndex();
 })
 
+
+//IP table, no longer need it
 function resortIpTabIndex() {
     $('#add_ip_tab > tbody > tr').each(function () {
         //ip
@@ -164,7 +166,6 @@ function resortIpTabIndex() {
 //});
 
 $(document).ready(function () {
-
     $('#date_picker').datepicker({
         showOn: "both",
         dateFormat: "dd-mm-yy",
@@ -172,7 +173,6 @@ $(document).ready(function () {
         buttonImage: "../images/calendar.png"
     });
 });
-
 
 /** pagination orderby */
 $(document).ready(function () {
@@ -200,3 +200,24 @@ $(document).ready(function () {
     });
 });
 
+//generate app password
+$(document).on('click', "#app_pwd", function (event) {
+    event.preventDefault();
+    $.ajax({
+        url: 'gen_pwd.json',
+        type: 'get',
+        dataType: 'json',
+        success: changePassword,
+        error: displayGenPwdError
+    })
+})
+
+function changePassword(responseData) {
+    var password = responseData.password;
+    var authCodeInput = $('#auth_code');
+    authCodeInput.attr("value", password);
+}
+
+function displayGenPwdError() {
+    alert("Failed to generate password!");
+}

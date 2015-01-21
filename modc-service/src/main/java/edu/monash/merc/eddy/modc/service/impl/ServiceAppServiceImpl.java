@@ -30,16 +30,13 @@ package edu.monash.merc.eddy.modc.service.impl;
 
 import edu.monash.merc.eddy.modc.dao.ServiceAppDAO;
 import edu.monash.merc.eddy.modc.domain.ServiceApp;
-import edu.monash.merc.eddy.modc.domain.ServiceAuthIP;
 import edu.monash.merc.eddy.modc.service.ServiceAppService;
-import edu.monash.merc.eddy.modc.service.ServiceAuthIPService;
 import edu.monash.merc.eddy.modc.sql.page.Pager;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,15 +52,8 @@ public class ServiceAppServiceImpl implements ServiceAppService {
     @Autowired
     private ServiceAppDAO serviceAppDao;
 
-    @Autowired
-    private ServiceAuthIPService serviceAuthIPService;
-
     public void setServiceAppDao(ServiceAppDAO serviceAppDao) {
         this.serviceAppDao = serviceAppDao;
-    }
-
-    public void setServiceAuthIPService(ServiceAuthIPService serviceAuthIPService) {
-        this.serviceAuthIPService = serviceAuthIPService;
     }
 
     @Override
@@ -79,37 +69,6 @@ public class ServiceAppServiceImpl implements ServiceAppService {
     @Override
     public void updateServiceApp(ServiceApp serviceApp) {
         this.serviceAppDao.update(serviceApp);
-    }
-
-    @Override
-    public void updateServiceApp(ServiceApp serviceApp, List<ServiceAuthIP> authIPs) {
-        this.updateServiceApp(serviceApp);
-        List<ServiceAuthIP> oldAuthIps = this.serviceAuthIPService.listAuthIPsByServiceAppId(serviceApp.getId());
-        updateAuthIps(serviceApp, oldAuthIps, authIPs);
-    }
-
-    private void updateAuthIps(ServiceApp serviceApp, List<ServiceAuthIP> oldAuthIps, List<ServiceAuthIP> updatedAuthIps) {
-
-        if (updatedAuthIps != null && updatedAuthIps.size() > 0) {
-            for (ServiceAuthIP authIP : updatedAuthIps) {
-                long id = authIP.getId();
-                if (id <= 0) {
-                    authIP.setServiceApp(serviceApp);
-                    this.serviceAuthIPService.saveServiceAuthIP(authIP);
-                } else {
-                    if (oldAuthIps.contains(authIP)) {
-                        oldAuthIps.remove(authIP);
-                    }
-                }
-            }
-        }
-
-        if (oldAuthIps != null && oldAuthIps.size() > 0) {
-            for (ServiceAuthIP deleteIp : oldAuthIps) {
-                this.serviceAuthIPService.deleteServiceAuthIP(deleteIp);
-            }
-        }
-
     }
 
     @Override
@@ -130,11 +89,6 @@ public class ServiceAppServiceImpl implements ServiceAppService {
     @Override
     public ServiceApp getServiceAppByName(String serviceAppName) {
         return this.serviceAppDao.getServiceAppByName(serviceAppName);
-    }
-
-    @Override
-    public ServiceApp getServiceAppByUniqueIdAndIp(String uniqueId, String authIp) {
-        return this.serviceAppDao.getServiceAppByUniqueIdAndIp(uniqueId, authIp);
     }
 
     @Override

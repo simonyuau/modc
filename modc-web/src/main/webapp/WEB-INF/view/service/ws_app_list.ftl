@@ -55,10 +55,11 @@
                     <table class="display_data_tab">
                         <thead>
                         <tr>
-                            <th width="20%">Name</th>
-                            <th width="25%">App Id</th>
+                            <th width="15%">Name</th>
                             <th width="10%">Service Type</th>
-                            <th width="35%">Description</th>
+                            <th width="25%">App ID</th>
+                            <th width="20%">App Password</th>
+                            <th width="20%">Description</th>
                             <th width="10%"></th>
                         </tr>
                         </thead>
@@ -69,10 +70,13 @@
                                 ${obj.name}
                                 </td>
                                 <td>
+                                ${obj.serviceType}
+                                </td>
+                                <td>
                                 ${obj.uniqueId}
                                 </td>
                                 <td>
-                                ${obj.serviceType}
+                                ${obj.authCode!}
                                 </td>
                                 <td>
                                 ${obj.description}

@@ -29,7 +29,6 @@
 package edu.monash.merc.eddy.modc.service;
 
 import edu.monash.merc.eddy.modc.domain.ServiceApp;
-import edu.monash.merc.eddy.modc.domain.ServiceAuthIP;
 import edu.monash.merc.eddy.modc.sql.page.Pager;
 import org.hibernate.criterion.Order;
 
@@ -49,8 +48,6 @@ public interface ServiceAppService {
 
     void updateServiceApp(ServiceApp serviceApp);
 
-    void updateServiceApp(ServiceApp serviceApp, List<ServiceAuthIP> authIPs);
-
     void deleteServiceApp(ServiceApp serviceApp);
 
     void deleteServiceAppById(long serviceAppId);
@@ -58,8 +55,6 @@ public interface ServiceAppService {
     ServiceApp getServiceAppByUniqueId(String uniqueId);
 
     ServiceApp getServiceAppByName(String name);
-
-    ServiceApp getServiceAppByUniqueIdAndIp(String uniqueId, String authIp);
 
     List<ServiceApp> listServiceApps(String serviceType, Order[] orderParams);
 

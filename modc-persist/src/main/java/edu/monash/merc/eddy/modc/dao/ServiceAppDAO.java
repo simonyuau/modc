@@ -88,12 +88,4 @@ public class ServiceAppDAO extends HibernateGenericDAO<ServiceApp> implements Se
         QueryHelper.setOrderByParams(hql, "sa", orderParams);
         return this.find(hql, namedParam, startPageNo, sizePerPage);
     }
-
-    @Override
-    public ServiceApp getServiceAppByUniqueIdAndIp(String uniqueId, String authIp) {
-        String hql = "SELECT DISTINCT sa FROM " + this.persistClass.getSimpleName() + " AS sa INNER JOIN sa.serviceAuthIPs AS saIp WHERE sa.uniqueId=:uniqueId and saIp.ipAddress = :ipAddress";
-        Map<String, Object> namedParams = QueryHelper.createNamedParam("uniqueId", uniqueId);
-        namedParams = QueryHelper.addNamedParam(namedParams, "ipAddress", authIp);
-        return this.find(hql, namedParams);
-    }
 }

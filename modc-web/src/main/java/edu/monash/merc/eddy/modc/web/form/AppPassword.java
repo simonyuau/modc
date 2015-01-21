@@ -26,61 +26,32 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.monash.merc.eddy.modc.service.impl;
+package edu.monash.merc.eddy.modc.web.form;
 
-import edu.monash.merc.eddy.modc.dao.ServiceAuthIPDAO;
-import edu.monash.merc.eddy.modc.domain.ServiceAuthIP;
-import edu.monash.merc.eddy.modc.service.ServiceAuthIPService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
+import java.io.Serializable;
 
 /**
  * Monash University eResearch Center
  * <p/>
  * Created by simonyu - xiaoming.yu@monash.edu
- * Date: 3/11/14
+ * Date: 17/12/14
  */
-@Service
-@Transactional
-public class ServiceAuthIPServiceImpl implements ServiceAuthIPService {
+public class AppPassword implements Serializable {
 
-    @Autowired
-    private ServiceAuthIPDAO serviceAuthIPDao;
+    private String password;
 
-    public void setServiceAuthIPDao(ServiceAuthIPDAO serviceAuthIPDao) {
-        this.serviceAuthIPDao = serviceAuthIPDao;
+    public AppPassword() {
     }
 
-    @Override
-    public void saveServiceAuthIP(ServiceAuthIP serviceAuthIP) {
-        this.serviceAuthIPDao.add(serviceAuthIP);
+    public AppPassword(String password) {
+        this.password = password;
     }
 
-    @Override
-    public ServiceAuthIP getServiceAuthIPById(long id) {
-        return this.serviceAuthIPDao.get(id);
+    public String getPassword() {
+        return password;
     }
 
-    @Override
-    public void updateServiceAuthIP(ServiceAuthIP serviceAuthIP) {
-        this.serviceAuthIPDao.update(serviceAuthIP);
-    }
-
-    @Override
-    public void deleteServiceAuthIP(ServiceAuthIP serviceAuthIP) {
-        this.serviceAuthIPDao.remove(serviceAuthIP);
-    }
-
-    @Override
-    public void deleteServiceAuthIPById(long id) {
-        this.serviceAuthIPDao.delete(id);
-    }
-
-    @Override
-    public List<ServiceAuthIP> listAuthIPsByServiceAppId(long serviceAppId) {
-        return this.serviceAuthIPDao.listAuthIPsByServiceAppId(serviceAppId);
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

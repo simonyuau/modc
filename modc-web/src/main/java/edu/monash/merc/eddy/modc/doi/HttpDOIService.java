@@ -207,6 +207,12 @@ public class HttpDOIService {
         }
     }
 
+    /**
+     * Deactivate DOI Service
+     *
+     * @param doi a DOI identifier
+     * @return a DoiResponse object
+     */
     public DoiResponse deactivateDoi(String doi) {
         CloseableHttpClient client = null;
         try {
@@ -248,6 +254,12 @@ public class HttpDOIService {
         }
     }
 
+    /**
+     * Activate a  deactivated DOI
+     *
+     * @param doi a deactivated doi identifier
+     * @return a DoiResponse object
+     */
     public DoiResponse activateDoi(String doi) {
         CloseableHttpClient client = null;
         try {

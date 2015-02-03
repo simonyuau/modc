@@ -406,6 +406,12 @@ input {
     margin: 5px;
 }
 
+.content_none_border_div p{
+   text-align: justify;
+}
+
+
+
 .none_border_block {
     margin-left: auto;
     margin-bottom: 3px;
@@ -456,7 +462,7 @@ input {
 }
 
 .none_border_inner_right{
-    margin-left: 300;
+    margin-left: 300px;
 }
 
 
@@ -839,7 +845,7 @@ input {
     display: inline-block;
     height: 25px;
     line-height: 25px;
-    font-size: 11;
+    font-size: 11px;
     padding-left: 3px;
 }
 
@@ -856,7 +862,6 @@ input {
 
 .dinput_small {
     width: 50px;
-    size: 50px;
 }
 
 .content_display_div {

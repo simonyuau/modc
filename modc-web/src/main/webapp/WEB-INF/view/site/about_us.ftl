@@ -38,14 +38,15 @@
                     </p>
                 </div>
             </div>
-            <!-- right panel -->
-            <div class="right_display_div">
-            <#if authen_flag?? && authen_flag == 'authenticated'>
+        </div>
+        <!-- right panel -->
+        <div class="right_display_div">
+        <#if authen_flag?? && authen_flag == 'authenticated'>
             <#include "../template/sub_nav.ftl" />
         </#if>
-            </div>
         </div>
     </div>
+</div>
 </div>
 <div style="clear:both"></div>
 </div>

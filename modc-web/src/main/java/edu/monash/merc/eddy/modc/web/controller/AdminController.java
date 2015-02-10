@@ -246,6 +246,7 @@ public class AdminController extends BaseController {
 
             if (managedType.equals(MConts.ACTIVATE)) {
                 if (!regUser.isActivated()) {
+                    regUser.setActivatedDate(GregorianCalendar.getInstance().getTime());
                     regUser.setActivated(true);
                     regUser.setRejected(false);
                     this.userService.updateUser(regUser);
@@ -260,6 +261,8 @@ public class AdminController extends BaseController {
             }
             if (managedType.equals(MConts.DEACTIVATE)) {
                 if (regUser.isActivated()) {
+                    //set the activated date
+                    regUser.setActivatedDate(GregorianCalendar.getInstance().getTime());
                     regUser.setActivated(false);
                     regUser.setRejected(false);
                     this.userService.updateUser(regUser);
